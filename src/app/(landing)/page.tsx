@@ -6,15 +6,15 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 p-20">
       <section
         className="
-          md:flex
+          md:flex h-screen
         "
       >
         <div
           className="
-          md:w-6/12 md:pt-32 md:pr-32
+          md:w-6/12 md:pl-20 md:pt-32 md:pr-32
           sm:w-full 
         "
         >
@@ -36,22 +36,25 @@ export default function Home() {
         </div>
         <div
           className="
+          flex 
+          items-start
+          justify-center
             md:w-6/12 
             sm:w-full
           "
         >
           <Image
-            src="/assets/images/main_image.png"
+            src="/images/highfive.png"
             alt="main"
             width={0}
             height={0}
             sizes="100vw"
-            style={{ width: "100%", height: "auto" }}
+            style={{ width: "80%", height: "80%" }}
           />
         </div>
       </section>
 
-      <section className="flex flex-col justify-center items-center gap-3">
+      <section className="flex flex-col justify-center items-center gap-3 pb-20">
         <h2>서비스 기능</h2>
         <p>
           Do consectetur proident proident id eiusmod deserunt consequat
@@ -60,7 +63,7 @@ export default function Home() {
 
         <div className="flex gap-5">
           <Card
-            img_src="/assets/images/stock_buy_sell.png"
+            img_src="/images/stock_buy_sell.png"
             title="주식 매수/매도"
             desc="Dolore officia eiusmod cupidatat aute d"
             buttons={[
@@ -70,7 +73,7 @@ export default function Home() {
             ]}
           />
           <Card
-            img_src="/assets/images/portfolio.png"
+            img_src="/images/portfolio.png"
             title="포트폴리오"
             desc="Adipisicing labore ea nulla dolor et ad ad quis proident laboris"
             buttons={[
@@ -80,7 +83,7 @@ export default function Home() {
             ]}
           />
           <Card
-            img_src="/assets/images/stock_report.png"
+            img_src="/images/stock_report.png"
             title="투자수익 보고서"
             desc="모의투자 기간이 종료된 이후,
             내가 투자한 주식의 수익률을 확인해보세요."

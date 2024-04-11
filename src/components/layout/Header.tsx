@@ -1,16 +1,16 @@
 import React from "react";
 import Button from "../Button";
 import Logo from "../icon/Logo";
+import Link from "next/link";
 
-const Header = () => {
+const Header = ({ right }: { right?: React.ReactNode }) => {
   return (
     <div className="flex justify-between items-center p-4 text-primary-500">
-      <Logo />
+      <Link href="/">
+        <Logo />
+      </Link>
 
-      <div className="flex gap-2">
-        <Button outline>Sign In</Button>
-        <Button>Sign Up</Button>
-      </div>
+      {right}
     </div>
   );
 };

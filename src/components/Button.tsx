@@ -1,17 +1,16 @@
 import clsx from "clsx";
-import React, { HTMLAttributes } from "react";
+import React, { ButtonHTMLAttributes } from "react";
 
-const Button = ({
-  outline,
-  children,
-  className,
-}: {
+type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   outline?: Boolean;
   children: string;
   className?: string;
-}) => {
+};
+
+const Button = ({ outline, children, className, ...props }: TButtonProps) => {
   return (
     <button
+      {...props}
       className={clsx(
         "p-2 rounded-md",
         {
