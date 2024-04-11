@@ -3,6 +3,7 @@ import React from "react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import Control from "@/components/Input";
 
 export type TSignUpProps = {
   email: string;
@@ -11,48 +12,37 @@ export type TSignUpProps = {
 };
 
 const SignUpPage = () => {
-  const { register, handleSubmit } = useForm<TSignUpProps>();
+  const { handleSubmit, control, reset } = useForm<TSignUpProps>({
+    defaultValues: {
+      email: "",
+      password: "",
+      confirm: "",
+    },
+  });
+
+  // const { register, handleSubmit } = useForm<TSignUpProps>();
   const onSubmit: SubmitHandler<TSignUpProps> = (data) => {
     alert(JSON.stringify(data));
   };
 
-  const onClick = () => {
-    fetch("/api/signup", {
-      method: "POST",
-      body: JSON.stringify({
-        email: "pcx474@gmail.com",
-        password: "123456",
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          alert("Sign Up Success");
-        } else {
-          alert("Sign Up Failed");
-        }
-        console.log(response);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  };
   return (
     <div>
       <h3 className="text-center mb-5 text-primary-500">Create an Account</h3>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-        <Input label="email" register={register} placeholder="Enter Email" />
-        <Input
-          label="password"
-          register={register}
-          placeholder="Enter Password"
+        <Input.Control<TSignUpProps>
+          name="email"
+          control={control}
+          rules={{ required: true }}
         />
-        <Input
-          label="confirm"
-          register={register}
-          placeholder="Enter Password Again"
+        <Input.Control<TSignUpProps>
+          name="password"
+          control={control}
+          rules={{ required: true }}
+        />
+        <Input.Control<TSignUpProps>
+          name="confirm"
+          control={control}
+          rules={{ required: true }}
         />
 
         <Button type="submit">Submit</Button>
