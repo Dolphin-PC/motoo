@@ -3,7 +3,6 @@ import React from "react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import Control from "@/components/Input";
 
 export type TSignUpProps = {
   email: string;
@@ -20,7 +19,6 @@ const SignUpPage = () => {
     },
   });
 
-  // const { register, handleSubmit } = useForm<TSignUpProps>();
   const onSubmit: SubmitHandler<TSignUpProps> = (data) => {
     alert(JSON.stringify(data));
   };

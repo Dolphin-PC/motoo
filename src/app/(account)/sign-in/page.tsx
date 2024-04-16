@@ -1,18 +1,44 @@
+"use client";
 import React from "react";
-import AccountLayout from "../layout";
 import Input from "@/components/Input";
 import CheckBox from "@/components/CheckBox";
 import Link from "next/link";
 import Button from "@/components/Button";
+import { SubmitHandler, useForm } from "react-hook-form";
+
+export type TSignInProps = {
+  email: string;
+  password: string;
+};
 
 const SignInPage = () => {
+  const { handleSubmit, control, reset, formState } = useForm<TSignInProps>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit: SubmitHandler<TSignInProps> = (data) => {
+    alert(JSON.stringify(data));
+  };
+
   return (
     <>
       <h3 className="text-center mb-5 text-primary-500">Sign In</h3>
 
-      <div className="flex flex-col gap-5">
-        <Input title="ID" placeholder="Enter ID" type="text" />
-        <Input title="Password" placeholder="Enter Password" type="password" />
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+        <Input.Control<TSignInProps>
+          name="email"
+          control={control}
+          rules={{ required: true }}
+        />
+
+        <Input.Control<TSignInProps>
+          name="password"
+          control={control}
+          rules={{ required: true }}
+        />
 
         <div className="flex justify-between items-center">
           <CheckBox name="remember" label="Remember Me" />
@@ -21,8 +47,8 @@ const SignInPage = () => {
           </Link>
         </div>
 
-        <Button>Sign In</Button>
-      </div>
+        <Button type="submit">Sign In</Button>
+      </form>
     </>
   );
 };
