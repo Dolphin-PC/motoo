@@ -38,7 +38,9 @@ const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
         />
       </div>
       {formState.errors[props.name] && (
-        <small className="text-danger-500">This field is required</small>
+        <small className="text-danger-500">
+          {props.name.toUpperCase()} field is required
+        </small>
       )}
     </div>
   );

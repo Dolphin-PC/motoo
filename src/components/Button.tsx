@@ -21,7 +21,7 @@ const Button = ({ outline, children, className, ...props }: TButtonProps) => {
         className
       )}
     >
-      {children}
+      {props.type == "submit" ? children.toUpperCase() : children}
     </button>
   );
 };

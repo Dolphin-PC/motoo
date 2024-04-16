@@ -43,7 +43,7 @@ const SignUpPage = () => {
           rules={{ required: true }}
         />
 
-        <Button type="submit">Submit</Button>
+        <Button type="submit">Sign up</Button>
       </form>
     </div>
   );
