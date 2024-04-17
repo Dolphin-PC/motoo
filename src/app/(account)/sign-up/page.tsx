@@ -22,9 +22,10 @@ const SignUpPage = () => {
       });
       const resData: CResponse<TSignUpRes> = await res.json();
 
-      if (!res.ok && !resData.data) throw resData;
+      if (!res.ok || !resData.data) throw resData;
 
-      alert(resData.message);
+      alert(resData.data.uid);
+
       // TODO redirect to sign in page
     } catch (error) {
       if (CResponse.isCResponseError(error)) {
