@@ -9,7 +9,7 @@ export class CResponse<T> {
     this.error = error;
   }
 
-  static isCResponse(res: any) {
-    return res.message;
+  static isCResponseError(res: any) {
+    return res.message && res.error;
   }
 }

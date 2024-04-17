@@ -1,10 +1,8 @@
 "use client";
-import React from "react";
 import Input from "@/components/Input";
 import Button from "@/components/Button";
-import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { TSignUpReq } from "@/pages/api/signup";
-import { CFirebaseError } from "@/setting/firebase";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { TSignUpReq, TSignUpRes } from "@/pages/api/signup";
 import { CResponse } from "@/pages/api";
 
 const SignUpPage = () => {
@@ -22,14 +20,14 @@ const SignUpPage = () => {
         method: "POST",
         body: JSON.stringify(data),
       });
-      const resData = await res.json();
+      const resData: CResponse<TSignUpRes> = await res.json();
 
-      if (!res.ok) throw resData;
+      if (!res.ok && !resData.data) throw resData;
 
       alert(resData.message);
       // TODO redirect to sign in page
     } catch (error) {
-      if (CResponse.isCResponse(error)) {
+      if (CResponse.isCResponseError(error)) {
         const err = error as CResponse<string>;
         console.error(err);
         alert(err.message);

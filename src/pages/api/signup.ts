@@ -11,12 +11,12 @@ export type TSignUpReq = {
 };
 
 export type TSignUpRes = {
-  message: string;
+  uid?: string;
 };
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CResponse<string>>
+  res: NextApiResponse<CResponse<TSignUpRes>>
 ) {
   const { email, password, confirm }: TSignUpReq = JSON.parse(req.body);
 
@@ -35,7 +35,7 @@ export default async function handler(
 
     console.log(user?.uid);
 
-    res.status(200).json(new CResponse("User created", user?.uid));
+    res.status(200).json(new CResponse("User created", { uid: user?.uid }));
   } catch (error) {
     if (error instanceof FirebaseError) {
       res.status(400).json({
