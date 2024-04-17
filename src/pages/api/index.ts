@@ -1,9 +1,3 @@
-export type TResponse<T> = {
-  data?: T;
-  message: string;
-  error?: Object;
-};
-
 export class CResponse<T> {
   message: string;
   data?: T;

@@ -5,7 +5,7 @@ import Button from "@/components/Button";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { TSignUpReq } from "@/pages/api/signup";
 import { CFirebaseError } from "@/setting/firebase";
-import { CResponse, TResponse } from "@/pages/api";
+import { CResponse } from "@/pages/api";
 
 const SignUpPage = () => {
   const { handleSubmit, control, reset } = useForm<TSignUpReq>({
