@@ -32,12 +32,14 @@ const SignInPage = () => {
           name="email"
           control={control}
           rules={{ required: true }}
+          type="email"
         />
 
         <Input.Control<TSignInProps>
           name="password"
           control={control}
           rules={{ required: true }}
+          type="password"
         />
 
         <div className="flex justify-between items-center">

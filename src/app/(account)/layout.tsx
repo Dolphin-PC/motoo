@@ -1,13 +1,26 @@
+import Button from "@/components/Button";
 import Logo from "@/components/icon/Logo";
 import Header from "@/components/layout/Header";
 import Image from "next/image";
+import Link from "next/link";
 import React, { ReactElement } from "react";
 
 const AccountLayout = ({ children }: { children: ReactElement }) => {
   return (
     <div className="flex h-screen">
       <div className="absolute w-6/12">
-        <Header />
+        <Header
+          right={
+            <div className="flex gap-2">
+              <Link href="/sign-in">
+                <Button outline>Sign In</Button>
+              </Link>
+              <Link href="/sign-up">
+                <Button>Sign Up</Button>
+              </Link>
+            </div>
+          }
+        />
       </div>
       <div className="w-6/12 flex justify-center items-center">
         <div className="w-8/12">{children}</div>
