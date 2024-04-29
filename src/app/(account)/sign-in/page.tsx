@@ -5,6 +5,7 @@ import CheckBox from "@/components/CheckBox";
 import Link from "next/link";
 import Button from "@/components/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { EErrorMessage, FormPattern } from "@/util/frontEnum";
 
 export type TSignInProps = {
   email: string;
@@ -29,16 +30,22 @@ const SignInPage = () => {
 
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <Input.Control<TSignInProps>
-          name="email"
           control={control}
-          rules={{ required: true }}
+          name="email"
+          rules={{
+            required: EErrorMessage.REQUIRED,
+            pattern: FormPattern.EMAIL,
+          }}
           type="email"
         />
 
         <Input.Control<TSignInProps>
-          name="password"
           control={control}
-          rules={{ required: true }}
+          name="password"
+          rules={{
+            required: EErrorMessage.REQUIRED,
+            minLength: { value: 6, message: EErrorMessage.MINIMUM(6) },
+          }}
           type="password"
         />
 

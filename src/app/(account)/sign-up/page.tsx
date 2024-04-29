@@ -6,7 +6,7 @@ import { TSignUpReq, TSignUpRes } from "@/pages/api/signup";
 import { CResponse } from "@/pages/api";
 import { useRouter } from "next/navigation";
 import { ErrorMessage } from "@hookform/error-message";
-import { EErrorMessage } from "@/util/frontEnum";
+import { EErrorMessage, FormPattern } from "@/util/frontEnum";
 
 const SignUpPage = () => {
   const {
@@ -59,10 +59,7 @@ const SignUpPage = () => {
           name="email"
           rules={{
             required: EErrorMessage.REQUIRED,
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "Invalid email address",
-            },
+            pattern: FormPattern.EMAIL,
           }}
           type="text"
         />

@@ -21,7 +21,7 @@ export default async function handler(
   const { email, password, confirm }: TSignUpReq = JSON.parse(req.body);
 
   try {
-    console.log(password, confirm);
+    // console.log(password, confirm);
     if (password !== confirm) {
       throw new Error("Password and confirm password do not match");
     }
