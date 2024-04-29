@@ -1,3 +1,4 @@
+import { ErrorMessage } from "@hookform/error-message";
 import clsx from "clsx";
 import React, { HTMLInputTypeAttribute } from "react";
 import {
@@ -13,7 +14,7 @@ type TControlProps<T extends FieldValues> = UseControllerProps<T> & {
 };
 
 const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
-  const { field, formState } = useController(props);
+  const { field, formState, fieldState } = useController(props);
   const inputRef = React.useRef<HTMLInputElement>(null);
 
   const onclick = () => {
@@ -39,10 +40,14 @@ const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
           type={props.type}
         />
       </div>
-      {formState.errors[props.name] && (
-        <small className="text-danger-500">
-          {props.name.toUpperCase()} field is required
-        </small>
+      {formState.errors[field.name] && (
+        <ErrorMessage
+          name={field.name as any}
+          errors={formState.errors}
+          render={({ message }) => {
+            return <small className="text-danger-500">{message}</small>;
+          }}
+        />
       )}
     </div>
   );

@@ -5,9 +5,15 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { TSignUpReq, TSignUpRes } from "@/pages/api/signup";
 import { CResponse } from "@/pages/api";
 import { useRouter } from "next/navigation";
+import { ErrorMessage } from "@hookform/error-message";
 
 const SignUpPage = () => {
-  const { handleSubmit, control, reset } = useForm<TSignUpReq>({
+  const {
+    handleSubmit,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<TSignUpReq>({
     defaultValues: {
       email: "",
       password: "",
@@ -48,24 +54,35 @@ const SignUpPage = () => {
       <h3 className="text-center mb-5 text-primary-500">Create an Account</h3>
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
         <Input.Control<TSignUpReq>
-          name="email"
           control={control}
-          rules={{ required: true }}
+          name="email"
+          rules={{ required: "필수 값입니다." }}
           type="text"
         />
         <Input.Control<TSignUpReq>
-          name="password"
           control={control}
-          rules={{ required: true, minLength: 6 }}
+          name="password"
+          rules={{
+            required: "필수 값입니다.",
+            minLength: { value: 6, message: "최소 6자리 이상" },
+          }}
           type="password"
         />
         <Input.Control<TSignUpReq>
-          name="confirm"
           control={control}
-          rules={{ required: true, minLength: 6 }}
+          name="confirm"
+          rules={{
+            required: "필수 값입니다.",
+            minLength: { value: 6, message: "최소 6자리 이상" },
+          }}
           type="password"
         />
-
+        <ErrorMessage
+          name="confirm"
+          errors={errors}
+          // message={errors.confirm?.message}
+          // render={({ message }) => <small>{message}</small>}
+        />
         <Button type="submit">Sign up</Button>
       </form>
     </div>
