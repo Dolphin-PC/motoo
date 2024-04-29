@@ -6,6 +6,7 @@ import { TSignUpReq, TSignUpRes } from "@/pages/api/signup";
 import { CResponse } from "@/pages/api";
 import { useRouter } from "next/navigation";
 import { ErrorMessage } from "@hookform/error-message";
+import { EErrorMessage } from "@/util/frontEnum";
 
 const SignUpPage = () => {
   const {
@@ -56,15 +57,21 @@ const SignUpPage = () => {
         <Input.Control<TSignUpReq>
           control={control}
           name="email"
-          rules={{ required: "필수 값입니다." }}
+          rules={{
+            required: EErrorMessage.REQUIRED,
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address",
+            },
+          }}
           type="text"
         />
         <Input.Control<TSignUpReq>
           control={control}
           name="password"
           rules={{
-            required: "필수 값입니다.",
-            minLength: { value: 6, message: "최소 6자리 이상" },
+            required: EErrorMessage.REQUIRED,
+            minLength: { value: 6, message: EErrorMessage.MINIMUM(6) },
           }}
           type="password"
         />
@@ -72,16 +79,10 @@ const SignUpPage = () => {
           control={control}
           name="confirm"
           rules={{
-            required: "필수 값입니다.",
-            minLength: { value: 6, message: "최소 6자리 이상" },
+            required: EErrorMessage.REQUIRED,
+            minLength: { value: 6, message: EErrorMessage.MINIMUM(6) },
           }}
           type="password"
-        />
-        <ErrorMessage
-          name="confirm"
-          errors={errors}
-          // message={errors.confirm?.message}
-          // render={({ message }) => <small>{message}</small>}
         />
         <Button type="submit">Sign up</Button>
       </form>
