@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import SessionProvider from "./SessionProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({
       <body className={inter.className}>
         {/* FIXME 주석 해제 시 오류발생 */}
         {/* <QueryClientProvider client={new QueryClient()}> */}
-        {children}
+        <SessionProvider>{children}</SessionProvider>
         {/* </QueryClientProvider> */}
       </body>
     </html>

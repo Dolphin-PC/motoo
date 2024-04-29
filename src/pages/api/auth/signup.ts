@@ -2,7 +2,7 @@
 import { CFirebaseError, auth } from "@/setting/firebase";
 import { NextApiRequest, NextApiResponse } from "next";
 import { FirebaseError } from "firebase/app";
-import { CResponse } from ".";
+import { CResponse } from "..";
 
 export type TSignUpReq = {
   email: string;

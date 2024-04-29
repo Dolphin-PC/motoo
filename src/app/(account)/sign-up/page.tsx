@@ -2,7 +2,7 @@
 import Input from "@/components/Input";
 import Button from "@/components/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { TSignUpReq, TSignUpRes } from "@/pages/api/signup";
+import { TSignUpReq, TSignUpRes } from "@/pages/api/auth/signup";
 import { CResponse } from "@/pages/api";
 import { useRouter } from "next/navigation";
 import { ErrorMessage } from "@hookform/error-message";
@@ -25,7 +25,7 @@ const SignUpPage = () => {
 
   const onSubmit: SubmitHandler<TSignUpReq> = async (data) => {
     try {
-      const res = await fetch("/api/signup", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         body: JSON.stringify(data),
       });

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Button from "@/components/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EErrorMessage, FormPattern } from "@/util/frontEnum";
+import { signIn } from "next-auth/react";
 
 export type TSignInProps = {
   email: string;
@@ -21,7 +22,11 @@ const SignInPage = () => {
   });
 
   const onSubmit: SubmitHandler<TSignInProps> = (data) => {
-    alert(JSON.stringify(data));
+    signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      callbackUrl: "/",
+    });
   };
 
   return (

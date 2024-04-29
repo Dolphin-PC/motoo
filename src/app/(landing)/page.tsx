@@ -1,10 +1,10 @@
 import Button from "@/components/Button";
 import Card from "@/components/Card";
-import Logo from "@/components/icon/Logo";
-import Header from "@/components/layout/Header";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth";
 import Image from "next/image";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div className="flex flex-col gap-5 p-20">
       <section

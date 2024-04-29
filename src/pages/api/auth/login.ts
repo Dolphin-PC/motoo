@@ -1,6 +1,7 @@
 // pages/api/login.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
+import { auth } from "@/setting/firebase";
 
 interface LoginBody {
   email: string;
