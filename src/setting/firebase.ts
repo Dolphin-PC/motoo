@@ -1,5 +1,4 @@
 // Import the functions you need from the SDKs you need
-import { FirebaseError } from "firebase/app";
 import firebase from "firebase/compat/app";
 
 import "firebase/compat/auth";
@@ -21,23 +20,3 @@ const app = firebase.initializeApp(firebaseConfig);
 export const firebaseApp = firebase;
 export const auth = firebase.auth();
 export const db = getFirestore(app);
-
-export class CFirebaseError {
-  code: string;
-  message: string;
-  name: string;
-
-  constructor(error: FirebaseError) {
-    this.message = error.message;
-    this.code = error.code;
-    this.name = error.name;
-  }
-
-  static isCFirebaseError(error: any) {
-    return error.code && error.message && error.name;
-  }
-}
-
-export const fireStoreCollection = {
-  USER: "user",
-};

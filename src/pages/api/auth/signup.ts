@@ -1,8 +1,12 @@
 // pages/api/signup.ts
-import { CFirebaseError, auth } from "@/setting/firebase";
+import { auth, db } from "@/setting/firebase";
+import { CFirebaseError } from "@/lib/firebase";
 import { NextApiRequest, NextApiResponse } from "next";
 import { FirebaseError } from "firebase/app";
 import { CResponse } from "..";
+import { User } from "@/pages/model/User";
+import { createUser } from "@/pages/service/UserService";
+import { getAuth, signOut } from "firebase/auth";
 
 export type TSignUpReq = {
   email: string;
@@ -25,24 +29,7 @@ export default async function handler(
     if (password !== confirm) {
       throw new Error("Password and confirm password do not match");
     }
-
-    const userCredential = await auth.createUserWithEmailAndPassword(
-      email,
-      password
-    );
-
-    const user = userCredential.user;
-
-    console.log(user?.uid);
-
-    res.status(200).json(new CResponse("User created", { uid: user?.uid }));
   } catch (error) {
-    if (error instanceof FirebaseError) {
-      res.status(400).json({
-        message: error.message,
-        error: new CFirebaseError(error),
-      });
-    }
     if (error instanceof Error) {
       res.status(400).json({ message: error.message, error: error });
     }
