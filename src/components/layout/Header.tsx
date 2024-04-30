@@ -11,7 +11,10 @@ const Header = ({ right }: { right?: React.ReactNode }) => {
   const { data: session, status } = useSession();
 
   return (
-    <div className="flex justify-between items-center p-4 text-primary-500">
+    <div
+      className="sticky top-0 bg-white shadow-sm
+    flex justify-between items-center p-4 text-primary-500 w-full"
+    >
       <Link href="/">
         <Logo />
       </Link>

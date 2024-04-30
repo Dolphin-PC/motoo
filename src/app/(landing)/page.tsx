@@ -6,19 +6,10 @@ import Image from "next/image";
 
 export default async function Home() {
   return (
-    <div className="flex flex-col gap-5 p-20">
-      <section
-        className="
-          md:flex h-screen
-        "
-      >
-        <div
-          className="
-          md:w-6/12 md:pl-20 md:pt-32 md:pr-32
-          sm:w-full 
-        "
-        >
-          <h1>모투</h1>
+    <div className="flex flex-col gap-10">
+      <section className="">
+        <div className="">
+          <h2>모투</h2>
           <br />
           <p>
             &apos;우리 모두 투자하자&apos;
@@ -28,40 +19,22 @@ export default async function Home() {
           </p>
 
           <div className="pt-4 flex gap-2">
-            <Button className="p-7 pt-3 pb-3">시작하기</Button>
-            <Button outline={true} className="p-7 pt-3 pb-3">
+            <Button className="p-2">시작하기</Button>
+            <Button outline={true} className="p-2">
               Learn More
             </Button>
           </div>
         </div>
-        <div
-          className="
-          flex 
-          items-start
-          justify-center
-            md:w-6/12 
-            sm:w-full
-          "
-        >
-          <Image
-            src="/images/highfive.png"
-            alt="main"
-            width={0}
-            height={0}
-            sizes="100vw"
-            style={{ width: "80%", height: "80%" }}
-          />
-        </div>
       </section>
 
-      <section className="flex flex-col justify-center items-center gap-3 pb-20">
-        <h2>서비스 기능</h2>
+      <section className="flex flex-col gap-3 pb-20">
+        <h3>서비스 기능</h3>
         <p>
           Do consectetur proident proident id eiusmod deserunt consequat
           pariatur ad ex velit do Lorem reprehenderit.
         </p>
 
-        <div className="flex gap-5">
+        <div className="flex flex-col gap-5">
           <Card
             img_src="/images/stock_buy_sell.png"
             title="주식 매수/매도"
