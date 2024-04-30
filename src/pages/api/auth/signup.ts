@@ -1,12 +1,6 @@
 // pages/api/signup.ts
-import { auth, db } from "@/setting/firebase";
-import { CFirebaseError } from "@/lib/firebase";
 import { NextApiRequest, NextApiResponse } from "next";
-import { FirebaseError } from "firebase/app";
 import { CResponse } from "..";
-import { User } from "@/pages/model/User";
-import { createUser } from "@/pages/service/UserService";
-import { getAuth, signOut } from "firebase/auth";
 
 export type TSignUpReq = {
   email: string;
