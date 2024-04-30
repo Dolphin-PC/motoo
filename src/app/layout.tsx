@@ -31,7 +31,7 @@ export default function RootLayout({
             >
               <h1>모투</h1>
             </aside>
-            <main className="m-auto sm:w-9/12 md:w-6/12 lg:w-5/12 lg:translate-x-20 bg-white h-fit">
+            <main className="m-auto sm:w-9/12 md:w-6/12 lg:w-5/12 lg:translate-x-20 bg-white h-screen overflow-auto">
               {children}
             </main>
           </div>

@@ -2,7 +2,7 @@ import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
 import { ReactElement } from "react";
 
-const layout = ({ children }: { children: ReactElement }) => {
+const layout = async ({ children }: { children: ReactElement }) => {
   return (
     <div>
       <Header />

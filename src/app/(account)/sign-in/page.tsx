@@ -16,8 +16,8 @@ export type TSignInProps = {
 const SignInPage = () => {
   const { handleSubmit, control, reset, formState } = useForm<TSignInProps>({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "test@gmail.com",
+      password: "qwerqwer",
     },
   });
 

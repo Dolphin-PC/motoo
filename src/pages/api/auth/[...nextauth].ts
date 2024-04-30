@@ -10,12 +10,13 @@ export const authOptions: NextAuthOptions = {
   },
   providers: [
     CredentialsProvider({
-      name: "Credentials",
+      name: "Email/Password",
       credentials: {
         email: { label: "Email", type: "email", placeholder: "" },
         password: { label: "Password", type: "password", placeholder: "" },
       },
       async authorize(credentials): Promise<any> {
+        // 로그인 로직
         return await signInWithEmailAndPassword(
           auth,
           credentials!.email,
@@ -34,6 +35,20 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  // TODO : Add jwt and session callbacks
+  // callbacks: {
+  //   jwt: async (token, user, account, profile, isNewUser) => {
+  //     if (user) {
+  //       token = user;
+  //     }
+
+  //     return token;
+  //   },
+  //   session: async (session, user) => {
+  //     session.token = user.token;
+  //     return session;
+  //   },
+  // },
 };
 
 export default NextAuth(authOptions);

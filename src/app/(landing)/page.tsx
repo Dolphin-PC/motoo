@@ -1,10 +1,13 @@
 import Button from "@/components/Button";
 import Card from "@/components/Card";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { getServerSession } from "next-auth";
-import Image from "next/image";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
+  const session = await getServerSession();
+  if (session) {
+    redirect("/v/main");
+  }
   return (
     <div className="flex flex-col gap-10">
       <section className="">

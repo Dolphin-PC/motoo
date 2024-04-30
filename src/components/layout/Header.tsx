@@ -3,33 +3,42 @@ import React from "react";
 import Button from "../Button";
 import Logo from "../icon/Logo";
 import Link from "next/link";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { signOut, useSession } from "next-auth/react";
+import { SessionContextValue, signOut, useSession } from "next-auth/react";
 
 const Header = ({ right }: { right?: React.ReactNode }) => {
-  const { data: session, status } = useSession();
+  const session = useSession();
+
+  console.log(session);
 
   return (
     <div
       className="sticky top-0 bg-white shadow-sm
     flex justify-between items-center p-4 text-primary-500 w-full"
     >
-      <Link href="/">
+      <Link href={session.status == "authenticated" ? "/v/main" : "/"}>
         <Logo />
       </Link>
 
-      {session?.user ? (
+      <RightButtons session={session} />
+    </div>
+  );
+};
+
+const RightButtons = ({
+  session,
+}: {
+  session: SessionContextValue;
+}): React.ReactElement => {
+  switch (session.status) {
+    case "authenticated": {
+      return (
         <div className="flex gap-2">
-          <Button
-            onClick={() => {
-              signOut();
-            }}
-          >
-            Log Out
-          </Button>
+          <Button onClick={() => signOut()}>Log Out</Button>
         </div>
-      ) : (
+      );
+    }
+    case "unauthenticated": {
+      return (
         <div className="flex gap-2">
           <Link href="/sign-in">
             <Button outline>Sign In</Button>
@@ -38,9 +47,11 @@ const Header = ({ right }: { right?: React.ReactNode }) => {
             <Button>Sign Up</Button>
           </Link>
         </div>
-      )}
-    </div>
-  );
+      );
+    }
+  }
+
+  return <></>;
 };
 
 export default Header;

@@ -3,7 +3,7 @@ import { ReactElement } from "react";
 
 const AccountLayout = ({ children }: { children: ReactElement }) => {
   return (
-    <div className="h-screen">
+    <div className="">
       <Header />
       <div className="p-10">
         <div className="">{children}</div>
