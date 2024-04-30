@@ -8,7 +8,7 @@ import { SessionContextValue, signOut, useSession } from "next-auth/react";
 const Header = ({ right }: { right?: React.ReactNode }) => {
   const session = useSession();
 
-  console.log(session);
+  // console.log(session);
 
   return (
     <div

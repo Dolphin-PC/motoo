@@ -1,3 +1,4 @@
+import BottomMenu from "@/components/layout/BottomMenu";
 import Header from "@/components/layout/Header";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
@@ -11,9 +12,10 @@ const Vlayout = async ({ children }: { children: React.ReactElement }) => {
     redirect("/");
   }
   return (
-    <div className="">
+    <div className="h-full">
       <Header />
-      {children}
+      <div className="">{children}</div>
+      <BottomMenu />
     </div>
   );
 };

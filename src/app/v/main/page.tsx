@@ -1,46 +1,9 @@
 import React from "react";
 
-const VMainPage = () => {
+const MainPage = () => {
   return (
     <div>
       <h1>Home</h1>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
-      <p>Welcome to the home page</p>
       <p>Welcome to the home page</p>
       <p>Welcome to the home page</p>
       <p>Welcome to the home page</p>
@@ -48,4 +11,4 @@ const VMainPage = () => {
   );
 };
 
-export default VMainPage;
+export default MainPage;
