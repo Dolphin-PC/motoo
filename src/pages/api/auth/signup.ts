@@ -1,6 +1,8 @@
 // pages/api/signup.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse } from "..";
+import { createUser } from "@/pages/service/UserService";
+import { User } from "@/pages/model/User";
 
 export type TSignUpReq = {
   email: string;
@@ -8,13 +10,9 @@ export type TSignUpReq = {
   confirm: string;
 };
 
-export type TSignUpRes = {
-  uid?: string;
-};
-
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<CResponse<TSignUpRes>>
+  res: NextApiResponse<CResponse<User>>
 ) {
   const { email, password, confirm }: TSignUpReq = JSON.parse(req.body);
 
@@ -23,6 +21,11 @@ export default async function handler(
     if (password !== confirm) {
       throw new Error("Password and confirm password do not match");
     }
+
+    const user = await createUser(email, password);
+    res
+      .status(200)
+      .json(new CResponse({ message: "User created", data: user }));
   } catch (error) {
     if (error instanceof Error) {
       res.status(400).json({ message: error.message, error: error });

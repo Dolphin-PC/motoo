@@ -1,6 +1,7 @@
 export type TUser = {
-  uid: string;
+  id: string;
   email: string;
+  password?: string;
   name?: string;
   lastLoginAt?: Date;
   createdAt?: Date;
@@ -15,7 +16,7 @@ export type TUser = {
 
 // 사용자
 export class User {
-  uid: string;
+  id: string;
   email: string;
   name?: string;
   lastLoginAt: Date;
@@ -28,8 +29,8 @@ export class User {
   amountStock?: AmountStock[];
   likeStock?: LikeStock[];
 
-  constructor(data: TUser) {
-    this.uid = data.uid;
+  constructor(data: any) {
+    this.id = data.id;
     this.email = data.email;
     this.name = data?.name;
     this.lastLoginAt = data.lastLoginAt ?? new Date();
