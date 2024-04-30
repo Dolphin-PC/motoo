@@ -4,10 +4,10 @@ import LogoSvg from "@assets/icons/main_icon.svg";
 const Logo = () => {
   return (
     <div className="flex items-center">
-      <div className="w-16">
+      {/* <div className="w-16">
         <LogoSvg />
-      </div>
-      <p className="font-bold">모투</p>
+      </div> */}
+      <h4 className="font-bold">Motoo</h4>
     </div>
   );
 };
