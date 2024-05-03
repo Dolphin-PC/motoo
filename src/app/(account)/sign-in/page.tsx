@@ -7,6 +7,7 @@ import Button from "@/components/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EErrorMessage, FormPattern } from "@/util/frontEnum";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export type TSignInProps = {
   email: string;
@@ -14,6 +15,7 @@ export type TSignInProps = {
 };
 
 const SignInPage = () => {
+  const router = useRouter();
   const { handleSubmit, control, reset, formState } = useForm<TSignInProps>({
     defaultValues: {
       email: "test@gmail.com",
@@ -21,12 +23,19 @@ const SignInPage = () => {
     },
   });
 
-  const onSubmit: SubmitHandler<TSignInProps> = (data) => {
-    signIn("credentials", {
+  const onSubmit: SubmitHandler<TSignInProps> = async (data) => {
+    const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
-      callbackUrl: "/",
+      callbackUrl: "/v/main",
+      redirect: false,
     });
+
+    if (res && res.ok) {
+      router.push(res.url ?? "/v/main");
+    } else {
+      alert(res?.error ?? "Sign In Failed");
+    }
   };
 
   return (

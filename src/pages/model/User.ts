@@ -1,23 +1,24 @@
-export type TUser = {
-  id: string;
-  email: string;
-  password?: string;
-  name?: string;
-  lastLoginAt?: Date;
-  createdAt?: Date;
+// export type TUser = {
+//   id: string;
+//   email: string;
+//   password?: string;
+//   name?: string;
+//   lastLoginAt?: Date;
+//   createdAt?: Date;
 
-  noticeList?: Notice[];
-  tokenInfo?: TokenInfo;
+//   noticeList?: Notice[];
+//   tokenInfo?: TokenInfo;
 
-  amountMoney?: AmountMoney;
-  amountStock?: AmountStock[];
-  likeStock?: LikeStock[];
-};
+//   amountMoney?: AmountMoney;
+//   amountStock?: AmountStock[];
+//   likeStock?: LikeStock[];
+// };
 
 // 사용자
 export class User {
   id: string;
   email: string;
+  password?: string;
   name?: string;
   lastLoginAt: Date;
   createdAt: Date;

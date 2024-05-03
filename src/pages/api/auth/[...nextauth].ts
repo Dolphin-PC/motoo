@@ -1,13 +1,8 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/setting/firebase";
+import jwt from "jsonwebtoken";
 
 export const authOptions: NextAuthOptions = {
-  pages: {
-    signIn: "/sign-in",
-  },
   providers: [
     CredentialsProvider({
       name: "Email/Password",
@@ -16,39 +11,26 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password", placeholder: "" },
       },
       async authorize(credentials): Promise<any> {
+        // console.log("credentials", credentials);
         // 로그인 로직
-        return await signInWithEmailAndPassword(
-          auth,
-          credentials!.email,
-          credentials!.password
-        )
-          .then((userCredential) => {
-            if (userCredential.user) {
-              return userCredential.user;
-            }
+        const res = await fetch(process.env.NEXTAUTH_URL + "/api/auth/signin", {
+          method: "POST",
+          body: JSON.stringify(credentials),
+          headers: { "Content-Type": "application/json" },
+        });
+        const data = await res.json();
+        console.log("data", data);
 
-            return null;
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+        if (!res.ok) throw new Error(data.message);
+        return data;
       },
     }),
   ],
-  // TODO : Add jwt and session callbacks
-  // callbacks: {
-  //   jwt: async (token, user, account, profile, isNewUser) => {
-  //     if (user) {
-  //       token = user;
-  //     }
-
-  //     return token;
-  //   },
-  //   session: async (session, user) => {
-  //     session.token = user.token;
-  //     return session;
-  //   },
-  // },
+  secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+    maxAge: 60 * 60, // 1 hour
+  },
 };
 
 export default NextAuth(authOptions);
