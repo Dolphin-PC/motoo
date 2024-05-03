@@ -29,13 +29,21 @@ export const authOptions: NextAuthOptions = {
   // 각 항목의 메소드가 [성공?]했을 때의 callback함수
   callbacks: {
     signIn: async ({ user, account, profile }) => {
-      console.log("signIn", user, account, profile);
+      // console.log("signIn", user, account, profile);
       return true;
+    },
+    session: async ({ session, token, user }) => {
+      // console.log("[session]", session);
+      // console.log("[token]", token);
+      // console.log("[user]", user);
+
+      session.user = token;
+      return session;
     },
     jwt: async ({ user, token }) => {
       // console.log("[jwt.user]", user);
       // console.log("[jwt.token]", token);
-      return token;
+      return { ...user, ...token };
     },
   },
   secret: process.env.NEXTAUTH_SECRET,

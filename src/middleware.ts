@@ -1,19 +1,22 @@
 import { withAuth } from "next-auth/middleware";
-import { authOptions } from "./pages/api/auth/[...nextauth]";
-import { decode } from "next-auth/jwt";
+
 import { nextAuthJwt, nextAuthPages } from "./setting/nextAuth";
+import { getToken } from "next-auth/jwt";
 
 export default withAuth({
   pages: nextAuthPages,
-  jwt: {
-    decode: nextAuthJwt.decode,
-  },
+  // jwt: {
+  //   decode: nextAuthJwt.decode,
+  // },
   callbacks: {
-    authorized: (data) => {
-      console.log("authorized", data);
-      if (data) return true;
+    authorized: ({ req, token }) => {
+      // console.log("token", token); // this token is always null!!
 
-      return false;
+      const sessionToken = req.cookies.get("next-auth.session-token");
+
+      if (!sessionToken) return false;
+
+      return true;
     },
   },
 });
@@ -21,3 +24,4 @@ export default withAuth({
 export const config = {
   matcher: ["/v/:path*"],
 };
+``;
