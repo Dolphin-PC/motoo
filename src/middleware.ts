@@ -1,17 +1,19 @@
 import { withAuth } from "next-auth/middleware";
+import { authOptions } from "./pages/api/auth/[...nextauth]";
+import { decode } from "next-auth/jwt";
+import { nextAuthJwt, nextAuthPages } from "./setting/nextAuth";
 
 export default withAuth({
-  pages: {
-    signIn: "/sign-in",
+  pages: nextAuthPages,
+  jwt: {
+    decode: nextAuthJwt.decode,
   },
   callbacks: {
-    authorized: ({ req }) => {
-      // verify token and return a boolean
-      const sessionToken = req.cookies.get("next-auth.session-token");
-      if (sessionToken) return true;
-      else {
-        return false;
-      }
+    authorized: (data) => {
+      console.log("authorized", data);
+      if (data) return true;
+
+      return false;
     },
   },
 });

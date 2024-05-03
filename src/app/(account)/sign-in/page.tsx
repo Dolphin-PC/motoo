@@ -31,6 +31,8 @@ const SignInPage = () => {
       redirect: false,
     });
 
+    // console.log(res);
+
     if (res && res.ok) {
       router.push(res.url ?? "/v/main");
     } else {
