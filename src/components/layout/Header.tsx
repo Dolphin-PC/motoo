@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import Button from "../Button";
+import Button from "../buttons/Button";
 import Logo from "../icon/Logo";
 import Link from "next/link";
 import { SessionContextValue, signOut, useSession } from "next-auth/react";
@@ -8,8 +8,6 @@ import Image from "next/image";
 
 const Header = ({ right }: { right?: React.ReactNode }) => {
   const session = useSession();
-
-  // console.log(session);
 
   return (
     <div

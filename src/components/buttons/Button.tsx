@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import React, { ButtonHTMLAttributes } from "react";
+import LogoutButton from "./LogoutButton";
 
 type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   outline?: Boolean;
@@ -21,9 +22,11 @@ const Button = ({ outline, children, className, ...props }: TButtonProps) => {
         className
       )}
     >
-      {props.type == "submit" ? children.toUpperCase() : children}
+      {props.type == "submit" && typeof children == "string"
+        ? children.toUpperCase()
+        : children}
     </button>
   );
 };
-
+Button.Logout = LogoutButton;
 export default Button;

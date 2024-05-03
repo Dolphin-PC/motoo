@@ -1,4 +1,4 @@
-import Button from "@/components/Button";
+import Button from "@/components/buttons/Button";
 import Card from "@/components/Card";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

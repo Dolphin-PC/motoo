@@ -3,6 +3,10 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import jwt from "jsonwebtoken";
 
 export const authOptions: NextAuthOptions = {
+  // pages: {
+  //   signIn: "/sign-in",
+  //   error: "/error",
+  // },
   providers: [
     CredentialsProvider({
       name: "Email/Password",

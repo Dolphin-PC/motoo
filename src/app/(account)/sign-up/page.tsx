@@ -1,6 +1,6 @@
 "use client";
 import Input from "@/components/Input";
-import Button from "@/components/Button";
+import Button from "@/components/buttons/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { TSignUpReq, TSignUpRes } from "@/pages/api/auth/signup";
 import { CResponse } from "@/pages/api";

@@ -1,8 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import SessionProvider from "./SessionProvider";
+import NextAuthProvider from "./SessionProvider";
 import clsx from "clsx";
 import LogoSvg from "@assets/icons/main_icon.svg";
 
@@ -23,7 +22,7 @@ export default function RootLayout({
       <body className={clsx(inter.className, "bg-primary-150 h-screen")}>
         {/* FIXME 주석 해제 시 오류발생 */}
         {/* <QueryClientProvider client={new QueryClient()}> */}
-        <SessionProvider>
+        <NextAuthProvider>
           <div className="flex h-full">
             <aside
               className="hidden top-1/2 fixed transform -translate-y-1/2
@@ -38,7 +37,7 @@ export default function RootLayout({
               {children}
             </main>
           </div>
-        </SessionProvider>
+        </NextAuthProvider>
         {/* </QueryClientProvider> */}
       </body>
     </html>

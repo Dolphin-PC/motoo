@@ -3,7 +3,7 @@ import React from "react";
 import Input from "@/components/Input";
 import CheckBox from "@/components/CheckBox";
 import Link from "next/link";
-import Button from "@/components/Button";
+import Button from "@/components/buttons/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EErrorMessage, FormPattern } from "@/util/frontEnum";
 import { signIn } from "next-auth/react";
