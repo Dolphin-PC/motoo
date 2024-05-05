@@ -1,6 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { nextAuthJwt, nextAuthPages } from "@/setting/nextAuth";
+import { nextAuthJwt, nextAuthPages } from "@/lib/setting/nextAuth";
 
 export const authOptions: NextAuthOptions = {
   pages: nextAuthPages,
@@ -29,7 +29,9 @@ export const authOptions: NextAuthOptions = {
   // 각 항목의 메소드가 [성공?]했을 때의 callback함수
   callbacks: {
     signIn: async ({ user, account, profile }) => {
-      // console.log("signIn", user, account, profile);
+      console.log("signIn", user, account, profile);
+
+      // TODO db last login update
       return true;
     },
     session: async ({ session, token, user }) => {

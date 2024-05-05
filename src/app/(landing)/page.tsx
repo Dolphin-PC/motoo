@@ -1,5 +1,6 @@
 import Button from "@/components/buttons/Button";
 import Card from "@/components/Card";
+import Link from "next/link";
 
 export default async function Home() {
   return (
@@ -16,7 +17,9 @@ export default async function Home() {
           </p>
 
           <div className="pt-4 flex gap-2">
-            <Button className="p-2">시작하기</Button>
+            <Link href="/v/main">
+              <Button className="p-2">시작하기</Button>
+            </Link>
             <Button outline={true} className="p-2">
               Learn More
             </Button>

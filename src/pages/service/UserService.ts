@@ -47,10 +47,21 @@ export const loginUser = async (
     if (!user) throw new Error("User not found");
 
     const match = await bcrypt.compare(password, user.password);
-
     if (!match) throw new Error("Password does not match");
 
-    return new User(user);
+    // 사용자 토큰 정보 table
+    const tokenInfo = await prisma.tokenInfo.findFirst({
+      where: {
+        id: user.id,
+      },
+    });
+
+    const res = new User(user);
+    if (tokenInfo) {
+      res.tokenInfo = tokenInfo;
+    }
+
+    return res;
   } catch (err) {
     throw err;
   }

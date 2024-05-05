@@ -1,7 +1,5 @@
 import { withAuth } from "next-auth/middleware";
-
-import { nextAuthJwt, nextAuthPages } from "./setting/nextAuth";
-import { getToken } from "next-auth/jwt";
+import { nextAuthPages } from "./lib/setting/nextAuth";
 
 export default withAuth({
   pages: nextAuthPages,

@@ -6,7 +6,7 @@ import { TSignUpReq, TSignUpRes } from "@/pages/api/auth/signup";
 import { CResponse } from "@/pages/api";
 import { useRouter } from "next/navigation";
 import { ErrorMessage } from "@hookform/error-message";
-import { EErrorMessage, FormPattern } from "@/util/frontEnum";
+import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
 
 const SignUpPage = () => {
   const {

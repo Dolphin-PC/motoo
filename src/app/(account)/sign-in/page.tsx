@@ -5,8 +5,8 @@ import CheckBox from "@/components/CheckBox";
 import Link from "next/link";
 import Button from "@/components/buttons/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { EErrorMessage, FormPattern } from "@/util/frontEnum";
-import { signIn } from "next-auth/react";
+import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export type TSignInProps = {
@@ -16,6 +16,8 @@ export type TSignInProps = {
 
 const SignInPage = () => {
   const router = useRouter();
+  const { data: session, status } = useSession();
+
   const { handleSubmit, control, reset, formState } = useForm<TSignInProps>({
     defaultValues: {
       email: "test@gmail.com",
@@ -24,20 +26,25 @@ const SignInPage = () => {
   });
 
   const onSubmit: SubmitHandler<TSignInProps> = async (data) => {
-    const res = await signIn("credentials", {
+    signIn("credentials", {
       email: data.email,
       password: data.password,
       callbackUrl: "/v/main",
       redirect: false,
-    });
-
-    // console.log(res);
-
-    if (res && res.ok) {
-      router.push(res.url ?? "/v/main");
-    } else {
-      alert(res?.error ?? "Sign In Failed");
-    }
+    })
+      .then((res) => {
+        if (!session || !session.user.tokenInfo)
+          throw new Error("session is null");
+        const { APP_KEY, APP_SECRET } = session.user.tokenInfo;
+        if (APP_KEY == null || APP_SECRET == null) {
+          router.push("/v/my");
+        } else {
+          router.push("/v/main");
+        }
+      })
+      .catch((err) => {
+        alert(err);
+      });
   };
 
   return (
