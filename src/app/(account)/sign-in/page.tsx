@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import Input from "@/components/Input";
 import CheckBox from "@/components/CheckBox";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { getUserTokenInfo } from "@/lib/util/util";
 
 export type TSignInProps = {
   email: string;
@@ -26,26 +27,25 @@ const SignInPage = () => {
   });
 
   const onSubmit: SubmitHandler<TSignInProps> = async (data) => {
-    signIn("credentials", {
+    const res = await signIn("credentials", {
       email: data.email,
       password: data.password,
       callbackUrl: "/v/main",
       redirect: false,
-    })
-      .then((res) => {
-        if (!session || !session.user.tokenInfo)
-          throw new Error("session is null");
-        const { APP_KEY, APP_SECRET } = session.user.tokenInfo;
-        if (APP_KEY == null || APP_SECRET == null) {
-          router.push("/v/my");
-        } else {
-          router.push("/v/main");
-        }
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    }).then((res) => {
+      if (res?.error) {
+        alert(res.error);
+      }
+    });
   };
+
+  useEffect(() => {
+    if (status === "authenticated") {
+      const { APP_KEY, APP_SECRET } = getUserTokenInfo(session);
+
+      router.push(APP_KEY && APP_SECRET ? "/v/main" : "/v/my");
+    }
+  }, [status]);
 
   return (
     <>
@@ -79,7 +79,9 @@ const SignInPage = () => {
           </Link>
         </div>
 
-        <Button type="submit">Sign In</Button>
+        <Button primary type="submit">
+          Sign In
+        </Button>
       </form>
     </>
   );
