@@ -35,11 +35,11 @@ export const authOptions: NextAuthOptions = {
       return true;
     },
     session: async ({ session, token, user }) => {
-      // console.log("[session]", session);
       // console.log("[token]", token);
       // console.log("[user]", user);
 
       session.user = token;
+      // console.log("[session]", session);
       return session;
     },
     jwt: async ({ user, token }) => {

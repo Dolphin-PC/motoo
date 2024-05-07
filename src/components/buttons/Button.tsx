@@ -20,12 +20,15 @@ const Button = ({
   return (
     <button
       {...props}
-      className={`p-2 rounded-md w-full 
-      ${primary && "bg-primary-500 text-white"}
+      className={`p-2 rounded-md w-full ${className ? className : ""}
+      ${primary ? "bg-primary-500 text-white" : ""}
       ${
-        outline &&
-        "bg-white text-primary-500 border-solid border-primary-500 border-2"
-      } ${className}`}
+        outline
+          ? "bg-white text-primary-500 border-solid border-primary-500 border-2"
+          : ""
+      }
+      ${props.disabled ? "opacity-50" : ""}
+      `}
     >
       {props.type == "submit" && typeof children == "string"
         ? children.toUpperCase()

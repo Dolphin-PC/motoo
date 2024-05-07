@@ -1,4 +1,3 @@
-import { Prisma, PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { User } from "../model/User";
 import { prisma } from "./prismaClient";
@@ -65,4 +64,18 @@ export const loginUser = async (
   } catch (err) {
     throw err;
   }
+};
+
+export const getAccountInfoListByUserId = async (
+  userId: number
+): Promise<AccountInfo[]> => {
+  const accountInfoList = await prisma.accountInfo.findMany({
+    where: {
+      id: userId,
+    },
+  });
+
+  console.log("accountInfoList", accountInfoList);
+
+  return accountInfoList;
 };

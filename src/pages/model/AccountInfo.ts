@@ -2,7 +2,7 @@
 class AccountInfo {
   id: number;
 
-  account_number: string;
+  account_number: number;
   default_account_yn: boolean;
   account_expired_at: Date | null;
 

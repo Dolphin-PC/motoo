@@ -9,4 +9,8 @@ export const FormPattern = {
     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
     message: EErrorMessage.EMAIL,
   },
+  ACCOUNT_NUMBER: {
+    value: /^[0-9]{8}$/,
+    message: "Invalid account number",
+  },
 };

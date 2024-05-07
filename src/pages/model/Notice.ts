@@ -1,3 +1,5 @@
+import { User } from "./User";
+
 // 사용자 알림
 class Notice {
   user: User;

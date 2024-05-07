@@ -7,12 +7,15 @@ import { useEffect, useState } from "react";
 
 const MyPage = () => {
   const { data: session, status, update } = useSession();
-  const [isAppKeyNull, setIsAppKeyNull] = useState(false);
+  const [isAccountNull, setIsAccountNull] = useState(false);
   useEffect(() => {
     if (status == "authenticated") {
       const { app_key, app_secret } = getUserTokenInfo(session);
       // console.log(app_key, app_secret);
-      setIsAppKeyNull(!(app_key && app_secret));
+      if (app_key == null || app_secret == null) {
+        alert("하나 이상의 모의계좌를 등록해주세요.");
+        setIsAccountNull(true);
+      }
     }
   }, [status]);
 
@@ -22,8 +25,8 @@ const MyPage = () => {
         <h4>내 정보</h4>
         <div className="flex flex-col gap-2">
           <Button.Link href="/v/my/profile">프로필 설정</Button.Link>
-          <Button.Link href="/v/my/appkey" warning={isAppKeyNull}>
-            APP 키 등록하기
+          <Button.Link href="/v/my/account" warning={isAccountNull}>
+            모의계좌 등록하기
           </Button.Link>
           <Button.Link href="/v/my/profile">계좌 전환하기</Button.Link>
           <Button outline>계정 삭제하기</Button>

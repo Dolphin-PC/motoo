@@ -22,11 +22,18 @@ export const getServerUrl = () => {
 export const getUserTokenInfo = (
   session: Session
 ): {
-  APP_KEY: TokenInfo["APP_KEY"];
-  APP_SECRET: TokenInfo["APP_SECRET"];
+  app_key: AccountInfo["app_key"];
+  app_secret: AccountInfo["app_secret"];
 } => {
+  let app_key = null;
+  let app_secret = null;
+
+  if (session.user.accountInfo) {
+    app_key = session.user.accountInfo.app_key;
+    app_secret = session.user.accountInfo.app_secret;
+  }
   return {
-    APP_KEY: session?.user.tokenInfo?.APP_KEY || null,
-    APP_SECRET: session?.user.tokenInfo?.APP_SECRET || null,
+    app_key,
+    app_secret,
   };
 };

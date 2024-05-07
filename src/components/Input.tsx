@@ -11,6 +11,8 @@ import {
 
 type TControlProps<T extends FieldValues> = UseControllerProps<T> & {
   type: HTMLInputTypeAttribute;
+  displayName?: string;
+  placeholder?: string;
 };
 
 const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
@@ -30,12 +32,13 @@ const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
         onClick={onclick}
       >
         <label className="cursor-text" htmlFor={props.name}>
-          {props.name.toUpperCase()}
+          {props.displayName ? props.displayName : props.name.toUpperCase()}
+          {/* {props.name.toUpperCase()} */}
         </label>
         <input
           {...field}
           ref={inputRef}
-          placeholder={props.name}
+          placeholder={props.placeholder ? props.placeholder : props.name}
           className="bg-primary-100 outline-none"
           type={props.type}
         />
@@ -52,7 +55,7 @@ const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
     </div>
   );
 };
-
+// 참고 : src/app/(account)/sign-in/page.tsx
 const Input = {
   Control,
 };

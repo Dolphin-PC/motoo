@@ -16,7 +16,7 @@
 
 // 사용자
 export class User {
-  id: string;
+  id: number;
   email: string;
   password?: string;
   name?: string;
