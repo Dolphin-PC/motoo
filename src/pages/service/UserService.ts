@@ -50,15 +50,15 @@ export const loginUser = async (
     if (!match) throw new Error("Password does not match");
 
     // 사용자 토큰 정보 table
-    const tokenInfo = await prisma.tokenInfo.findFirst({
+    const accountInfo = await prisma.accountInfo.findFirst({
       where: {
         id: user.id,
       },
     });
 
     const res = new User(user);
-    if (tokenInfo) {
-      res.tokenInfo = tokenInfo;
+    if (accountInfo) {
+      res.accountInfo = accountInfo;
     }
 
     return res;

@@ -24,7 +24,7 @@ export class User {
   createdAt: Date;
 
   noticeList?: Notice[];
-  tokenInfo?: TokenInfo;
+  accountInfo?: AccountInfo;
 
   amountMoney?: AmountMoney;
   amountStock?: AmountStock[];
@@ -38,7 +38,7 @@ export class User {
     this.createdAt = data.createdAt ?? new Date();
 
     this.noticeList = data?.noticeList;
-    this.tokenInfo = data?.tokenInfo;
+    this.accountInfo = data?.accountInfo;
 
     this.amountMoney = data?.amountMoney;
     this.amountStock = data?.amountStock;

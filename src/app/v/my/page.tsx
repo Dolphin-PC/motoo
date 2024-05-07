@@ -10,9 +10,9 @@ const MyPage = () => {
   const [isAppKeyNull, setIsAppKeyNull] = useState(false);
   useEffect(() => {
     if (status == "authenticated") {
-      const { APP_KEY, APP_SECRET } = getUserTokenInfo(session);
-      console.log(APP_KEY, APP_SECRET);
-      setIsAppKeyNull(!(APP_KEY && APP_SECRET));
+      const { app_key, app_secret } = getUserTokenInfo(session);
+      // console.log(app_key, app_secret);
+      setIsAppKeyNull(!(app_key && app_secret));
     }
   }, [status]);
 
@@ -22,7 +22,7 @@ const MyPage = () => {
         <h4>내 정보</h4>
         <div className="flex flex-col gap-2">
           <Button.Link href="/v/my/profile">프로필 설정</Button.Link>
-          <Button.Link href="/v/my/profile" warning={isAppKeyNull}>
+          <Button.Link href="/v/my/appkey" warning={isAppKeyNull}>
             APP 키 등록하기
           </Button.Link>
           <Button.Link href="/v/my/profile">계좌 전환하기</Button.Link>
