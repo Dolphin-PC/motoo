@@ -27,3 +27,9 @@ h4 {
 .svg {
   fill: currentColor;
 }
+
+.neumorphism {
+  background: #e0e0e0;
+  border-radius: 10px;
+  box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+}

@@ -7,7 +7,7 @@ const Vlayout = async ({ children }: { children: React.ReactElement }) => {
   return (
     <div className="h-full">
       <Header />
-      <div className="">{children}</div>
+      <div className="p-5">{children}</div>
       <BottomMenu />
     </div>
   );
