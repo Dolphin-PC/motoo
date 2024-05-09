@@ -10,7 +10,7 @@ export type TSignUpReq = {
   confirm: string;
 };
 
-export default async function handler(
+export default async function POST(
   req: NextApiRequest,
   res: NextApiResponse<CResponse<User>>
 ) {

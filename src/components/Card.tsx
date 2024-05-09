@@ -1,4 +1,5 @@
 // import Image from "next/image";
+import Image from "next/image";
 import React, { ReactElement } from "react";
 
 const Card = ({

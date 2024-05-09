@@ -16,3 +16,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     res.status(401).json(error);
   }
 }
+
+export function GET(req: NextApiRequest, res: NextApiResponse) {
+  res.status(200).json({ message: "Hello" });
+}
