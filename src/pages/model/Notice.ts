@@ -1,8 +1,10 @@
+import { MinLength } from "class-validator";
 import { BaseModel } from "./Base";
 
 // 사용자 알림
 export class Notice extends BaseModel {
   id: number;
+  @MinLength(10)
   accountNumber: number;
 
   message: String;

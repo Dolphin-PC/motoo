@@ -1,7 +1,9 @@
 import { OrderStatus, OrderType } from "./enum";
 import { BaseModel } from "./Base";
+import { MinLength } from "class-validator";
 
 export class StockOrderHistory extends BaseModel {
+  @MinLength(10)
   accountNumber: number;
   stockId: string;
 

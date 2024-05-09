@@ -1,6 +1,8 @@
+import { MinLength } from "class-validator";
 import { BaseModel } from "./Base";
 
 export class LikeStock extends BaseModel {
+  @MinLength(10)
   accountNumber: number;
   stockId: string;
 

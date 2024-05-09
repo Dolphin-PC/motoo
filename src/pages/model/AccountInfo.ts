@@ -5,17 +5,28 @@ import { AmountStock } from "./AmountStock";
 import { LikeStock } from "./LikeStock";
 import { BaseModel } from "./Base";
 
+import { IsInt, Length, IsDate, IsBoolean, MinLength } from "class-validator";
+
 // 사용자 토큰 정보
 export class AccountInfo extends BaseModel {
   id?: number;
 
+  @MinLength(10)
   accountNumber: number;
+
+  @IsBoolean()
   defaultAccountYn: boolean;
+
+  @IsDate()
   accountExpiredAt?: Date;
 
+  @MinLength(10)
   appKey: string;
+  @MinLength(10)
   appSecret: string;
+  @MinLength(10)
   apiToken?: string;
+  @IsDate()
   apiTokenExpiredAt?: Date;
 
   noticeList?: Notice[];

@@ -1,6 +1,8 @@
+import { MinLength } from "class-validator";
 import { BaseModel } from "./Base";
 
 export class AmountMoney extends BaseModel {
+  @MinLength(10)
   accountNumber: number;
 
   krw: number;

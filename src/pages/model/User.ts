@@ -1,11 +1,15 @@
 import { AccountInfo } from "./AccountInfo";
 import { Notice } from "./Notice";
 import { BaseModel } from "./Base";
+import { IsEmail, MinLength } from "class-validator";
 
 // 사용자
 export class User extends BaseModel {
   id: number;
+
+  @MinLength(6)
   password?: string;
+  @IsEmail()
   email: string;
   name?: string;
   lastLoginAt: Date;
