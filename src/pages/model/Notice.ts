@@ -1,5 +1,7 @@
+import { BaseModel } from "./Base";
+
 // 사용자 알림
-export class Notice {
+export class Notice extends BaseModel {
   id: number;
   accountNumber: number;
 
@@ -9,6 +11,7 @@ export class Notice {
   createdAt: Date;
 
   constructor(data: any) {
+    data = super(data);
     this.id = data.id;
     this.accountNumber = data.account_number;
 

@@ -42,3 +42,46 @@ export const getUserTokenInfo = (
     appSecret: app_secret,
   };
 };
+
+export const fetchHelper = <T>({
+  url,
+  data,
+  method,
+}: {
+  url: string;
+  data: T;
+  method: "GET" | "POST" | "PUT" | "DELETE";
+}) => {
+  return fetch(url, {
+    method,
+    body: JSON.stringify(data),
+    headers: { "Content-Type": "application/json" },
+  });
+};
+
+export const convertSnakeCaseToCamelCase = (str: string): string => {
+  const words = str.split("_");
+  const camelCaseWord = words
+    .map((word, index) => {
+      if (index === 0) {
+        return word;
+      }
+      const firstLetterCap = word.charAt(0).toUpperCase();
+      const remainingLetters = word.slice(1);
+      return firstLetterCap + remainingLetters;
+    })
+    .join("");
+
+  return camelCaseWord;
+};
+export const convertObjectPropertiesSnakeCaseToCamelCase = (
+  obj: Record<string, any>
+): Record<string, any> => {
+  const convertedObject: Record<string, any> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    const camelCaseKey = convertSnakeCaseToCamelCase(key);
+    convertedObject[camelCaseKey] = value;
+  }
+
+  return convertedObject;
+};

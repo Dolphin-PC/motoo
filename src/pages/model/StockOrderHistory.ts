@@ -1,6 +1,8 @@
+import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
 import { OrderStatus, OrderType } from "./enum";
+import { BaseModel } from "./Base";
 
-export class StockOrderHistory {
+export class StockOrderHistory extends BaseModel {
   accountNumber: number;
   stockId: string;
 
@@ -14,6 +16,8 @@ export class StockOrderHistory {
   conclusionPrice?: number;
 
   constructor(data: any) {
+    data = super(data);
+
     this.accountNumber = data.account_number;
     this.stockId = data.stock_id;
 

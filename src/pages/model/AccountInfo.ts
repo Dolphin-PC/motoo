@@ -3,10 +3,12 @@ import { Notice } from "./Notice";
 import { StockOrderHistory } from "./StockOrderHistory";
 import { AmountStock } from "./AmountStock";
 import { LikeStock } from "./LikeStock";
+import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
+import { BaseModel } from "./Base";
 
 // 사용자 토큰 정보
-export class AccountInfo {
-  id: number;
+export class AccountInfo extends BaseModel {
+  id?: number;
 
   accountNumber: number;
   defaultAccountYn: boolean;
@@ -24,21 +26,23 @@ export class AccountInfo {
   likeStockList?: LikeStock[];
 
   constructor(data: any) {
+    data = super(data);
+
     this.id = data.id;
 
-    this.accountNumber = data.account_number;
-    this.defaultAccountYn = data.default_account_yn;
-    this.accountExpiredAt = data.account_expired_at;
+    this.accountNumber = data.accountNumber;
+    this.defaultAccountYn = data.defaultAccountYn;
+    this.accountExpiredAt = data.accountExpiredAt;
 
-    this.appKey = data.app_key;
-    this.appSecret = data.app_secret;
-    this.apiToken = data.api_token;
-    this.apiTokenExpiredAt = data.api_token_expired_at;
+    this.appKey = data.appKey;
+    this.appSecret = data.appSecret;
+    this.apiToken = data.apiToken;
+    this.apiTokenExpiredAt = data.apiTokenExpiredAt;
 
     this.noticeList = data?.notice;
-    this.stockOrderHistoryList = data?.stock_order_history;
-    this.amountMoneyList = data?.amount_money;
-    this.amountStockList = data?.amount_stock;
-    this.likeStockList = data?.like_stock;
+    this.stockOrderHistoryList = data?.stockOrderHistoryList;
+    this.amountMoneyList = data?.amountMoneyList;
+    this.amountStockList = data?.amountStockList;
+    this.likeStockList = data?.likeStockList;
   }
 }
