@@ -1,7 +1,7 @@
 import Header from "@/components/layout/Header";
-import { ReactElement } from "react";
+import React from "react";
 
-const AccountLayout = ({ children }: { children: ReactElement }) => {
+const AccountLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="">
       <Header />

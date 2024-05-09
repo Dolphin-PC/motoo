@@ -4,6 +4,7 @@ import Input from "@/components/Input";
 import Button from "@/components/buttons/Button";
 import InnerLayout from "@/components/layout/InnerLayout";
 import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
+import { AccountInfo } from "@/pages/model/AccountInfo";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 

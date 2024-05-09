@@ -2,23 +2,22 @@
   // 실행환경
   "env": {
     "browser": true,
+    "node": true,
     "es6": true
   },
-  // "parser": "babel-eslint",
+  "parser": "@typescript-eslint/parser",
 
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "airbnb"
-    // "plugin:prettier/recommended"
-  ],
+  "plugins": ["react", "@typescript-eslint"],
 
-  // 설정관리 (0: off, 1: on)
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+
   "rules": {
-    "react/react-in-jsx-scope": 0,
-    "react/prefer-stateless-function": 0,
-    "react/jsx-filename-extension": 0,
-    "react/jsx-one-expression-per-line": 0,
-    "no-nested-ternary": 0
+    "react/react-in-jsx-scope": "off",
+    "quotes": "off",
+    "no-unused-vars": "warn",
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": ["arrow-function", "function-declaration"] }
+    ]
   }
 }

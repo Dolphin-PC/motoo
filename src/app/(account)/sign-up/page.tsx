@@ -2,11 +2,12 @@
 import Input from "@/components/Input";
 import Button from "@/components/buttons/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { TSignUpReq, TSignUpRes } from "@/pages/api/auth/signup";
+import { TSignUpReq } from "@/pages/api/auth/signup";
 import { CResponse } from "@/pages/api";
 import { useRouter } from "next/navigation";
 import { ErrorMessage } from "@hookform/error-message";
 import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
+import { User } from "@/pages/model/User";
 
 const SignUpPage = () => {
   const {
@@ -29,7 +30,7 @@ const SignUpPage = () => {
         method: "POST",
         body: JSON.stringify(data),
       });
-      const resData: CResponse<TSignUpRes> = await res.json();
+      const resData: CResponse<User> = await res.json();
 
       // console.log(resData);
       if (!res.ok || !resData.data) throw resData;
