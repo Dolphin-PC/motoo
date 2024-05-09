@@ -10,7 +10,8 @@ const MyPage = () => {
   const [isAccountNull, setIsAccountNull] = useState(false);
   useEffect(() => {
     if (status == "authenticated") {
-      const { app_key, app_secret } = getUserTokenInfo(session);
+      const { appKey: app_key, appSecret: app_secret } =
+        getUserTokenInfo(session);
       // console.log(app_key, app_secret);
       if (app_key == null || app_secret == null) {
         alert("하나 이상의 모의계좌를 등록해주세요.");

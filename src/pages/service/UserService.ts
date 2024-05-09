@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { User } from "../model/User";
 import { prisma } from "./prismaClient";
+import { AccountInfo } from "../model/AccountInfo";
 
 export const createUser = async (
   email: string,
@@ -52,12 +53,13 @@ export const loginUser = async (
     const accountInfo = await prisma.accountInfo.findFirst({
       where: {
         id: user.id,
+        default_account_yn: true,
       },
     });
 
     const res = new User(user);
     if (accountInfo) {
-      res.accountInfo = accountInfo;
+      res.currentAccountInfo = new AccountInfo(accountInfo);
     }
 
     return res;
@@ -75,7 +77,5 @@ export const getAccountInfoListByUserId = async (
     },
   });
 
-  // console.log("accountInfoList", accountInfoList);
-
-  return accountInfoList;
+  return accountInfoList.map((accountInfo) => new AccountInfo(accountInfo));
 };

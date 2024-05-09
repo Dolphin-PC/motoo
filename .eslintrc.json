@@ -1,6 +1,24 @@
 {
+  // 실행환경
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  // "parser": "babel-eslint",
+
   "extends": [
-    "next/core-web-vitals",
-    "plugin:storybook/recommended"
-  ]
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "airbnb"
+    // "plugin:prettier/recommended"
+  ],
+
+  // 설정관리 (0: off, 1: on)
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "react/prefer-stateless-function": 0,
+    "react/jsx-filename-extension": 0,
+    "react/jsx-one-expression-per-line": 0,
+    "no-nested-ternary": 0
+  }
 }

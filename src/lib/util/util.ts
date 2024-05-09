@@ -1,3 +1,4 @@
+import { AccountInfo } from "@/pages/model/AccountInfo";
 import { Session } from "next-auth";
 import { SessionContextValue } from "next-auth/react";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
@@ -22,18 +23,22 @@ export const getServerUrl = () => {
 export const getUserTokenInfo = (
   session: Session
 ): {
-  app_key: AccountInfo["appKey"];
-  app_secret: AccountInfo["app_secret"];
+  appKey: AccountInfo["appKey"] | null;
+  appSecret: AccountInfo["appSecret"] | null;
 } => {
   let app_key = null;
   let app_secret = null;
 
-  if (session.user.accountInfo) {
-    app_key = session.user.accountInfo.app_key;
-    app_secret = session.user.accountInfo.app_secret;
+  let currentAccount = session.user.accountInfoList?.filter((account) => {
+    return account.defaultAccountYn === true;
+  })[0];
+
+  if (currentAccount) {
+    app_key = currentAccount.appKey;
+    app_secret = currentAccount.appSecret;
   }
   return {
-    app_key,
-    app_secret,
+    appKey: app_key,
+    appSecret: app_secret,
   };
 };

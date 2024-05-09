@@ -13,6 +13,8 @@ export class User {
   noticeList?: Notice[];
   accountInfoList?: AccountInfo[];
 
+  currentAccountInfo?: AccountInfo;
+
   constructor(data: any) {
     this.id = data.id;
 

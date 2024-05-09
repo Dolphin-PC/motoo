@@ -41,7 +41,8 @@ const SignInPage = () => {
 
   useEffect(() => {
     if (status === "authenticated") {
-      const { app_key, app_secret } = getUserTokenInfo(session);
+      const { appKey: app_key, appSecret: app_secret } =
+        getUserTokenInfo(session);
 
       router.push(app_key && app_secret ? "/v/main" : "/v/my");
     }
