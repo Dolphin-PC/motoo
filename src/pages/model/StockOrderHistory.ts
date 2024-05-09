@@ -1,4 +1,3 @@
-import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
 import { OrderStatus, OrderType } from "./enum";
 import { BaseModel } from "./Base";
 

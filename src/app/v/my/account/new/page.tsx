@@ -4,41 +4,54 @@ import Input from "@/components/Input";
 import Button from "@/components/buttons/Button";
 import InnerLayout from "@/components/layout/InnerLayout";
 import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
+import { fetchHelper } from "@/lib/util/util";
 import { AccountInfo } from "@/pages/model/AccountInfo";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 
+export type TNewAccount = {
+  accountNumber: AccountInfo["accountNumber"];
+  appKey: AccountInfo["appKey"];
+  appSecret: AccountInfo["appSecret"];
+};
+
 const VMyAccountNew = () => {
   const { handleSubmit, control, reset, formState, getValues } =
-    useForm<AccountInfo>({
+    useForm<TNewAccount>({
       defaultValues: {
         accountNumber: 0,
         appKey: "",
-        app_secret: "",
+        appSecret: "",
       },
     });
 
   const [isAccountValid, setIsAccountValid] = useState(false);
 
-  const onValidate = () => {
-    const {
-      accountNumber: account_number,
-      appKey: app_key,
-      app_secret,
-    } = getValues();
+  const onValidate = async () => {
+    const { accountNumber, appKey, appSecret } = getValues();
     // TODO 계좌인증하고, 토큰 발급받기
+
+    const res = await fetchHelper<TNewAccount>({
+      url: "/api/account/verify",
+      data: { accountNumber, appKey, appSecret },
+      method: "POST",
+    });
+
+    const data = await res.json();
+
+    console.log(data);
   };
 
-  const onSubmit = (data: AccountInfo) => {
+  const onSubmit = (data: TNewAccount) => {
     console.log(data);
   };
 
   return (
     <InnerLayout title="모의계좌 등록하기">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
-        <Input.Control<AccountInfo>
+        <Input.Control<TNewAccount>
           control={control}
-          name="account_number"
+          name="accountNumber"
           displayName="계좌번호"
           placeholder="계좌번호를 입력해주세요."
           rules={{
@@ -47,9 +60,9 @@ const VMyAccountNew = () => {
           }}
           type="number"
         />
-        <Input.Control<AccountInfo>
+        <Input.Control<TNewAccount>
           control={control}
-          name="app_key"
+          name="appKey"
           //   displayName=""
           placeholder="한국투자증권에서 발급받은 APP_KEY를 입력해주세요."
           rules={{
@@ -57,9 +70,9 @@ const VMyAccountNew = () => {
           }}
           type="text"
         />
-        <Input.Control<AccountInfo>
+        <Input.Control<TNewAccount>
           control={control}
-          name="app_secret"
+          name="appSecret"
           //   displayName="계좌번호"
           placeholder="한국투자증권에서 발급받은 APP_SECRET을 입력해주세요."
           rules={{

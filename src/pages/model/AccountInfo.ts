@@ -3,7 +3,6 @@ import { Notice } from "./Notice";
 import { StockOrderHistory } from "./StockOrderHistory";
 import { AmountStock } from "./AmountStock";
 import { LikeStock } from "./LikeStock";
-import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
 import { BaseModel } from "./Base";
 
 // 사용자 토큰 정보

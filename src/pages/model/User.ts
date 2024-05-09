@@ -1,4 +1,3 @@
-import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
 import { AccountInfo } from "./AccountInfo";
 import { Notice } from "./Notice";
 import { BaseModel } from "./Base";
