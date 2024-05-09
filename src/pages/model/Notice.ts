@@ -1,22 +1,20 @@
-import { User } from "./User";
-
 // 사용자 알림
-class Notice {
-  user: User;
-  type: String;
+export class Notice {
+  id: number;
+  accountNumber: number;
+
   message: String;
+  type: String;
   deleteYn: Boolean;
   createdAt: Date;
 
   constructor(data: any) {
-    this.user = data.user;
-    this.type = data.type;
-    this.message = data?.message;
-    this.deleteYn = data.deleteYn;
-    this.createdAt = data.createdAt;
-  }
+    this.id = data.id;
+    this.accountNumber = data.account_number;
 
-  fromFirebase(data: any): Notice {
-    return new Notice(data);
+    this.message = data?.message;
+    this.type = data.type;
+    this.deleteYn = data.delete_yn;
+    this.createdAt = data.created_at;
   }
 }

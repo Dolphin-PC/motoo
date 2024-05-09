@@ -17,7 +17,7 @@ const MyAppKeyPage = async () => {
       {accountInfoList.length ? (
         accountInfoList
           .map((accountInfo) => {
-            <h1>{accountInfo.account_number}</h1>;
+            <h1>{accountInfo.accountNumber}</h1>;
           })
           .join("")
       ) : (

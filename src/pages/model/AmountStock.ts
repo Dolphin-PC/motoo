@@ -1,12 +1,10 @@
 // 보유주식
-class AmountStock {
-  stockInfo: StockInfo;
+export class AmountStock {
+  accountNumber: number;
+  stockId: string;
 
   constructor(data: any) {
-    this.stockInfo = data.stockInfo;
-  }
-
-  fromFirebase(data: any): AmountStock {
-    return new AmountStock(data);
+    this.accountNumber = data.account_number;
+    this.stockId = data.stock_id;
   }
 }

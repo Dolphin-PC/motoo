@@ -11,8 +11,8 @@ const VMyAccountNew = () => {
   const { handleSubmit, control, reset, formState, getValues } =
     useForm<AccountInfo>({
       defaultValues: {
-        account_number: 0,
-        app_key: "",
+        accountNumber: 0,
+        appKey: "",
         app_secret: "",
       },
     });
@@ -20,7 +20,12 @@ const VMyAccountNew = () => {
   const [isAccountValid, setIsAccountValid] = useState(false);
 
   const onValidate = () => {
-    const { account_number, app_key, app_secret } = getValues();
+    const {
+      accountNumber: account_number,
+      appKey: app_key,
+      app_secret,
+    } = getValues();
+    // TODO 계좌인증하고, 토큰 발급받기
   };
 
   const onSubmit = (data: AccountInfo) => {

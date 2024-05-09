@@ -1,18 +1,14 @@
 // # 주식정보
-class StockInfo {
+export class StockInfo {
   stockId: number;
   type: String;
   name: String;
   imgSrc?: String;
 
   constructor(data: any) {
-    this.stockId = data.stockId;
+    this.stockId = data.stock_id;
     this.type = data.type;
     this.name = data.name;
-    this.imgSrc = data.imgSrc;
-  }
-
-  fromFirebase(data: any): StockInfo {
-    return new StockInfo(data);
+    this.imgSrc = data.img_src;
   }
 }

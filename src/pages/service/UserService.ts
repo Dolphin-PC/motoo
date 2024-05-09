@@ -75,7 +75,7 @@ export const getAccountInfoListByUserId = async (
     },
   });
 
-  console.log("accountInfoList", accountInfoList);
+  // console.log("accountInfoList", accountInfoList);
 
   return accountInfoList;
 };

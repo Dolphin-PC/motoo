@@ -22,7 +22,7 @@ export const getServerUrl = () => {
 export const getUserTokenInfo = (
   session: Session
 ): {
-  app_key: AccountInfo["app_key"];
+  app_key: AccountInfo["appKey"];
   app_secret: AccountInfo["app_secret"];
 } => {
   let app_key = null;

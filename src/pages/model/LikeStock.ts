@@ -1,11 +1,9 @@
-class LikeStock {
-  stockList: StockInfo;
+export class LikeStock {
+  accountNumber: number;
+  stockId: string;
 
   constructor(data: any) {
-    this.stockList = data.stockList;
-  }
-
-  fromFirebase(data: any): LikeStock {
-    return new LikeStock(data);
+    this.accountNumber = data.account_number;
+    this.stockId = data.stock_id;
   }
 }
