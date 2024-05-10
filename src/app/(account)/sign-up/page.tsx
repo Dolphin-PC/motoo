@@ -33,7 +33,7 @@ const SignUpPage = () => {
       const resData: CResponse<User> = await res.json();
 
       // console.log(resData);
-      if (!res.ok || !resData.data) throw resData;
+      if (!res.ok || !resData.body) throw resData;
 
       // TODO redirect to sign in page
       if (confirm("회원가입 완료, 로그인페이지로 이동합니다.")) {

@@ -54,7 +54,7 @@ export const loginUser = async (
 
   const res = new User(user);
   if (accountInfo) {
-    res.currentAccountInfo = new AccountInfo(accountInfo);
+    res.currentAccountInfo = AccountInfo.from(accountInfo);
   }
 
   return res;
@@ -69,5 +69,5 @@ export const getAccountInfoListByUserId = async (
     },
   });
 
-  return accountInfoList.map((accountInfo) => new AccountInfo(accountInfo));
+  return accountInfoList.map((accountInfo) => AccountInfo.from(accountInfo));
 };

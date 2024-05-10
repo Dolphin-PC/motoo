@@ -1,19 +1,24 @@
+export enum EnumResonseMessage {
+  ACCOUNT_SUCCESS = "계좌인증이 완료되었습니다.",
+  ACCOUNT_FAIL = "계좌인증에 실패했습니다.",
+}
+
 export class CResponse<T> {
   message: string;
-  data?: T;
-  error?: Object;
+  body?: T;
+  error?: unknown;
 
   constructor({
     message,
-    data,
+    body,
     error,
   }: {
     message: string;
-    data?: T;
-    error?: Object;
+    body?: T;
+    error?: unknown;
   }) {
     this.message = message;
-    this.data = data;
+    this.body = body;
     this.error = error;
   }
 

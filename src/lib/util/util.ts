@@ -43,22 +43,6 @@ export const getUserTokenInfo = (
   };
 };
 
-export const fetchHelper = <T>({
-  url,
-  data,
-  method,
-}: {
-  url: string;
-  data: T;
-  method: "GET" | "POST" | "PUT" | "DELETE";
-}) => {
-  return fetch(url, {
-    method,
-    body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
-  });
-};
-
 export const convertSnakeCaseToCamelCase = (str: string): string => {
   const words = str.split("_");
   const camelCaseWord = words
