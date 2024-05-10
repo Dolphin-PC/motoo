@@ -42,17 +42,17 @@ export default async function POST(
       res.status(403).json(
         new CResponse({
           message: errorData.error_description,
+          error: errorData,
+        })
+      );
+    } else {
+      res.status(400).json(
+        new CResponse({
+          message: EnumResonseMessage.ACCOUNT_FAIL,
           error: error,
         })
       );
     }
-
-    res.status(400).json(
-      new CResponse({
-        message: EnumResonseMessage.ACCOUNT_FAIL,
-        error: error,
-      })
-    );
   }
 }
 

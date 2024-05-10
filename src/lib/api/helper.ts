@@ -1,5 +1,5 @@
 import { CResponse } from "@/pages/api";
-import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 
 export type TResponse<T> = {
   result: true;
@@ -50,8 +50,8 @@ const axiosInstance = axios.create({});
 export const axiosGet = async <T>(
   url: string,
   config?: AxiosRequestConfig
-): Promise<CResponse<T>> => {
-  const res = await axiosInstance.get<CResponse<T>>(url, config);
+): Promise<T> => {
+  const res = await axiosInstance.get<T>(url, config);
   return res.data;
 };
 

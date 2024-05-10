@@ -1,12 +1,6 @@
 import { AccountInfo } from "@/pages/model/AccountInfo";
-import {
-  TIssueTokenReq,
-  TIssueTokenRes,
-  TIssueTokenResError,
-  TRevokeTokenReq,
-} from "./TokenDao";
-import { fetchHelperWithData, fetchHelper, axiosPost } from "@/lib/api/helper";
-import axios, { AxiosResponse } from "axios";
+import { TIssueTokenReq, TIssueTokenRes, TRevokeTokenReq } from "./TokenDao";
+import { fetchHelper, axiosPost } from "@/lib/api/helper";
 
 export const issueAppToken = async (
   data: AccountInfo
