@@ -14,7 +14,7 @@ const MyAppKeyPage = async () => {
     accountInfoList = await getAccountInfoListByUserId(session!.user.id);
   }
   return (
-    <InnerLayout title="모의계좌 등록하기">
+    <InnerLayout title="내 모의계좌 관리">
       {accountInfoList.length ? (
         accountInfoList
           .map((accountInfo) => {

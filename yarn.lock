@@ -2674,6 +2674,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@hookform/resolvers@npm:^3.3.4":
+  version: 3.3.4
+  resolution: "@hookform/resolvers@npm:3.3.4"
+  peerDependencies:
+    react-hook-form: ^7.0.0
+  checksum: 10c0/f7a5b8ba59cbb0859e7a212bd5cbcbc70bbdddd21d4fbe9f4a96d149b5756470cb29857a50334d8c1c64392e21007ccf5288d26aa407431784d4006a2570cb36
+  languageName: node
+  linkType: hard
+
 "@humanwhocodes/config-array@npm:^0.11.14":
   version: 0.11.14
   resolution: "@humanwhocodes/config-array@npm:0.11.14"
@@ -7945,6 +7954,13 @@ __metadata:
   version: 1.2.3
   resolution: "cjs-module-lexer@npm:1.2.3"
   checksum: 10c0/0de9a9c3fad03a46804c0d38e7b712fb282584a9c7ef1ed44cae22fb71d9bb600309d66a9711ac36a596fd03422f5bb03e021e8f369c12a39fa1786ae531baab
+  languageName: node
+  linkType: hard
+
+"class-transformer@npm:^0.5.1":
+  version: 0.5.1
+  resolution: "class-transformer@npm:0.5.1"
+  checksum: 10c0/19809914e51c6db42c036166839906420bb60367df14e15f49c45c8c1231bf25ae661ebe94736ee29cc688b77101ef851a8acca299375cc52fc141b64acde18a
   languageName: node
   linkType: hard
 
@@ -13660,6 +13676,7 @@ __metadata:
   resolution: "motoo@workspace:."
   dependencies:
     "@hookform/error-message": "npm:^2.0.1"
+    "@hookform/resolvers": "npm:^3.3.4"
     "@next-auth/firebase-adapter": "npm:0.0.2-canary.207"
     "@prisma/client": "npm:5.13.0"
     "@reduxjs/toolkit": "npm:^2.2.1"
@@ -13690,6 +13707,7 @@ __metadata:
     axios: "npm:^1.6.8"
     bcrypt: "npm:^5.1.1"
     chart.js: "npm:^4.4.2"
+    class-transformer: "npm:^0.5.1"
     class-validator: "npm:^0.14.1"
     clsx: "npm:^2.1.0"
     eslint: "npm:8.57.0"

@@ -13,6 +13,7 @@ type TControlProps<T extends FieldValues> = UseControllerProps<T> & {
   type: HTMLInputTypeAttribute;
   displayName?: string;
   placeholder?: string;
+  readOnly?: boolean;
 };
 
 const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
@@ -28,6 +29,7 @@ const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
       <div
         className={clsx("flex flex-col bg-primary-100 p-3 cursor-text", {
           "border border-danger-500": formState.errors[props.name],
+          "text-primary-500": props.readOnly,
         })}
         onClick={onclick}
       >
@@ -39,8 +41,9 @@ const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
           {...field}
           ref={inputRef}
           placeholder={props.placeholder ? props.placeholder : props.name}
-          className="bg-primary-100 outline-none"
+          className={`bg-primary-100 outline-none`}
           type={props.type}
+          readOnly={props.readOnly}
         />
       </div>
       {formState.errors[field.name] && (

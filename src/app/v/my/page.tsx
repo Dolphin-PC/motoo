@@ -14,7 +14,7 @@ const MyPage = () => {
         getUserTokenInfo(session);
       // console.log(app_key, app_secret);
       if (app_key == null || app_secret == null) {
-        alert("하나 이상의 모의계좌를 등록해주세요.");
+        console.warn("하나 이상의 모의계좌를 등록해주세요.");
         setIsAccountNull(true);
       }
     }

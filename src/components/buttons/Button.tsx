@@ -16,7 +16,7 @@ const Button = ({
   children,
   className,
   ...props
-}: TButtonProps) => {
+}: TButtonProps): React.ReactNode => {
   return (
     <button
       {...props}

@@ -13,50 +13,46 @@ import {
   MinLength,
   IsEnum,
   ValidateIf,
+  IsNumber,
+  Min,
+  IsNumberString,
 } from "class-validator";
 import { verify } from "crypto";
 import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
 
-export enum EAccountType {
-  VERIFY_ACCOUNT, // 계좌 인증
+export enum AccountInfoValidatorGroups {
+  verify = "VERIFY_ACCOUNT",
+  new = "NEW_ACCOUNT",
+  edit = "EDIT_ACCOUNT",
 }
-
-const validateIf = {
-  verifyAccount: (o: AccountInfo) => o.type !== EAccountType.VERIFY_ACCOUNT,
-};
 
 // 사용자 토큰 정보
 export class AccountInfo {
-  @IsEnum(EAccountType, {
-    message: "AccountType is not valid",
-  })
-  type: EAccountType;
-
   id?: number;
 
-  @MinLength(10)
+  @IsNumberString()
+  @MinLength(10, {
+    groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
+  })
   accountNumber: string;
 
-  @ValidateIf(validateIf.verifyAccount)
-  @IsBoolean()
+  @IsBoolean({ groups: [AccountInfoValidatorGroups.edit] })
   defaultAccountYn: boolean;
 
-  @ValidateIf(validateIf.verifyAccount)
   @IsDate()
   accountExpiredAt?: Date;
 
-  @MinLength(10)
+  @MinLength(10, {
+    groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
+  })
   appKey: string;
 
-  @MinLength(10)
+  @MinLength(10, {
+    groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
+  })
   appSecret: string;
 
-  @ValidateIf(validateIf.verifyAccount)
-  @MinLength(10)
   apiToken?: string;
-
-  @ValidateIf(validateIf.verifyAccount)
-  @IsDate()
   apiTokenExpiredAt?: Date;
 
   noticeList?: Notice[];
@@ -71,8 +67,6 @@ export class AccountInfo {
     let a = new AccountInfo();
 
     data = convertObjectPropertiesSnakeCaseToCamelCase(data);
-
-    a.id = data.id;
 
     a.id = data.id;
 

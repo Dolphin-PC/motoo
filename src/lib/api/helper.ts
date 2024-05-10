@@ -29,7 +29,7 @@ export const fetchHelper = <T>({
   });
 };
 
-export const fetchHelperWithData = async <T>({
+export const fetchHelperWithData = async <T, R>({
   url,
   data,
   method,
@@ -37,10 +37,13 @@ export const fetchHelperWithData = async <T>({
   url: string;
   data: T;
   method: "GET" | "POST" | "PUT" | "DELETE";
-}) => {
+}): Promise<CResponse<R>> => {
   return new Promise((resolve, reject) => {
     fetchHelper<T>({ url, data, method })
-      .then((res) => resolve(res.json()))
+      .then(async (res) => {
+        let responseData = (await res.json()) as CResponse<R>;
+        resolve(responseData);
+      })
       .catch((err) => reject(err));
   });
 };

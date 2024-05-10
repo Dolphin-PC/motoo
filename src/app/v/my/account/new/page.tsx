@@ -3,11 +3,17 @@
 import Input from "@/components/Input";
 import Button from "@/components/buttons/Button";
 import InnerLayout from "@/components/layout/InnerLayout";
-import { fetchHelper, fetchHelperWithData } from "@/lib/api/helper";
+import { fetchHelperWithData } from "@/lib/api/helper";
 import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
-import { AccountInfo } from "@/pages/model/AccountInfo";
-import React, { useState } from "react";
+import { CResponse, EnumCResponseStatus } from "@/pages/api";
+import {
+  AccountInfo,
+  AccountInfoValidatorGroups,
+} from "@/pages/model/AccountInfo";
+import { TIssueTokenRes } from "@/pages/service/token/TokenDao";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 
 export type TNewAccount = {
   accountNumber: AccountInfo["accountNumber"];
@@ -15,40 +21,52 @@ export type TNewAccount = {
   appSecret: AccountInfo["appSecret"];
 };
 
+const formOptions = {
+  resolver: classValidatorResolver(AccountInfo, {
+    validator: {
+      groups: [
+        AccountInfoValidatorGroups.verify,
+        AccountInfoValidatorGroups.new,
+      ],
+    },
+  }),
+};
+
 const VMyAccountNew = () => {
-  const { handleSubmit, control, reset, formState, getValues } =
-    useForm<TNewAccount>({
-      defaultValues: {
-        accountNumber: 0,
-        appKey: "",
-        appSecret: "",
-      },
-    });
+  const { handleSubmit, control, formState, getValues } =
+    useForm<TNewAccount>(formOptions);
 
   const [isAccountValid, setIsAccountValid] = useState(false);
 
-  const onValidate = async () => {
-    const { accountNumber, appKey, appSecret } = getValues();
-    // TODO 계좌인증하고, 토큰 발급받기
-
-    const data = await fetchHelperWithData<TNewAccount>({
+  const onValidate = async (data: TNewAccount) => {
+    const res = await fetchHelperWithData<
+      TNewAccount,
+      CResponse<TIssueTokenRes>
+    >({
       url: "/api/account/verify",
-      data: { accountNumber, appKey, appSecret },
+      data: data,
       method: "POST",
     });
 
-    // const data = await res.json();
+    if (res.status == EnumCResponseStatus.INVALID) {
+      alert(res.message);
+      return;
+    }
 
-    console.log(data);
+    alert("정상적으로 검증이 완료되었습니다.");
+
+    setIsAccountValid(true);
   };
 
-  const onSubmit = (data: TNewAccount) => {
-    console.log(data);
+  const onAddNewAccount = () => {
+    const { accountNumber, appKey, appSecret } = getValues();
+
+    console.log(accountNumber, appKey, appSecret);
   };
 
   return (
     <InnerLayout title="모의계좌 등록하기">
-      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-5">
+      <form onSubmit={handleSubmit(onValidate)} className="flex flex-col gap-5">
         <Input.Control<TNewAccount>
           control={control}
           name="accountNumber"
@@ -59,6 +77,7 @@ const VMyAccountNew = () => {
             pattern: FormPattern.ACCOUNT_NUMBER,
           }}
           type="number"
+          readOnly={isAccountValid}
         />
         <Input.Control<TNewAccount>
           control={control}
@@ -69,6 +88,7 @@ const VMyAccountNew = () => {
             required: EErrorMessage.REQUIRED,
           }}
           type="text"
+          readOnly={isAccountValid}
         />
         <Input.Control<TNewAccount>
           control={control}
@@ -79,11 +99,17 @@ const VMyAccountNew = () => {
             required: EErrorMessage.REQUIRED,
           }}
           type="password"
+          readOnly={isAccountValid}
         />
-        <Button outline type="button" onClick={onValidate}>
+        <Button outline disabled={isAccountValid}>
           검증하기
         </Button>
-        <Button primary type="submit" disabled={!isAccountValid}>
+        <Button
+          primary
+          type="button"
+          disabled={!isAccountValid}
+          onClick={onAddNewAccount}
+        >
           추가하기
         </Button>
       </form>

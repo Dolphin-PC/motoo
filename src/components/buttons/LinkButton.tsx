@@ -9,7 +9,7 @@ type TProps = TButtonProps & {
   warning?: boolean | (() => boolean);
 };
 
-const LinkButton = (props: TProps) => {
+const LinkButton = (props: TProps): React.ReactNode => {
   return (
     <Link href={props.href}>
       <div className="flex items-center rounded-md pr-2 ">

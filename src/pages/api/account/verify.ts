@@ -1,5 +1,5 @@
 import { TNewAccount } from "@/app/v/my/account/new/page";
-import { AccountInfo, EAccountType } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/pages/model/AccountInfo";
 import {
   TIssueTokenRes,
   TIssueTokenResError,
@@ -7,7 +7,7 @@ import {
 import { issueAppToken } from "@/pages/service/token/TokenService";
 import { ValidationError, validateOrReject } from "class-validator";
 import { NextApiRequest, NextApiResponse } from "next";
-import { CResponse, EnumResonseMessage } from "..";
+import { CResponse, EnumResonseMessage, ResInvalid, ResOk } from "..";
 import { AxiosError } from "axios";
 import { getMessageFromValidaionError } from "@/lib/util/util";
 
@@ -20,37 +20,19 @@ export default async function POST(
   try {
     const data = await issueAppToken({ accountNumber, appKey, appSecret });
 
-    res.status(200).json(
-      new CResponse({
-        message: EnumResonseMessage.ACCOUNT_SUCCESS,
-        body: data,
-      })
-    );
+    res.status(200).json(ResOk(data, EnumResonseMessage.ACCOUNT_SUCCESS));
   } catch (error) {
     if (error instanceof AxiosError) {
       const errorData = error.response?.data as TIssueTokenResError;
 
       // console.log(errorData);
-      res.status(403).json(
-        new CResponse({
-          message: errorData.error_description,
-          error: errorData,
-        })
-      );
+      res.status(403).json(ResInvalid(errorData, errorData.error_description));
     } else if (error instanceof ValidationError) {
-      res.status(400).json(
-        new CResponse({
-          message: getMessageFromValidaionError(error),
-          error: error,
-        })
-      );
+      res
+        .status(400)
+        .json(ResInvalid(error, getMessageFromValidaionError(error)));
     } else {
-      res.status(400).json(
-        new CResponse({
-          message: EnumResonseMessage.ACCOUNT_FAIL,
-          error: error,
-        })
-      );
+      res.status(400).json(ResInvalid(error, EnumResonseMessage.ACCOUNT_FAIL));
     }
   }
 }

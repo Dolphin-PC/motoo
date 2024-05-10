@@ -1,4 +1,7 @@
-import { AccountInfo, EAccountType } from "@/pages/model/AccountInfo";
+import {
+  AccountInfo,
+  AccountInfoValidatorGroups,
+} from "@/pages/model/AccountInfo";
 import { TIssueTokenReq, TIssueTokenRes, TRevokeTokenReq } from "./TokenDao";
 import { fetchHelper, axiosPost } from "@/lib/api/helper";
 import { TNewAccount } from "@/app/v/my/account/new/page";
@@ -11,13 +14,14 @@ export const issueAppToken = async ({
 }: TNewAccount): Promise<TIssueTokenRes> => {
   const accountInfo = new AccountInfo();
 
-  accountInfo.type = EAccountType.VERIFY_ACCOUNT;
   accountInfo.accountNumber = accountNumber;
   accountInfo.appKey = appKey;
   accountInfo.appSecret = appSecret;
 
-  await validateOrReject(accountInfo).catch((errors: ValidationError[]) => {
-    console.log(errors);
+  await validateOrReject(accountInfo, {
+    groups: [AccountInfoValidatorGroups.verify],
+  }).catch((errors: ValidationError[]) => {
+    // console.log(errors);
     throw errors[0];
   });
 
