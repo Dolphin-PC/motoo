@@ -1,7 +1,7 @@
 // pages/api/login.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "@/pages/model/User";
-import { loginUser } from "@/pages/service/UserService";
+import { loginUser } from "@/pages/service/user/UserService";
 
 export type TSignInRes = {
   token: string;

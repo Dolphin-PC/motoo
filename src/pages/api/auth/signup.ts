@@ -1,7 +1,7 @@
 // pages/api/signup.ts
 import { NextApiRequest, NextApiResponse } from "next";
-import { CResponse } from "..";
-import { createUser } from "@/pages/service/UserService";
+import { CResponse, ResInvalid, ResOk } from "..";
+import { createUser } from "@/pages/service/user/UserService";
 import { User } from "@/pages/model/User";
 
 export type TSignUpReq = {
@@ -23,12 +23,10 @@ export default async function POST(
     }
 
     const user = await createUser(email, password);
-    res
-      .status(200)
-      .json(new CResponse({ message: "User created", body: user }));
+    res.status(200).json(ResOk(user, "User created"));
   } catch (error) {
     if (error instanceof Error) {
-      res.status(400).json({ message: error.message, error: error });
+      res.status(400).json(ResInvalid(error, error.message));
     }
   }
 }

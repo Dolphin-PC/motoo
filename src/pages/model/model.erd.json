@@ -4,8 +4,8 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -606.5001,
-    "scrollLeft": -672,
+    "scrollTop": -337,
+    "scrollLeft": 0,
     "zoomLevel": 1,
     "show": 511,
     "database": 1,
@@ -1856,7 +1856,7 @@
         "comment": "",
         "dataType": "INT",
         "default": "",
-        "options": 8,
+        "options": 9,
         "ui": {
           "keys": 2,
           "widthName": 60,
@@ -1865,7 +1865,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715063744654,
+          "updateAt": 1715348943268,
           "createAt": 1715063744652
         }
       },
@@ -1874,7 +1874,7 @@
         "tableId": "k0eCzfrS-PaWA38V2Spci",
         "name": "account_number",
         "comment": "계좌번호",
-        "dataType": "INT",
+        "dataType": "VARCHAR",
         "default": "",
         "options": 14,
         "ui": {
@@ -1885,7 +1885,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715068384443,
+          "updateAt": 1715351047045,
           "createAt": 1715063869769
         }
       },
@@ -1934,7 +1934,7 @@
         "tableId": "3D2qEnp-lwyIeO4l6KQ6V",
         "name": "account_number",
         "comment": "계좌번호",
-        "dataType": "INT",
+        "dataType": "VARCHAR",
         "default": "",
         "options": 8,
         "ui": {
@@ -1945,7 +1945,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715224265243,
+          "updateAt": 1715351047045,
           "createAt": 1715224265242
         }
       },
@@ -1974,7 +1974,7 @@
         "tableId": "xvEkNp-vp5bsmBc3Ltkw3",
         "name": "account_number",
         "comment": "계좌번호",
-        "dataType": "INT",
+        "dataType": "VARCHAR",
         "default": "",
         "options": 8,
         "ui": {
@@ -1985,7 +1985,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715224508620,
+          "updateAt": 1715351047045,
           "createAt": 1715224508620
         }
       },
@@ -1994,7 +1994,7 @@
         "tableId": "V3HD6i997iJ939dAgG6tN",
         "name": "account_number",
         "comment": "계좌번호",
-        "dataType": "INT",
+        "dataType": "VARCHAR",
         "default": "",
         "options": 12,
         "ui": {
@@ -2005,7 +2005,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715227971756,
+          "updateAt": 1715351047045,
           "createAt": 1715224543357
         }
       },
@@ -2014,7 +2014,7 @@
         "tableId": "tsdlZSCoQTWI-xdUnCSNa",
         "name": "account_number",
         "comment": "계좌번호",
-        "dataType": "INT",
+        "dataType": "VARCHAR",
         "default": "",
         "options": 12,
         "ui": {
@@ -2025,7 +2025,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715227976973,
+          "updateAt": 1715351047045,
           "createAt": 1715224616176
         }
       },
@@ -2034,7 +2034,7 @@
         "tableId": "_x2akbc4rSYkh2TFzWn3P",
         "name": "account_number",
         "comment": "계좌번호",
-        "dataType": "INT",
+        "dataType": "VARCHAR",
         "default": "",
         "options": 12,
         "ui": {
@@ -2045,7 +2045,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715227975982,
+          "updateAt": 1715351047045,
           "createAt": 1715224617947
         }
       },
@@ -2657,34 +2657,6 @@
         "meta": {
           "updateAt": 1714483556288,
           "createAt": 1714483556288
-        }
-      },
-      "j_kL3EPLUw25YQMYXeT5f": {
-        "id": "j_kL3EPLUw25YQMYXeT5f",
-        "identification": false,
-        "relationshipType": 4,
-        "startRelationshipType": 2,
-        "start": {
-          "tableId": "h8vGCK1gABaA_577hYF1f",
-          "columnIds": [
-            "VUWh0ZSyI03c0X_f5VTVU"
-          ],
-          "x": 1444.6666,
-          "y": 924.7235,
-          "direction": 1
-        },
-        "end": {
-          "tableId": "V3HD6i997iJ939dAgG6tN",
-          "columnIds": [
-            "ig7KlQwZCz6l50YLsdSuZ"
-          ],
-          "x": 1234.1667,
-          "y": 1270.6427,
-          "direction": 2
-        },
-        "meta": {
-          "updateAt": 1714748122009,
-          "createAt": 1714748122009
         }
       },
       "dV2s0pPikuvuJ_iruWtUV": {
@@ -4385,12 +4357,6 @@
         "options(unique)": 1715227972607
       }
     ],
-    "j_kL3EPLUw25YQMYXeT5f": [
-      "relationshipEntities",
-      1715226414590,
-      1715227528649,
-      {}
-    ],
     "pps18Tp4mxm24bGGHrJd7": [
       "tableColumnEntities",
       1714748130686,
@@ -4476,7 +4442,8 @@
         "name": 1715063744649,
         "dataType": 1715063744649,
         "default": 1715063744649,
-        "comment": 1715063744649
+        "comment": 1715063744649,
+        "options(autoIncrement)": 1715348943267
       }
     ],
     "dV2s0pPikuvuJ_iruWtUV": [
@@ -4491,7 +4458,7 @@
       -1,
       {
         "name": 1715063886449,
-        "dataType": 1715068384443,
+        "dataType": 1715351047043,
         "options(notNull)": 1715063891753,
         "options(unique)": 1715063898092,
         "comment": 1715063901927,
@@ -4523,7 +4490,7 @@
       {
         "options(notNull)": 1715224265215,
         "name": 1715224265215,
-        "dataType": 1715224265215,
+        "dataType": 1715351047043,
         "default": 1715224265215,
         "comment": 1715224265215
       }
@@ -4559,7 +4526,7 @@
       {
         "options(notNull)": 1715224508602,
         "name": 1715224508602,
-        "dataType": 1715224508602,
+        "dataType": 1715351047043,
         "default": 1715224508602,
         "comment": 1715224508602
       }
@@ -4577,7 +4544,7 @@
       {
         "options(notNull)": 1715224543331,
         "name": 1715224543331,
-        "dataType": 1715224543331,
+        "dataType": 1715351047043,
         "default": 1715224543331,
         "comment": 1715224543331,
         "options(unique)": 1715227971755
@@ -4596,7 +4563,7 @@
       {
         "options(notNull)": 1715224616149,
         "name": 1715224616149,
-        "dataType": 1715224616149,
+        "dataType": 1715351047043,
         "default": 1715224616149,
         "comment": 1715224616149,
         "options(unique)": 1715227976972
@@ -4615,7 +4582,7 @@
       {
         "options(notNull)": 1715224617927,
         "name": 1715224617927,
-        "dataType": 1715224617927,
+        "dataType": 1715351047043,
         "default": 1715224617927,
         "comment": 1715224617927,
         "options(unique)": 1715227975982

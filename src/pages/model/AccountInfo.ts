@@ -1,9 +1,8 @@
-import { AmountMoney } from "@prisma/client";
+import { AmountMoney, AccountInfo as P_AccountInfo } from "@prisma/client";
 import { Notice } from "./Notice";
 import { StockOrderHistory } from "./StockOrderHistory";
 import { AmountStock } from "./AmountStock";
 import { LikeStock } from "./LikeStock";
-import { BaseModel } from "./Base";
 
 import {
   IsInt,
@@ -28,7 +27,8 @@ export enum AccountInfoValidatorGroups {
 
 // 사용자 토큰 정보
 export class AccountInfo {
-  id?: number;
+  @IsInt({ always: true })
+  id: number;
 
   @IsNumberString()
   @MinLength(10, {
@@ -36,7 +36,9 @@ export class AccountInfo {
   })
   accountNumber: string;
 
-  @IsBoolean({ groups: [AccountInfoValidatorGroups.edit] })
+  @IsBoolean({
+    groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.edit],
+  })
   defaultAccountYn: boolean;
 
   @IsDate()
@@ -64,27 +66,40 @@ export class AccountInfo {
   constructor() {}
 
   static from(data: any) {
-    let a = new AccountInfo();
+    let o = new AccountInfo();
 
     data = convertObjectPropertiesSnakeCaseToCamelCase(data);
 
-    a.id = data.id;
+    o.id = data.id;
 
-    a.accountNumber = data.accountNumber;
-    a.defaultAccountYn = data.defaultAccountYn;
-    a.accountExpiredAt = data.accountExpiredAt;
+    o.accountNumber = data.accountNumber;
+    o.defaultAccountYn = data.defaultAccountYn;
+    o.accountExpiredAt = data.accountExpiredAt;
 
-    a.appKey = data.appKey;
-    a.appSecret = data.appSecret;
-    a.apiToken = data.apiToken;
-    a.apiTokenExpiredAt = data.apiTokenExpiredAt;
+    o.appKey = data.appKey;
+    o.appSecret = data.appSecret;
+    o.apiToken = data.apiToken;
+    o.apiTokenExpiredAt = data.apiTokenExpiredAt;
 
-    a.noticeList = data?.notice;
-    a.stockOrderHistoryList = data?.stockOrderHistoryList;
-    a.amountMoneyList = data?.amountMoneyList;
-    a.amountStockList = data?.amountStockList;
-    a.likeStockList = data?.likeStockList;
+    o.noticeList = data?.notice;
+    o.stockOrderHistoryList = data?.stockOrderHistoryList;
+    o.amountMoneyList = data?.amountMoneyList;
+    o.amountStockList = data?.amountStockList;
+    o.likeStockList = data?.likeStockList;
 
-    return a;
+    return o;
+  }
+
+  toPrisma() {
+    return {
+      id: this.id,
+      account_number: +this.accountNumber,
+      default_account_yn: this.defaultAccountYn,
+      account_expired_at: this.accountExpiredAt ?? null,
+      app_key: this.appKey,
+      app_secret: this.appSecret,
+      api_token: this.apiToken ?? null,
+      api_token_expired_at: this.apiTokenExpiredAt ?? null,
+    };
   }
 }

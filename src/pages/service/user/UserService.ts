@@ -1,7 +1,7 @@
 import bcrypt from "bcrypt";
-import { User } from "../model/User";
-import { prisma } from "./prismaClient";
-import { AccountInfo } from "../model/AccountInfo";
+import { User } from "../../model/User";
+import { prisma } from "../prismaClient";
+import { AccountInfo } from "../../model/AccountInfo";
 
 export const createUser = async (
   email: string,

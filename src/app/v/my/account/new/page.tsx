@@ -24,10 +24,7 @@ export type TNewAccount = {
 const formOptions = {
   resolver: classValidatorResolver(AccountInfo, {
     validator: {
-      groups: [
-        AccountInfoValidatorGroups.verify,
-        AccountInfoValidatorGroups.new,
-      ],
+      groups: [AccountInfoValidatorGroups.verify],
     },
   }),
 };

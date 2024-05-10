@@ -71,6 +71,20 @@ export const convertObjectPropertiesSnakeCaseToCamelCase = (
   return convertedObject;
 };
 
+export const convertObjectPropertiesCamelCaseToSnakeCase = (
+  obj: Record<string, any>
+): Record<string, any> => {
+  const convertedObject: Record<string, any> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    const snakeCaseKey = key.replace(
+      /[A-Z]/g,
+      (match) => `_${match.toLowerCase()}`
+    );
+    convertedObject[snakeCaseKey] = value;
+  }
+  return convertedObject;
+};
+
 export const getMessageFromValidaionError = (error: ValidationError) => {
   if (error.constraints) {
     return Object.values(error.constraints)[0];

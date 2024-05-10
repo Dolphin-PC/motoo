@@ -2,7 +2,7 @@ import Button from "@/components/buttons/Button";
 import InnerLayout from "@/components/layout/InnerLayout";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { AccountInfo } from "@/pages/model/AccountInfo";
-import { getAccountInfoListByUserId } from "@/pages/service/UserService";
+import { getAccountInfoListByUserId } from "@/pages/service/user/UserService";
 import { getServerSession } from "next-auth";
 import React from "react";
 
