@@ -1,4 +1,5 @@
 import { AccountInfo } from "@/pages/model/AccountInfo";
+import { ValidationError } from "class-validator";
 import { Session } from "next-auth";
 import { SessionContextValue } from "next-auth/react";
 import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
@@ -68,4 +69,11 @@ export const convertObjectPropertiesSnakeCaseToCamelCase = (
   }
 
   return convertedObject;
+};
+
+export const getMessageFromValidaionError = (error: ValidationError) => {
+  if (error.constraints) {
+    return Object.values(error.constraints)[0];
+  }
+  return "Is not exists at validation error";
 };

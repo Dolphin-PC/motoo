@@ -3,8 +3,8 @@
 import Input from "@/components/Input";
 import Button from "@/components/buttons/Button";
 import InnerLayout from "@/components/layout/InnerLayout";
+import { fetchHelper, fetchHelperWithData } from "@/lib/api/helper";
 import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
-import { fetchHelper } from "@/lib/util/util";
 import { AccountInfo } from "@/pages/model/AccountInfo";
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -31,13 +31,13 @@ const VMyAccountNew = () => {
     const { accountNumber, appKey, appSecret } = getValues();
     // TODO 계좌인증하고, 토큰 발급받기
 
-    const res = await fetchHelper<TNewAccount>({
+    const data = await fetchHelperWithData<TNewAccount>({
       url: "/api/account/verify",
       data: { accountNumber, appKey, appSecret },
       method: "POST",
     });
 
-    const data = await res.json();
+    // const data = await res.json();
 
     console.log(data);
   };

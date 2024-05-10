@@ -35,7 +35,7 @@ export class AccountInfo {
   id?: number;
 
   @MinLength(10)
-  accountNumber: number;
+  accountNumber: string;
 
   @ValidateIf(validateIf.verifyAccount)
   @IsBoolean()
