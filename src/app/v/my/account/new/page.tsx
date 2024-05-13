@@ -16,6 +16,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
 
 export type TNewAccount = {
   accountNumber: AccountInfo["accountNumber"];
@@ -68,7 +70,7 @@ const VMyAccountNew = () => {
       method: "POST",
     }).then((res) => {
       alert(res.message);
-      router.back();
+      router.replace("/v/my/account");
     });
   };
 
@@ -80,10 +82,6 @@ const VMyAccountNew = () => {
           name="accountNumber"
           displayName="계좌번호"
           placeholder="계좌번호를 입력해주세요."
-          // rules={{
-          //   required: EErrorMessage.REQUIRED,
-          //   pattern: FormPattern.ACCOUNT_NUMBER,
-          // }}
           type="number"
           readOnly={isAccountValid}
         />
@@ -103,12 +101,27 @@ const VMyAccountNew = () => {
           name="appSecret"
           //   displayName="계좌번호"
           placeholder="한국투자증권에서 발급받은 APP_SECRET을 입력해주세요."
-          // rules={{
-          //   required: EErrorMessage.REQUIRED,
-          // }}
           type="password"
           readOnly={isAccountValid}
         />
+
+        <div className="flex flex-col">
+          <div className="flex gap-2">
+            <Image src="/icons/check.svg" width={24} height={24} alt="check" />
+            <p>확인해주세요.</p>
+          </div>
+          <p>
+            <Link
+              href="https://securities.koreainvestment.com/main/customer/systemdown/RestAPIService.jsp"
+              className="underline"
+              target="_blank"
+            >
+              한국투자증권
+            </Link>
+            에서 발급받은 모의투자계좌정보를 입력해주세요.
+          </p>
+        </div>
+
         <Button outline disabled={isAccountValid}>
           검증하기
         </Button>

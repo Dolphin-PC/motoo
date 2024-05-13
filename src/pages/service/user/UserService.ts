@@ -59,15 +59,3 @@ export const loginUser = async (
 
   return res;
 };
-
-export const getAccountInfoListByUserId = async (
-  userId: number
-): Promise<AccountInfo[]> => {
-  const accountInfoList = await prisma.accountInfo.findMany({
-    where: {
-      user_id: userId,
-    },
-  });
-
-  return accountInfoList.map((accountInfo) => AccountInfo.from(accountInfo));
-};

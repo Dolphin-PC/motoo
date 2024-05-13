@@ -20,6 +20,14 @@ export const saveNewAccount = async (
     throw new Error("이미 등록된 계좌입니다.");
   }
 
+  const accountListByUserId = await prisma.accountInfo.findMany({
+    where: {
+      user_id: accountInfo.user_id,
+    },
+  });
+
+  if (accountListByUserId.length == 0) accountInfo.defaultAccountYn = true;
+
   const newAccountInfo = await prisma.accountInfo.create({
     data: accountInfo.toPrisma(),
   });
@@ -35,4 +43,16 @@ export const getAccountInfo = async (accountNumber: string) => {
   });
 
   return accountInfo;
+};
+
+export const getAccountInfoListByUserId = async (
+  userId?: number
+): Promise<AccountInfo[]> => {
+  const accountInfoList = await prisma.accountInfo.findMany({
+    where: {
+      user_id: userId,
+    },
+  });
+
+  return accountInfoList.map((accountInfo) => AccountInfo.from(accountInfo));
 };

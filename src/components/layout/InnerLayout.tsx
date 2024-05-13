@@ -6,6 +6,7 @@ import Button from "../buttons/Button";
 type TProps = {
   children: React.ReactNode;
   title: string;
+  option?: React.ReactNode;
 };
 
 const InnerLayout = (props: TProps) => {
@@ -20,7 +21,7 @@ const InnerLayout = (props: TProps) => {
           </Button>
         </div>
         <div className="w-8/12 text-center">{props.title}</div>
-        <div className="w-2/12"></div>
+        <div className="w-2/12">{props.option}</div>
       </div>
       <main className="pt-3">{props.children}</main>
     </div>

@@ -6,7 +6,7 @@ import LinkButton from "./LinkButton";
 export type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   primary?: Boolean;
   outline?: Boolean;
-  children: string;
+  children: React.ReactNode;
   className?: string;
 };
 
@@ -18,22 +18,24 @@ const Button = ({
   ...props
 }: TButtonProps): React.ReactNode => {
   return (
-    <button
-      {...props}
-      className={`p-2 rounded-md w-full ${className ? className : ""}
-      ${primary ? "bg-primary-500 text-white" : ""}
-      ${
-        outline
-          ? "bg-white text-primary-500 border-solid border-primary-500 border-2"
-          : ""
-      }
-      ${props.disabled ? "opacity-50" : ""}
-      `}
+    <div
+      className={clsx(
+        "p-2 rounded-md w-full text-center text-primary-500",
+        className,
+        { "bg-primary-500 text-white": primary },
+        {
+          "bg-white text-primary-500 border-solid border-primary-500 border-2":
+            outline,
+        },
+        { "opacity-50": props.disabled }
+      )}
     >
-      {props.type == "submit" && typeof children == "string"
-        ? children.toUpperCase()
-        : children}
-    </button>
+      <button className={"w-full"} {...props}>
+        {props.type == "submit" && typeof children == "string"
+          ? children.toUpperCase()
+          : children}
+      </button>
+    </div>
   );
 };
 Button.Logout = LogoutButton;

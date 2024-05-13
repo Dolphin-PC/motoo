@@ -19,7 +19,7 @@ export const fetchHelper = <T>({
   method,
 }: {
   url: string;
-  data: T;
+  data?: T;
   method: "GET" | "POST" | "PUT" | "DELETE";
 }) => {
   return fetch(url, {
@@ -35,14 +35,14 @@ export const fetchHelperWithData = async <T, R>({
   method,
 }: {
   url: string;
-  data: T;
+  data?: T;
   method: "GET" | "POST" | "PUT" | "DELETE";
 }): Promise<CResponse<R>> => {
   return new Promise((resolve, reject) => {
     fetchHelper<T>({ url, data, method })
       .then(async (res) => {
         let responseData = (await res.json()) as CResponse<R>;
-        console.log(responseData);
+        // console.log(responseData);
 
         if (responseData.status == EnumCResponseStatus.INVALID) {
           throw responseData;

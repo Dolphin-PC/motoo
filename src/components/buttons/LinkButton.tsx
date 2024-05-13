@@ -12,11 +12,15 @@ type TProps = TButtonProps & {
 const LinkButton = (props: TProps): React.ReactNode => {
   return (
     <Link href={props.href}>
-      <div className="flex items-center rounded-md pr-2 ">
-        <Button className="text-left">{props.children}</Button>
-        {props.warning && <Warning />}
-        <RightChevron />
-      </div>
+      <Button {...props}>
+        <div className="flex items-center justify-between">
+          {props.children}
+          <div className="flex">
+            {props.warning && <Warning />}
+            <RightChevron />
+          </div>
+        </div>
+      </Button>
     </Link>
   );
 };

@@ -1,5 +1,5 @@
 import Button from "@/components/buttons/Button";
-import Card from "@/components/Card";
+import Card from "@/components/card/Card";
 import Link from "next/link";
 
 export default async function Home() {
