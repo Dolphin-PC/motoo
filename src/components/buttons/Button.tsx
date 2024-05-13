@@ -31,9 +31,7 @@ const Button = ({
       )}
     >
       <button className={"w-full"} {...props}>
-        {props.type == "submit" && typeof children == "string"
-          ? children.toUpperCase()
-          : children}
+        {children}
       </button>
     </div>
   );

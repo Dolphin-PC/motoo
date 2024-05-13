@@ -6,17 +6,17 @@ import Warning from "@/assets/icons/warning.svg";
 
 type TProps = TButtonProps & {
   href: string;
-  warning?: boolean | (() => boolean);
+  warning?: boolean;
 };
 
-const LinkButton = (props: TProps): React.ReactNode => {
+const LinkButton = ({ href, warning, ...props }: TProps): React.ReactNode => {
   return (
-    <Link href={props.href}>
+    <Link href={href}>
       <Button {...props}>
         <div className="flex items-center justify-between">
           {props.children}
           <div className="flex">
-            {props.warning && <Warning />}
+            {warning && <Warning />}
             <RightChevron />
           </div>
         </div>

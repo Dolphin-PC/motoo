@@ -30,6 +30,8 @@ export const getUserTokenInfo = (
   let app_key = null;
   let app_secret = null;
 
+  // console.log(session.user);
+
   let currentAccount = session.user.accountInfoList?.filter((account) => {
     return account.defaultAccountYn === true;
   })[0];
