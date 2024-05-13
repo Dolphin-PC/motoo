@@ -4,8 +4,9 @@ import Button from "@/components/buttons/Button";
 import LinkButton from "@/components/buttons/LinkButton";
 import LogoutButton from "@/components/buttons/LogoutButton";
 import { fetchHelperWithData } from "@/lib/api/helper";
+import { EnumCResponseStatus } from "@/pages/api";
 import { AccountInfo } from "@/pages/model/AccountInfo";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const MyPage = () => {
@@ -37,6 +38,25 @@ const MyPage = () => {
     }
     return { appKey, appSecret };
   };
+
+  const onDeleteUser = async () => {
+    if (!confirm("계정을 삭제하시겠습니까?")) return;
+
+    if (status == "authenticated") {
+      const { id } = session.user;
+      const resData = await fetchHelperWithData<null, null>({
+        method: "DELETE",
+        url: `/api/user/${id}`,
+      });
+
+      if (resData.status === EnumCResponseStatus.SUCCESS) {
+        alert(resData.message);
+        signOut();
+      }
+
+      console.log(resData);
+    }
+  };
   useEffect(() => {
     fetchAccountInfo().then((res) => {
       if (res) {
@@ -56,7 +76,12 @@ const MyPage = () => {
             내 모의계좌 관리
           </LinkButton>
           {/* <LinkButton href="/v/my/profile">계좌 전환하기</LinkButton> */}
-          <Button outline>계정 삭제하기</Button>
+          <Button
+            className="text-danger-500 border-danger-500 border-2"
+            onClick={onDeleteUser}
+          >
+            계정 삭제하기
+          </Button>
         </div>
       </section>
       <LogoutButton className="bg-primary-500 text-white">

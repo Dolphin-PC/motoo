@@ -14,6 +14,7 @@ export class User extends BaseModel {
   name?: string;
   lastLoginAt: Date;
   createdAt: Date;
+  deleteYn: boolean;
 
   noticeList?: Notice[];
   accountInfoList?: AccountInfo[];
@@ -29,5 +30,6 @@ export class User extends BaseModel {
     this.name = data?.name;
     this.lastLoginAt = data.lastLoginAt ?? new Date();
     this.createdAt = data.createdAt ?? new Date();
+    this.deleteYn = data.deleteYn ?? false;
   }
 }

@@ -20,17 +20,17 @@ const Button = ({
   return (
     <div
       className={clsx(
-        "p-2 rounded-md w-full text-center text-primary-500",
-        className,
+        "rounded-md w-full text-center",
         { "bg-primary-500 text-white": primary },
         {
           "bg-white text-primary-500 border-solid border-primary-500 border-2":
             outline,
         },
-        { "opacity-50": props.disabled }
+        { "opacity-50": props.disabled },
+        className
       )}
     >
-      <button className={"w-full"} {...props}>
+      <button className={"p-2 w-full"} {...props}>
         {children}
       </button>
     </div>
