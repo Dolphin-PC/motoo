@@ -10,10 +10,12 @@ import {
   AccountInfo,
   AccountInfoValidatorGroups,
 } from "@/pages/model/AccountInfo";
+import { AccountInfo as P_AccountInfo } from "@prisma/client";
 import { TIssueTokenRes } from "@/pages/service/token/TokenDao";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
+import { useRouter } from "next/navigation";
 
 export type TNewAccount = {
   accountNumber: AccountInfo["accountNumber"];
@@ -35,6 +37,8 @@ const VMyAccountNew = () => {
 
   const [isAccountValid, setIsAccountValid] = useState(false);
 
+  const router = useRouter();
+
   const onValidate = async (data: TNewAccount) => {
     const res = await fetchHelperWithData<
       TNewAccount,
@@ -55,10 +59,17 @@ const VMyAccountNew = () => {
     setIsAccountValid(true);
   };
 
-  const onAddNewAccount = () => {
+  const onAddNewAccount = async () => {
     const { accountNumber, appKey, appSecret } = getValues();
 
-    console.log(accountNumber, appKey, appSecret);
+    fetchHelperWithData<TNewAccount, P_AccountInfo>({
+      url: "/api/account/new",
+      data: { accountNumber, appKey, appSecret },
+      method: "POST",
+    }).then((res) => {
+      alert(res.message);
+      router.back();
+    });
   };
 
   return (
@@ -69,10 +80,10 @@ const VMyAccountNew = () => {
           name="accountNumber"
           displayName="계좌번호"
           placeholder="계좌번호를 입력해주세요."
-          rules={{
-            required: EErrorMessage.REQUIRED,
-            pattern: FormPattern.ACCOUNT_NUMBER,
-          }}
+          // rules={{
+          //   required: EErrorMessage.REQUIRED,
+          //   pattern: FormPattern.ACCOUNT_NUMBER,
+          // }}
           type="number"
           readOnly={isAccountValid}
         />
@@ -92,9 +103,9 @@ const VMyAccountNew = () => {
           name="appSecret"
           //   displayName="계좌번호"
           placeholder="한국투자증권에서 발급받은 APP_SECRET을 입력해주세요."
-          rules={{
-            required: EErrorMessage.REQUIRED,
-          }}
+          // rules={{
+          //   required: EErrorMessage.REQUIRED,
+          // }}
           type="password"
           readOnly={isAccountValid}
         />

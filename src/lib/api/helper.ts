@@ -1,4 +1,4 @@
-import { CResponse } from "@/pages/api";
+import { CResponse, EnumCResponseStatus } from "@/pages/api";
 import axios, { AxiosRequestConfig } from "axios";
 
 export type TResponse<T> = {
@@ -42,9 +42,21 @@ export const fetchHelperWithData = async <T, R>({
     fetchHelper<T>({ url, data, method })
       .then(async (res) => {
         let responseData = (await res.json()) as CResponse<R>;
+        console.log(responseData);
+
+        if (responseData.status == EnumCResponseStatus.INVALID) {
+          throw responseData;
+        }
+
         resolve(responseData);
       })
-      .catch((err) => reject(err));
+      .catch((err) => {
+        console.error(err);
+        // err객체내부에 Error객체가 있다면, Error객체의 message를 출력하고
+        // 그 외의 경우에는 err.message가 있다면, 출력
+        alert(err?.error?.message || err?.message);
+        reject(err);
+      });
   });
 };
 

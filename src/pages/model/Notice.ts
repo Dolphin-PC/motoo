@@ -3,7 +3,7 @@ import { BaseModel } from "./Base";
 
 // 사용자 알림
 export class Notice extends BaseModel {
-  id: number;
+  userId: number;
   @MinLength(10)
   accountNumber: number;
 
@@ -14,7 +14,7 @@ export class Notice extends BaseModel {
 
   constructor(data: any) {
     data = super(data);
-    this.id = data.id;
+    this.userId = data.user_id;
     this.accountNumber = data.account_number;
 
     this.message = data?.message;

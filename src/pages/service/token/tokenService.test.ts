@@ -1,6 +1,6 @@
 import { issueAppToken } from "./TokenService";
 
-describe.skip("tokenService", () => {
+describe("tokenService", () => {
   it("should return a token (1분 간격)", async () => {
     // given
     let accountNumber = "3123213213213";

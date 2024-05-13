@@ -8,12 +8,16 @@ const createJestConfig = nextJest({
 
 // Add any custom config to be passed to Jest
 const config: Config = {
+  displayName: {
+    name: "TEST",
+    color: "blue",
+  },
   coverageProvider: "v8",
-  testEnvironment: "jsdom",
+  testEnvironment: "node",
   moduleNameMapper: {
     "^@/components/(.*)$": "<rootDir>/components/$1",
   },
-  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
+  setupFilesAfterEnv: ["<rootDir>/jest/jest.setup.ts"],
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
 };

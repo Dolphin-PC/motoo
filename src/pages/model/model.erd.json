@@ -4,7 +4,7 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -337,
+    "scrollTop": -230.4999,
     "scrollLeft": 0,
     "zoomLevel": 1,
     "show": 511,
@@ -106,8 +106,8 @@
         "name": "account_info",
         "comment": "사용자 계좌 정보",
         "columnIds": [
-          "V24WHkBWV1z1kUR4mSECF",
           "1eoOYnZ-mZyXBld4wsW29",
+          "V24WHkBWV1z1kUR4mSECF",
           "d_cQwYC1uDOguzHfToyAR",
           "km866VcURj5R7eA86vY-5",
           "if8C6OseGa2BIiSxnPea8",
@@ -122,8 +122,8 @@
           "Ka5vU7yqwDtboCnRTLpVi",
           "0qXWWHKijbjM8IfGWIy03",
           "oV4s8pmFIEPNYycNMawAe",
-          "V24WHkBWV1z1kUR4mSECF",
           "1eoOYnZ-mZyXBld4wsW29",
+          "V24WHkBWV1z1kUR4mSECF",
           "d_cQwYC1uDOguzHfToyAR",
           "km866VcURj5R7eA86vY-5",
           "if8C6OseGa2BIiSxnPea8",
@@ -146,7 +146,7 @@
           "color": "#FF0000"
         },
         "meta": {
-          "updateAt": 1715224482503,
+          "updateAt": 1715564800951,
           "createAt": 1714468131883
         }
       },
@@ -1856,7 +1856,7 @@
         "comment": "",
         "dataType": "INT",
         "default": "",
-        "options": 9,
+        "options": 8,
         "ui": {
           "keys": 2,
           "widthName": 60,
@@ -1865,7 +1865,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715348943268,
+          "updateAt": 1715564918714,
           "createAt": 1715063744652
         }
       },
@@ -1885,7 +1885,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715351047045,
+          "updateAt": 1715564793588,
           "createAt": 1715063869769
         }
       },
@@ -4443,7 +4443,7 @@
         "dataType": 1715063744649,
         "default": 1715063744649,
         "comment": 1715063744649,
-        "options(autoIncrement)": 1715348943267
+        "options(autoIncrement)": 1715564918713
       }
     ],
     "dV2s0pPikuvuJ_iruWtUV": [
@@ -4462,7 +4462,7 @@
         "options(notNull)": 1715063891753,
         "options(unique)": 1715063898092,
         "comment": 1715063901927,
-        "options(primaryKey)": 1715063905210
+        "options(primaryKey)": 1715564793587
       }
     ],
     "d_cQwYC1uDOguzHfToyAR": [

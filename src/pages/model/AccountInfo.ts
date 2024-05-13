@@ -27,8 +27,8 @@ export enum AccountInfoValidatorGroups {
 
 // 사용자 토큰 정보
 export class AccountInfo {
-  @IsInt({ always: true })
-  id: number;
+  @IsInt({ groups: [AccountInfoValidatorGroups.new] })
+  user_id: number;
 
   @IsNumberString()
   @MinLength(10, {
@@ -42,7 +42,7 @@ export class AccountInfo {
   defaultAccountYn: boolean;
 
   @IsDate()
-  accountExpiredAt?: Date;
+  accountExpiredAt: Date | null;
 
   @MinLength(10, {
     groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
@@ -54,8 +54,8 @@ export class AccountInfo {
   })
   appSecret: string;
 
-  apiToken?: string;
-  apiTokenExpiredAt?: Date;
+  apiToken: string | null;
+  apiTokenExpiredAt: Date | null;
 
   noticeList?: Notice[];
   stockOrderHistoryList?: StockOrderHistory[];
@@ -70,7 +70,7 @@ export class AccountInfo {
 
     data = convertObjectPropertiesSnakeCaseToCamelCase(data);
 
-    o.id = data.id;
+    o.user_id = data.id;
 
     o.accountNumber = data.accountNumber;
     o.defaultAccountYn = data.defaultAccountYn;
@@ -90,11 +90,11 @@ export class AccountInfo {
     return o;
   }
 
-  toPrisma() {
+  toPrisma(): P_AccountInfo {
     return {
-      id: this.id,
-      account_number: +this.accountNumber,
-      default_account_yn: this.defaultAccountYn,
+      user_id: this.user_id,
+      account_number: this.accountNumber,
+      default_account_yn: this.defaultAccountYn ?? false,
       account_expired_at: this.accountExpiredAt ?? null,
       app_key: this.appKey,
       app_secret: this.appSecret,

@@ -47,7 +47,7 @@ export const loginUser = async (
   // 사용자 토큰 정보 table
   const accountInfo = await prisma.accountInfo.findFirst({
     where: {
-      id: user.id,
+      user_id: user.id,
       default_account_yn: true,
     },
   });
@@ -65,7 +65,7 @@ export const getAccountInfoListByUserId = async (
 ): Promise<AccountInfo[]> => {
   const accountInfoList = await prisma.accountInfo.findMany({
     where: {
-      id: userId,
+      user_id: userId,
     },
   });
 

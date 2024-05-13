@@ -1,6 +1,8 @@
 "use client";
 
 import Button from "@/components/buttons/Button";
+import LinkButton from "@/components/buttons/LinkButton";
+import LogoutButton from "@/components/buttons/LogoutButton";
 import { getUserTokenInfo } from "@/lib/util/util";
 import { SessionContextValue, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -25,17 +27,17 @@ const MyPage = () => {
       <section>
         <h4>내 정보</h4>
         <div className="flex flex-col gap-2">
-          <Button.Link href="/v/my/profile">프로필 설정</Button.Link>
-          <Button.Link href="/v/my/account" warning={isAccountNull}>
+          <LinkButton href="/v/my/profile">프로필 설정</LinkButton>
+          <LinkButton href="/v/my/account" warning={isAccountNull}>
             모의계좌 등록하기
-          </Button.Link>
-          <Button.Link href="/v/my/profile">계좌 전환하기</Button.Link>
+          </LinkButton>
+          <LinkButton href="/v/my/profile">계좌 전환하기</LinkButton>
           <Button outline>계정 삭제하기</Button>
         </div>
       </section>
-      <Button.Logout className="bg-primary-500 text-white">
+      <LogoutButton className="bg-primary-500 text-white">
         로그아웃
-      </Button.Logout>
+      </LogoutButton>
     </div>
   );
 };
