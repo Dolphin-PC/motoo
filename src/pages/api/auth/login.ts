@@ -8,6 +8,15 @@ export type TSignInRes = {
   rfToken: string;
 };
 
+/**
+ * @swagger
+ * /api/auth/login:
+ *   post:
+ *     description: Returns the hello world
+ *     responses:
+ *       200:
+ *         description: hello world
+ */
 export default async function POST(req: NextApiRequest, res: NextApiResponse) {
   const { email, password }: User = req.body;
 
