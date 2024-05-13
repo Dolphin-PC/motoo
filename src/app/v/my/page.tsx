@@ -70,6 +70,7 @@ const MyPage = () => {
     <div className="flex flex-col gap-5">
       <section>
         <h4>내 정보</h4>
+        <p>{session?.user.currentAccountInfo?.accountNumber}</p>
         <div className="flex flex-col gap-2">
           <LinkButton href="/v/my/profile">프로필 설정</LinkButton>
           <LinkButton href="/v/my/account" warning={isAccountNull}>

@@ -35,7 +35,6 @@ const SignUpPage = () => {
       // console.log(resData);
       if (!res.ok || !resData.body) throw resData;
 
-      // TODO redirect to sign in page
       if (confirm("회원가입 완료, 로그인페이지로 이동합니다.")) {
         router.push("/sign-in");
       }
@@ -81,7 +80,9 @@ const SignUpPage = () => {
           }}
           type="password"
         />
-        <Button type="submit">Sign up</Button>
+        <Button primary type="submit">
+          Sign up
+        </Button>
       </form>
     </div>
   );

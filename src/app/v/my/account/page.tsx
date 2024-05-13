@@ -8,7 +8,7 @@ import { AccountInfo } from "@/pages/model/AccountInfo";
 import { fetchHelperWithData } from "@/lib/api/helper";
 
 const MyAppKeyPage = () => {
-  const { data: session } = useSession();
+  const { data: session, update } = useSession();
   const [accountInfoList, setAccountInfoList] = useState<AccountInfo[]>([]);
 
   useEffect(() => {
@@ -26,10 +26,20 @@ const MyAppKeyPage = () => {
     }
   }, [session]);
 
+  const updateCurrentAccount = async (newAccountInfo: AccountInfo) => {
+    await update({
+      ...session?.user,
+      currentAccountInfo: newAccountInfo,
+    });
+  };
+
   return (
     <InnerLayout title="내 모의계좌 관리">
       <div className="flex flex-col gap-5">
-        <AccountList accountInfoList={accountInfoList} />
+        <AccountList
+          accountInfoList={accountInfoList}
+          updateAccountInfo={updateCurrentAccount}
+        />
 
         <Button.Link primary href="account/new">
           계좌등록하기

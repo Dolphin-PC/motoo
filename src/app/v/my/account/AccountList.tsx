@@ -7,8 +7,10 @@ import React, { useEffect } from "react";
 
 const AccountList = ({
   accountInfoList,
+  updateAccountInfo,
 }: {
   accountInfoList: AccountInfo[];
+  updateAccountInfo: Function;
 }) => {
   const [selectedAccount, setSelectedAccount] = React.useState<string>("");
 
@@ -24,7 +26,10 @@ const AccountList = ({
   ) => {
     const newAccountNumber = event.target.value;
     if (confirm("기본 계좌로 설정하시겠습니까?")) {
-      await fetchHelperWithData<TChangeDefaultAccount, string>({
+      const updatedAccountInfo = await fetchHelperWithData<
+        TChangeDefaultAccount,
+        AccountInfo
+      >({
         method: "POST",
         url: "/api/account/default",
         data: {
@@ -32,6 +37,8 @@ const AccountList = ({
           newAccountNumber: newAccountNumber,
         },
       });
+
+      updateAccountInfo(updatedAccountInfo.body);
       setSelectedAccount(newAccountNumber);
     }
   };

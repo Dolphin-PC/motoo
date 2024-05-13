@@ -32,9 +32,11 @@ export const getUserTokenInfo = (
 
   // console.log(session.user);
 
-  let currentAccount = session.user.accountInfoList?.filter((account) => {
-    return account.defaultAccountYn === true;
-  })[0];
+  let currentAccount =
+    session.user.currentAccountInfo ||
+    session.user.accountInfoList?.filter((account) => {
+      return account.defaultAccountYn === true;
+    })[0];
 
   if (currentAccount) {
     app_key = currentAccount.appKey;

@@ -47,7 +47,7 @@ const RightButtons = ({
       return (
         <div className="flex gap-2">
           <Link href="/sign-in">
-            <Button outline>Sign In</Button>
+            <Button primary>Sign In</Button>
           </Link>
           <Link href="/sign-up">
             <Button>Sign Up</Button>

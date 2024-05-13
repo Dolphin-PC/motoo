@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { CResponse, ResOk } from "..";
+import { AccountInfo } from "@/pages/model/AccountInfo";
 
 export type TChangeDefaultAccount = {
   prevAccountNumber: string;
@@ -10,7 +11,7 @@ export type TChangeDefaultAccount = {
 };
 export default async function POST(
   req: NextApiRequest,
-  res: NextApiResponse<CResponse<string>>
+  res: NextApiResponse<CResponse<AccountInfo>>
 ) {
   const { prevAccountNumber, newAccountNumber }: TChangeDefaultAccount =
     req.body;
@@ -27,15 +28,17 @@ export default async function POST(
     },
   });
 
-  await prisma.accountInfo.update({
-    where: {
-      user_id: session?.user.id,
-      account_number: newAccountNumber,
-    },
-    data: {
-      default_account_yn: true,
-    },
-  });
+  const resData = AccountInfo.from(
+    await prisma.accountInfo.update({
+      where: {
+        user_id: session?.user.id,
+        account_number: newAccountNumber,
+      },
+      data: {
+        default_account_yn: true,
+      },
+    })
+  );
 
-  res.status(200).json(ResOk(newAccountNumber, "default account changed"));
+  res.status(200).json(ResOk(resData, "default account changed"));
 }

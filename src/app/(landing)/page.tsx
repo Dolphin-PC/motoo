@@ -1,6 +1,5 @@
 import Button from "@/components/buttons/Button";
 import Card from "@/components/card/Card";
-import Link from "next/link";
 
 export default async function Home() {
   return (
@@ -18,13 +17,11 @@ export default async function Home() {
             증권시장을 체험하는 서비스입니다.
           </p>
 
-          <div className="pt-4 flex gap-2">
-            <Link href="/v/main">
-              <Button className="p-2">시작하기</Button>
-            </Link>
-            <Button outline={true} className="p-2">
-              Learn More
-            </Button>
+          <div className="flex gap-2 pt-4 ">
+            <Button.Link primary href="/v/main">
+              시작하기
+            </Button.Link>
+            <Button outline={true}>Learn More</Button>
           </div>
         </div>
       </section>
