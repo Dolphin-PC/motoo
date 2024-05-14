@@ -54,7 +54,7 @@ const MyPage = () => {
         signOut();
       }
 
-      console.log(resData);
+      // console.log(resData);
     }
   };
   useEffect(() => {
@@ -68,9 +68,13 @@ const MyPage = () => {
 
   return (
     <div className="flex flex-col gap-5">
-      <section>
-        <h4>내 정보</h4>
-        <p>{session?.user.currentAccountInfo?.accountNumber}</p>
+      <section className="flex flex-col gap-5">
+        <div className="flex items-center justify-between ">
+          <h4>내 정보</h4>
+          <span className="border-2 ml-2 p-1 rounded-full text-primary-500">
+            {session?.user.currentAccountInfo?.accountNumber}
+          </span>
+        </div>
         <div className="flex flex-col gap-2">
           <LinkButton href="/v/my/profile">프로필 설정</LinkButton>
           <LinkButton href="/v/my/account" warning={isAccountNull}>
