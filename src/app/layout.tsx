@@ -7,6 +7,10 @@ import clsx from "clsx";
 import LogoSvg from "@assets/icons/main_icon.svg";
 
 const inter = Inter({ subsets: ["latin"] });
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 export const metadata: Metadata = {
   title: "Motoo",
@@ -34,7 +38,7 @@ export default function RootLayout({
               <LogoSvg className="w-20 h-20 transfrom rotate-45" />
               <h1>모투</h1>
             </aside>
-            <main className="m-auto w-full sm:w-9/12 md:w-6/12 lg:w-5/12 lg:translate-x-20 bg-white h-screen overflow-auto">
+            <main className="m-auto w-full sm:w-9/12 md:w-6/12 lg:w-5/12 lg:translate-x-20 h-screen">
               {children}
             </main>
           </div>

@@ -29,7 +29,7 @@ export const authOptions: NextAuthOptions = {
   // 각 항목의 메소드가 [성공?]했을 때의 callback함수
   callbacks: {
     signIn: async ({ user, account, profile }) => {
-      console.log("signIn", user, account, profile);
+      // console.log("signIn", user, account, profile);
 
       // TODO db last login update
       return true;
@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
       return session;
     },
     jwt: async ({ user, token, trigger, session }) => {
-      console.log("[jwt]", token);
+      // console.log("[jwt]", token);
       // console.log("[jwt]", session);
       if (trigger === "update" && session !== null) {
         token = session;

@@ -3,11 +3,11 @@ import React from "react";
 
 const AccountLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="">
-      <Header />
-      <div className="p-10">
-        <div className="">{children}</div>
+    <div className="h-full flex flex-col">
+      <div className="flex-0">
+        <Header />
       </div>
+      <div className="flex-1 p-10 bg-white">{children}</div>
       {/* <div className="w-6/12 bg-primary-500 flex items-center justify-center">
         <Image
           width={0}

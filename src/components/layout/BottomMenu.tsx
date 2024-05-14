@@ -38,7 +38,7 @@ const BottomMenu = () => {
   });
 
   return (
-    <div className="flex fixed bottom-0 w-full">
+    <div className="flex sticky bottom-0 w-full">
       {menuList.map((menu, index) => (
         <div key={index} className="flex flex-1 flex-col">
           <MenuIcon isSelect={currentMenu == menu} iconInfo={menu} />

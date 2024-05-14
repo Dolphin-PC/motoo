@@ -5,9 +5,9 @@ import { ReactElement } from "react";
 
 const layout = async ({ children }: { children: ReactElement }) => {
   return (
-    <div>
+    <div className="h-full">
       <Header />
-      <div className="p-10">{children}</div>
+      <div className="bg-white p-10">{children}</div>
       <Footer />
     </div>
   );

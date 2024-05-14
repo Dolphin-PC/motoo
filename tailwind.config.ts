@@ -336,6 +336,19 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newUtilities = {
+        ".hide-scrollbar": {
+          scrollbarWidth: "none" /* Firefox */,
+          "-ms-overflow-style": "none" /* Internet Explorer and Edge */,
+          "&::-webkit-scrollbar": {
+            /* Chrome, Safari and Opera */ display: "none",
+          },
+        },
+      };
+      addUtilities(newUtilities);
+    },
+  ],
 };
 export default config;

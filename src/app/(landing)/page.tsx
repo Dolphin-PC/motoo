@@ -4,8 +4,6 @@ import Card from "@/components/card/Card";
 export default async function Home() {
   return (
     <div className="flex flex-col gap-10">
-      <h1>Home</h1>
-
       <section className="">
         <div className="">
           <h2>모투</h2>

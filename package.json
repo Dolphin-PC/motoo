@@ -13,8 +13,12 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource/roboto": "^5.0.13",
     "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^3.3.4",
+    "@mui/material": "^5.15.17",
     "@next-auth/firebase-adapter": "0.0.2-canary.207",
     "@prisma/client": "5.13.0",
     "@reduxjs/toolkit": "^2.2.1",

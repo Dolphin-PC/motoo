@@ -6,7 +6,7 @@ import LinkButton from "./LinkButton";
 export type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   primary?: Boolean;
   outline?: Boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
 };
 
@@ -20,7 +20,7 @@ const Button = ({
   return (
     <div
       className={clsx(
-        "rounded-md w-full text-center",
+        "rounded-md text-center",
         { "bg-primary-500 text-white": primary },
         {
           "bg-white text-primary-500 border-solid border-primary-500 border-2":
