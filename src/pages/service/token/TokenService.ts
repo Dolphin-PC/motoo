@@ -6,8 +6,22 @@ import { TIssueTokenReq, TIssueTokenRes, TRevokeTokenReq } from "./TokenDao";
 import { fetchHelper, axiosPost } from "@/lib/api/helper";
 import { TNewAccount } from "@/app/v/my/account/new/page";
 import { ValidationError, validate, validateOrReject } from "class-validator";
+import { User } from "@/pages/model/User";
 
-export const issueAppToken = async ({
+/**
+ * @desc 현재 JWT의 정보를 읽고, api_token이 없거나 만료되었을 경우 새로운 api_token을 발급한다.
+ */
+export const reIssueApiToken = async (user: User) => {
+  const { appKey, appSecret, apiToken, apiTokenExpiredAt } =
+    user.currentAccountInfo!;
+
+  console.log(apiTokenExpiredAt);
+};
+
+/**
+ * @description 토큰 발급
+ */
+export const issueApiToken = async ({
   accountNumber,
   appKey,
   appSecret,
@@ -34,9 +48,14 @@ export const issueAppToken = async ({
     }
   );
 
+  res.access_token_token_expired = new Date(res.access_token_token_expired);
+
   return res;
 };
 
+/**
+ * @desc 토큰 폐기
+ */
 export const revokeAppToken = async (
   data: AccountInfo,
   token: TRevokeTokenReq["token"]

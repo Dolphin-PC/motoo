@@ -15,6 +15,7 @@ import {
   IsNumber,
   Min,
   IsNumberString,
+  IsDefined,
 } from "class-validator";
 import { verify } from "crypto";
 import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
@@ -54,7 +55,9 @@ export class AccountInfo {
   })
   appSecret: string;
 
+  // @IsDefined({ groups: [AccountInfoValidatorGroups.new] })
   apiToken: string | null;
+  // @IsDefined({ groups: [AccountInfoValidatorGroups.new] })
   apiTokenExpiredAt: Date | null;
 
   noticeList?: Notice[];
@@ -95,11 +98,11 @@ export class AccountInfo {
       user_id: this.user_id,
       account_number: this.accountNumber,
       default_account_yn: this.defaultAccountYn ?? false,
-      account_expired_at: this.accountExpiredAt ?? null,
+      account_expired_at: this.accountExpiredAt,
       app_key: this.appKey,
       app_secret: this.appSecret,
-      api_token: this.apiToken ?? null,
-      api_token_expired_at: this.apiTokenExpiredAt ?? null,
+      api_token: this.apiToken,
+      api_token_expired_at: this.apiTokenExpiredAt,
     };
   }
 }

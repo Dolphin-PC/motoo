@@ -4,7 +4,7 @@ import {
   TIssueTokenRes,
   TIssueTokenResError,
 } from "@/pages/service/token/TokenDao";
-import { issueAppToken } from "@/pages/service/token/TokenService";
+import { issueApiToken } from "@/pages/service/token/TokenService";
 import { ValidationError, validateOrReject } from "class-validator";
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, EnumResonseMessage, ResInvalid, ResOk } from "..";
@@ -18,7 +18,7 @@ export default async function POST(
   const { accountNumber, appKey, appSecret }: TNewAccount = req.body;
 
   try {
-    const data = await issueAppToken({ accountNumber, appKey, appSecret });
+    const data = await issueApiToken({ accountNumber, appKey, appSecret });
 
     res.status(200).json(ResOk(data, EnumResonseMessage.ACCOUNT_SUCCESS));
   } catch (error) {

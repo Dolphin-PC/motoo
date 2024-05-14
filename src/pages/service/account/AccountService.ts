@@ -8,7 +8,7 @@ import { AccountInfo as P_AccountInfo } from "@prisma/client";
 
 export const saveNewAccount = async (
   accountInfo: AccountInfo
-): Promise<P_AccountInfo> => {
+): Promise<AccountInfo> => {
   await validateOrReject(accountInfo, {
     groups: [AccountInfoValidatorGroups.new],
   }).catch((errors: ValidationError[]) => {
@@ -28,21 +28,26 @@ export const saveNewAccount = async (
 
   if (accountListByUserId.length == 0) accountInfo.defaultAccountYn = true;
 
+  // console.log("accountInfo.toPrisma()", accountInfo.toPrisma());
   const newAccountInfo = await prisma.accountInfo.create({
     data: accountInfo.toPrisma(),
   });
 
-  return newAccountInfo;
+  return AccountInfo.from(newAccountInfo);
 };
 
-export const getAccountInfo = async (accountNumber: string) => {
+export const getAccountInfo = async (
+  accountNumber: string
+): Promise<AccountInfo | null> => {
   const accountInfo = await prisma.accountInfo.findFirst({
     where: {
       account_number: accountNumber,
     },
   });
 
-  return accountInfo;
+  if (accountInfo == null) return null;
+
+  return AccountInfo.from(accountInfo);
 };
 
 export const getAccountInfoListByUserId = async (

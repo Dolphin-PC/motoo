@@ -34,15 +34,17 @@ export const authOptions: NextAuthOptions = {
       // TODO db last login update
       return true;
     },
+    // XXX session/jwt는 getSession(), getServerSession(), useSession() 함수실행시 호출됨
+    // https://next-auth.js.org/configuration/callbacks
     session: async ({ session, token, user }) => {
-      // console.log("[token]", token);
-      // console.log("[user]", user);
+      // console.log("[session]", session);
 
       session.user = token;
-      // console.log("[session]", session);
       return session;
     },
     jwt: async ({ user, token, trigger, session }) => {
+      console.log("[jwt]", token);
+      // console.log("[jwt]", session);
       if (trigger === "update" && session !== null) {
         token = session;
       }

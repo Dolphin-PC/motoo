@@ -10,10 +10,9 @@ import {
   AccountInfo,
   AccountInfoValidatorGroups,
 } from "@/pages/model/AccountInfo";
-import { AccountInfo as P_AccountInfo } from "@prisma/client";
 import { TIssueTokenRes } from "@/pages/service/token/TokenDao";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { UseFormProps, useForm } from "react-hook-form";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
@@ -23,29 +22,31 @@ export type TNewAccount = {
   accountNumber: AccountInfo["accountNumber"];
   appKey: AccountInfo["appKey"];
   appSecret: AccountInfo["appSecret"];
-};
-
-const formOptions = {
-  resolver: classValidatorResolver(AccountInfo, {
-    validator: {
-      groups: [AccountInfoValidatorGroups.verify],
-    },
-  }),
+  apiToken?: AccountInfo["apiToken"];
+  apiTokenExpiredAt?: AccountInfo["apiTokenExpiredAt"];
 };
 
 const VMyAccountNew = () => {
-  const { handleSubmit, control, formState, getValues } =
-    useForm<TNewAccount>(formOptions);
+  const { handleSubmit, control, formState, getValues } = useForm<AccountInfo>({
+    resolver: classValidatorResolver(AccountInfo, {
+      validator: {
+        groups: [AccountInfoValidatorGroups.verify],
+      },
+    }),
+    defaultValues: {
+      accountNumber: "",
+      appKey: "",
+      appSecret: "",
+    },
+  });
+  const [newAccountInfo, setNewAccountInfo] = useState<TNewAccount>();
 
   const [isAccountValid, setIsAccountValid] = useState(false);
 
   const router = useRouter();
 
   const onValidate = async (data: TNewAccount) => {
-    const res = await fetchHelperWithData<
-      TNewAccount,
-      CResponse<TIssueTokenRes>
-    >({
+    const res = await fetchHelperWithData<TNewAccount, TIssueTokenRes>({
       url: "/api/account/verify",
       data: data,
       method: "POST",
@@ -56,17 +57,24 @@ const VMyAccountNew = () => {
       return;
     }
 
+    setNewAccountInfo({
+      accountNumber: data.accountNumber,
+      appKey: data.appKey,
+      appSecret: data.appSecret,
+      apiToken: res.body?.access_token || null,
+      apiTokenExpiredAt: res.body?.access_token_token_expired || null,
+    });
+
     alert("정상적으로 검증이 완료되었습니다.");
 
     setIsAccountValid(true);
   };
 
   const onAddNewAccount = async () => {
-    const { accountNumber, appKey, appSecret } = getValues();
-
-    fetchHelperWithData<TNewAccount, P_AccountInfo>({
+    // console.log(newAccountInfo);
+    fetchHelperWithData<TNewAccount, AccountInfo>({
       url: "/api/account/new",
-      data: { accountNumber, appKey, appSecret },
+      data: newAccountInfo,
       method: "POST",
     }).then((res) => {
       alert(res.message);
@@ -77,7 +85,7 @@ const VMyAccountNew = () => {
   return (
     <InnerLayout title="모의계좌 등록하기">
       <form onSubmit={handleSubmit(onValidate)} className="flex flex-col gap-5">
-        <Input.Control<TNewAccount>
+        <Input.Control<AccountInfo>
           control={control}
           name="accountNumber"
           displayName="계좌번호"
@@ -85,18 +93,15 @@ const VMyAccountNew = () => {
           type="number"
           readOnly={isAccountValid}
         />
-        <Input.Control<TNewAccount>
+        <Input.Control<AccountInfo>
           control={control}
           name="appKey"
           //   displayName=""
           placeholder="한국투자증권에서 발급받은 APP_KEY를 입력해주세요."
-          rules={{
-            required: EErrorMessage.REQUIRED,
-          }}
           type="text"
           readOnly={isAccountValid}
         />
-        <Input.Control<TNewAccount>
+        <Input.Control<AccountInfo>
           control={control}
           name="appSecret"
           //   displayName="계좌번호"

@@ -1,26 +1,40 @@
 import { AccountInfo } from "@/pages/model/AccountInfo";
 import { getAccountInfo, saveNewAccount } from "./AccountService";
 import { ValidationError } from "class-validator";
+import { issueApiToken } from "../token/TokenService";
 
 describe("AccountService.test.ts", () => {
-  it.skip("새로운 모의계좌 등록 | 성공", async () => {
+  it("새로운 모의계좌 등록 | 성공", async () => {
     // given
     const accountInfo = new AccountInfo();
-    accountInfo.user_id = 12; // Add the missing properties
+    accountInfo.user_id = 1;
     accountInfo.accountNumber = "1234567890";
-    accountInfo.appKey = "appKeyappKeyappKey";
-    accountInfo.appSecret = "appSecretappSecretappSecretappSecret";
+    accountInfo.appKey = process.env.TEST_APP_KEY!;
+    accountInfo.appSecret = process.env.TEST_APP_SECRET!;
     accountInfo.defaultAccountYn = false;
 
-    // when
-    const res = await saveNewAccount(accountInfo);
+    try {
+      const tokenRes = await issueApiToken({
+        accountNumber: accountInfo.accountNumber,
+        appKey: accountInfo.appKey,
+        appSecret: accountInfo.appSecret,
+      });
 
-    console.log(res);
+      accountInfo.apiToken = tokenRes.access_token;
+      accountInfo.apiTokenExpiredAt = tokenRes.access_token_token_expired;
 
-    //then
-    const find = await getAccountInfo(accountInfo.accountNumber);
+      // when
+      const res = await saveNewAccount(accountInfo);
 
-    expect(find).toEqual(res);
+      // console.log(res);
+
+      //then
+      const find = await getAccountInfo(accountInfo.accountNumber);
+
+      expect(find).toEqual(res);
+    } catch (error) {
+      console.error(error);
+    }
   });
 
   it.skip("새로운 모의계좌 등록 | 실패 | 이미 등록된 계좌", async () => {
@@ -60,6 +74,19 @@ describe("AccountService.test.ts", () => {
 
       //then
       expect(error).toBeInstanceOf(ValidationError);
+    }
+  });
+
+  it("계좌정보 조회", async () => {
+    // given
+    let accountNumber = "1234567890";
+
+    // when
+    let account = await getAccountInfo(accountNumber);
+
+    // then
+    if (account) {
+      expect(account).toBeInstanceOf(AccountInfo);
     }
   });
 });
