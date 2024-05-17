@@ -3,9 +3,15 @@ import Button from "@/components/buttons/Button";
 import ChartComp from "@/components/chart/Chart";
 import Section from "@/components/section/Section";
 import TableComp from "@/components/table/Table";
+import { authOptions } from "@/pages/api/auth/[...nextauth]";
+import { getServerSession } from "next-auth";
 import colors from "tailwindcss/colors";
 
-const MainPage = () => {
+const MainPage = async () => {
+  const session = await getServerSession(authOptions);
+
+  console.log(session);
+
   return (
     <div className="flex flex-col gap-10">
       <Section.Scroll

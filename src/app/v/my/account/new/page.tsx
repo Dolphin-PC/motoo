@@ -17,6 +17,7 @@ import { classValidatorResolver } from "@hookform/resolvers/class-validator";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export type TNewAccount = {
   accountNumber: AccountInfo["accountNumber"];
@@ -27,6 +28,7 @@ export type TNewAccount = {
 };
 
 const VMyAccountNew = () => {
+  const { data: session, update } = useSession();
   const { handleSubmit, control, formState, getValues } = useForm<AccountInfo>({
     resolver: classValidatorResolver(AccountInfo, {
       validator: {
@@ -71,13 +73,16 @@ const VMyAccountNew = () => {
   };
 
   const onAddNewAccount = async () => {
-    // console.log(newAccountInfo);
     fetchHelperWithData<TNewAccount, AccountInfo>({
       url: "/api/account/new",
       data: newAccountInfo,
       method: "POST",
-    }).then((res) => {
+    }).then(async (res) => {
       alert(res.message);
+      await update({
+        ...session?.user,
+        currentAccountInfo: newAccountInfo,
+      });
       router.replace("/v/my/account");
     });
   };

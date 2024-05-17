@@ -28,10 +28,12 @@ export const saveNewAccount = async (
 
   if (accountListByUserId.length == 0) accountInfo.defaultAccountYn = true;
 
-  // console.log("accountInfo.toPrisma()", accountInfo.toPrisma());
-  const newAccountInfo = await prisma.accountInfo.create({
-    data: accountInfo.toPrisma(),
-  });
+  const [newAccountInfo] = await prisma.$transaction([
+    prisma.accountInfo.create({ data: accountInfo.toPrisma() }),
+    prisma.amountMoney.create({
+      data: { account_number: accountInfo.accountNumber, krw: 0, usd: 0 },
+    }),
+  ]);
 
   return AccountInfo.from(newAccountInfo);
 };
