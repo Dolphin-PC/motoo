@@ -28,10 +28,9 @@ const SectionCard = (props: TProps): React.ReactNode => {
   };
   return (
     <div
-      className={`flex flex-col p-2 h-min rounded-lg ${props.className}`}
+      className={`flex flex-col p-2 h-full rounded-lg ${props.className}`}
       style={{
         flex: "0 0 auto",
-        height: "15vh",
       }}
     >
       <div className="flex items-center justify-between">

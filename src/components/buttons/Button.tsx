@@ -2,6 +2,7 @@ import clsx from "clsx";
 import React, { ButtonHTMLAttributes } from "react";
 import LogoutButton from "./LogoutButton";
 import LinkButton from "./LinkButton";
+import ActionButton from "./ActionButton";
 
 export type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   primary?: Boolean;
@@ -38,4 +39,5 @@ const Button = ({
 };
 Button.Logout = LogoutButton;
 Button.Link = LinkButton;
+Button.Action = ActionButton;
 export default Button;

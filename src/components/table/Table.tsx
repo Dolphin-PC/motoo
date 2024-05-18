@@ -16,11 +16,8 @@ type TTableCompProps = {
   headerObj: Record<string, TTableHeaderInfo>;
   dataList: Record<string, any>[];
 };
-const TableComp = ({
-  headerObj,
-  dataList,
-}: TTableCompProps): React.ReactNode => {
-  console.log(headerObj, dataList);
+const TableComp = (props: TTableCompProps): React.ReactNode => {
+  const { headerObj = {}, dataList = [] } = props;
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">

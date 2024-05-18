@@ -69,40 +69,42 @@ const MainPage = async () => {
 
   return (
     <div className="flex flex-col gap-10">
-      <Section.Scroll
-        title="내 주식"
-        className=""
-        right={<Button.Link href="/v/my-stock"></Button.Link>}
-      >
-        <Section.Card
-          className="bg-primary-250 w-8/12"
-          title="보유주식"
-          amountUnit="KRW"
-          amount={stockPriceSum}
-          href="/v/main"
-        />
-        <Section.Card
-          className="bg-primary-250 w-8/12"
-          title="판매수익"
-          amountUnit="KRW"
-          amount={stockSellRevenueSum}
-          href="/v/main"
-        />
-        <Section.Card
-          className="bg-secondary-250 w-8/12"
-          title="주문내역"
-          amountUnit="건"
-          amount={stockOrderCount}
-          href="/v/main"
-        />
-        <Section.Card
-          className="bg-info-250 w-8/12"
-          title="대기중인 주문"
-          amountUnit="건"
-          amount={stockWaitCount}
-          href="/v/main"
-        />
-      </Section.Scroll>
+      <div style={{ height: "20vh" }}>
+        <Section.Scroll
+          title="내 주식"
+          className="h-full"
+          right={<Button.Link href="/v/my-stock"></Button.Link>}
+        >
+          <Section.Card
+            className="bg-primary-250 w-8/12"
+            title="보유주식"
+            amountUnit="KRW"
+            amount={stockPriceSum}
+            href="/v/main"
+          />
+          <Section.Card
+            className="bg-primary-250 w-8/12"
+            title="판매수익"
+            amountUnit="KRW"
+            amount={stockSellRevenueSum}
+            href="/v/main"
+          />
+          <Section.Card
+            className="bg-secondary-250 w-8/12"
+            title="주문내역"
+            amountUnit="건"
+            amount={stockOrderCount}
+            href="/v/main"
+          />
+          <Section.Card
+            className="bg-info-250 w-8/12"
+            title="대기중인 주문"
+            amountUnit="건"
+            amount={stockWaitCount}
+            href="/v/main"
+          />
+        </Section.Scroll>
+      </div>
 
       <Section
         title="내 포트폴리오 TOP 5"

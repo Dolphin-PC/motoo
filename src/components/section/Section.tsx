@@ -2,19 +2,21 @@ import React from "react";
 import SectionCard from "./SectionCard";
 
 export type TSectionProps = {
-  title: string;
+  title?: string;
   children: React.ReactNode;
   className?: HTMLDivElement["className"];
   right?: React.ReactNode;
 };
 const Section = (props: TSectionProps): React.ReactNode => {
   return (
-    <div className="flex flex-col gap-3 neumorphism">
+    <div className="flex flex-col gap-3 h-full neumorphism">
       <div className="flex justify-between items-center">
-        <h5 className="font-bold text-primary-550">| {props.title}</h5>
+        {props.title && (
+          <h5 className="font-bold text-primary-550">| {props.title}</h5>
+        )}
         {props.right && props.right}
       </div>
-      <div className={`${props.className}`}>{props.children}</div>
+      <div className={`${props.className || ""}`}>{props.children}</div>
     </div>
   );
 };

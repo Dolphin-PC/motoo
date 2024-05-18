@@ -2,6 +2,7 @@ import bcrypt from "bcrypt";
 import { User } from "../../model/User";
 import { prisma } from "../prismaClient";
 import { AccountInfo } from "../../model/AccountInfo";
+import { issueApiToken } from "../token/TokenService";
 
 export const createUser = async (
   email: string,
@@ -46,12 +47,36 @@ export const loginUser = async (
   if (!match) throw new Error("Password does not match");
 
   // 사용자 토큰 정보 table
-  const accountInfo = await prisma.accountInfo.findFirst({
+  let accountInfo = await prisma.accountInfo.findFirst({
     where: {
       user_id: user.id,
       default_account_yn: true,
     },
   });
+
+  if (accountInfo != null) {
+    if (
+      accountInfo.api_token == null ||
+      accountInfo.api_token_expired_at == null ||
+      accountInfo.api_token_expired_at < new Date()
+    ) {
+      const res = await issueApiToken({
+        accountNumber: accountInfo.account_number,
+        appKey: accountInfo.app_key,
+        appSecret: accountInfo.app_secret,
+      });
+
+      accountInfo = await prisma.accountInfo.update({
+        where: {
+          account_number: accountInfo.account_number,
+        },
+        data: {
+          api_token: res.access_token,
+          api_token_expired_at: res.access_token_token_expired,
+        },
+      });
+    }
+  }
 
   const res = new User(user);
   if (accountInfo) {
@@ -59,4 +84,9 @@ export const loginUser = async (
   }
 
   return res;
+};
+
+export const UserService = {
+  createUser,
+  loginUser,
 };
