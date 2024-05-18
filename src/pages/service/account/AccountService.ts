@@ -28,7 +28,7 @@ export const saveNewAccount = async (
 
   const accountListByUserId = await prisma.accountInfo.findMany({
     where: {
-      user_id: accountInfo.user_id,
+      user_id: accountInfo.userId,
     },
   });
 

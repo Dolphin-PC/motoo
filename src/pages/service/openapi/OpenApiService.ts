@@ -1,5 +1,13 @@
-import { axiosGet } from "@/lib/api/helper";
+import { axiosGet, axiosPost } from "@/lib/api/helper";
 import { convertObjectToQuery } from "@/lib/util/util";
+import { issueApiToken } from "../token/TokenService";
+import { TIssueTokenReq, TIssueTokenRes } from "../token/TokenDao";
+import { TNewAccount } from "@/app/v/my/account/new/page";
+import { ValidationError, validateOrReject } from "class-validator";
+import {
+  AccountInfo,
+  AccountInfoValidatorGroups,
+} from "@/pages/model/AccountInfo";
 
 // 참고 https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-quotations2#L_07802512-4f49-4486-91b4-1050b6f5dc9d
 export type TgetStockPriceRes = {
@@ -129,4 +137,35 @@ export const getStockPrice = async ({
 
 export const OpenApiService = {
   getStockPrice,
+  issueApiToken: async ({
+    accountNumber,
+    appKey,
+    appSecret,
+  }: TNewAccount): Promise<TIssueTokenRes> => {
+    const accountInfo = new AccountInfo({
+      accountNumber,
+      appKey,
+      appSecret,
+    });
+
+    await validateOrReject(accountInfo, {
+      groups: [AccountInfoValidatorGroups.verify],
+    }).catch((errors: ValidationError[]) => {
+      // console.log(errors);
+      throw errors[0];
+    });
+
+    const res = await axiosPost<TIssueTokenReq, TIssueTokenRes>(
+      `${process.env.VTS}/oauth2/tokenP`,
+      {
+        grant_type: "client_credentials",
+        appkey: accountInfo.appKey,
+        appsecret: accountInfo.appSecret,
+      }
+    );
+
+    res.access_token_token_expired = new Date(res.access_token_token_expired);
+
+    return res;
+  },
 };

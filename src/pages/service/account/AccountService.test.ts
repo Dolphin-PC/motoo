@@ -12,7 +12,7 @@ describe("AccountService.test.ts", () => {
   it("새로운 모의계좌 등록 | 성공", async () => {
     // given
     const accountInfo = new AccountInfo();
-    accountInfo.user_id = 1;
+    accountInfo.userId = 1;
     accountInfo.accountNumber = "1234567890";
     accountInfo.appKey = process.env.TEST_APP_KEY!;
     accountInfo.appSecret = process.env.TEST_APP_SECRET!;
@@ -45,7 +45,7 @@ describe("AccountService.test.ts", () => {
   it.skip("새로운 모의계좌 등록 | 실패 | 이미 등록된 계좌", async () => {
     // given
     const accountInfo = new AccountInfo();
-    accountInfo.user_id = 12;
+    accountInfo.userId = 12;
     accountInfo.accountNumber = "1234567890";
     accountInfo.appKey = "appKeyappKeyappKey";
     accountInfo.appSecret = "appSecretappSecretappSecretappSecret";
@@ -64,7 +64,7 @@ describe("AccountService.test.ts", () => {
     // given
 
     const accountInfo = new AccountInfo();
-    accountInfo.user_id = 12; // Add the missing properties
+    accountInfo.userId = 12; // Add the missing properties
     accountInfo.accountNumber = "120";
     accountInfo.appKey = "appKeyappKeyappKey";
     accountInfo.appSecret = "appSecretappSecretappSecretappSecret";

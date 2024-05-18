@@ -1,7 +1,6 @@
 // pages/api/signup.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, ResInvalid, ResOk } from "..";
-import { createUser } from "@/pages/service/user/UserService";
 import { User } from "@/pages/model/User";
 
 export type TSignUpReq = {
@@ -22,7 +21,7 @@ export default async function POST(
       throw new Error("Password and confirm password do not match");
     }
 
-    const user = await createUser(email, password);
+    const user = await User.create(email, password);
     res.status(200).json(ResOk(user, "User created"));
   } catch (error) {
     if (error instanceof Error) {

@@ -4,6 +4,8 @@ import { prisma } from "../prismaClient";
 import { AccountInfo } from "../../model/AccountInfo";
 import { issueApiToken } from "../token/TokenService";
 
+/** @deprecated
+ */
 export const createUser = async (
   email: string,
   password: string
@@ -30,6 +32,12 @@ export const createUser = async (
   return new User(newUser);
 };
 
+/** @deprecated
+ *
+ * @param email
+ * @param password
+ * @returns
+ */
 export const loginUser = async (
   email: string,
   password: string

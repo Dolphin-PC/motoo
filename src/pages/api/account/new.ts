@@ -24,7 +24,7 @@ const POST = async (
     // console.log(accountNumber, appKey, appSecret);
 
     const newAccount = new AccountInfo();
-    newAccount.user_id = session.user.id;
+    newAccount.userId = session.user.id;
     newAccount.accountNumber = accountNumber;
     newAccount.appKey = appKey;
     newAccount.appSecret = appSecret;

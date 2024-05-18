@@ -2,6 +2,9 @@ import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
 
 export class BaseModel {
   constructor(data: any) {
-    return convertObjectPropertiesSnakeCaseToCamelCase(data);
+    if (data === null || data === undefined) {
+      throw new Error("data must not be null or undefined");
+    }
+    Object.assign(this, convertObjectPropertiesSnakeCaseToCamelCase(data));
   }
 }

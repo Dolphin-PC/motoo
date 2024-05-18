@@ -1,24 +1,21 @@
-import { AmountMoney, AccountInfo as P_AccountInfo } from "@prisma/client";
-import { Notice } from "./Notice";
-import { StockOrderHistory } from "./StockOrderHistory";
-import { AmountStock } from "./AmountStock";
-import { LikeStock } from "./LikeStock";
+import { AccountInfo as P_AccountInfo, Prisma } from "@prisma/client";
 
 import {
   IsInt,
-  Length,
   IsDate,
   IsBoolean,
   MinLength,
-  IsEnum,
-  ValidateIf,
-  IsNumber,
-  Min,
   IsNumberString,
-  IsDefined,
 } from "class-validator";
-import { verify } from "crypto";
 import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
+import { prisma } from "@/pages/service/prismaClient";
+import { BaseModel } from "./Base";
+import { OpenApiService } from "../service/openapi/OpenApiService";
+import { Notice } from "./Notice";
+import { StockOrderHistory } from "./StockOrderHistory";
+import { AmountMoney } from "./AmountMoney";
+import { AmountStock } from "./AmountStock";
+import { LikeStock } from "./LikeStock";
 
 export enum AccountInfoValidatorGroups {
   verify = "VERIFY_ACCOUNT",
@@ -27,9 +24,10 @@ export enum AccountInfoValidatorGroups {
 }
 
 // 사용자 토큰 정보
-export class AccountInfo {
+export class AccountInfo extends BaseModel {
+  // properties //
   @IsInt({ groups: [AccountInfoValidatorGroups.new] })
-  user_id: number;
+  userId: number;
 
   @IsNumberString()
   @MinLength(10, {
@@ -49,15 +47,11 @@ export class AccountInfo {
     groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
   })
   appKey: string;
-
   @MinLength(10, {
     groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
   })
   appSecret: string;
-
-  // @IsDefined({ groups: [AccountInfoValidatorGroups.new] })
   apiToken: string | null;
-  // @IsDefined({ groups: [AccountInfoValidatorGroups.new] })
   apiTokenExpiredAt: Date | null;
 
   noticeList?: Notice[];
@@ -65,37 +59,58 @@ export class AccountInfo {
   amountMoneyList?: AmountMoney[];
   amountStockList?: AmountStock[];
   likeStockList?: LikeStock[];
+  // properties //
 
-  constructor() {}
+  constructor(data: any) {
+    super(data);
+  }
 
-  static from(data: any) {
-    let o = new AccountInfo();
+  static async findFirst(
+    where: Prisma.AccountInfoWhereInput
+  ): Promise<AccountInfo | null> {
+    let accountInfo = await prisma.accountInfo.findFirst({ where });
 
-    data = convertObjectPropertiesSnakeCaseToCamelCase(data);
+    if (accountInfo == null) return null;
 
-    o.user_id = data.id;
+    const resAccountInfo = new AccountInfo(accountInfo);
+    await resAccountInfo.confirmApiToken();
 
-    o.accountNumber = data.accountNumber;
-    o.defaultAccountYn = data.defaultAccountYn;
-    o.accountExpiredAt = data.accountExpiredAt;
+    return resAccountInfo;
+  }
 
-    o.appKey = data.appKey;
-    o.appSecret = data.appSecret;
-    o.apiToken = data.apiToken;
-    o.apiTokenExpiredAt = data.apiTokenExpiredAt;
+  /** @desc API 토큰만료 확인 및 재발급
+   *
+   */
+  async confirmApiToken(): Promise<void> {
+    if (
+      !this.apiToken ||
+      !this.apiTokenExpiredAt ||
+      this.apiTokenExpiredAt < new Date()
+    ) {
+      const res = await OpenApiService.issueApiToken({
+        accountNumber: this.accountNumber,
+        appKey: this.appKey,
+        appSecret: this.appSecret,
+      });
 
-    o.noticeList = data?.notice;
-    o.stockOrderHistoryList = data?.stockOrderHistoryList;
-    o.amountMoneyList = data?.amountMoneyList;
-    o.amountStockList = data?.amountStockList;
-    o.likeStockList = data?.likeStockList;
+      await prisma.accountInfo.update({
+        where: {
+          account_number: this.accountNumber,
+        },
+        data: {
+          api_token: res.access_token,
+          api_token_expired_at: res.access_token_token_expired,
+        },
+      });
 
-    return o;
+      this.apiToken = res.access_token;
+      this.apiTokenExpiredAt = res.access_token_token_expired;
+    }
   }
 
   toPrisma(): P_AccountInfo {
     return {
-      user_id: this.user_id,
+      user_id: this.userId,
       account_number: this.accountNumber,
       default_account_yn: this.defaultAccountYn ?? false,
       account_expired_at: this.accountExpiredAt,

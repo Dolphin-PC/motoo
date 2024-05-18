@@ -1,7 +1,6 @@
 // pages/api/login.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import { User } from "@/pages/model/User";
-import { loginUser } from "@/pages/service/user/UserService";
 
 export type TSignInRes = {
   token: string;
@@ -22,7 +21,7 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     if (email && password) {
-      const user = await loginUser(email, password);
+      const user = await User.login(email, password);
 
       res.status(200).json(user);
     }

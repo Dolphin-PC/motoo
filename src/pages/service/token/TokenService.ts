@@ -8,7 +8,7 @@ import { TNewAccount } from "@/app/v/my/account/new/page";
 import { ValidationError, validate, validateOrReject } from "class-validator";
 import { User } from "@/pages/model/User";
 
-/**
+/** @미사용
  * @desc 현재 JWT의 정보를 읽고, api_token이 없거나 만료되었을 경우 새로운 api_token을 발급한다.
  */
 export const reIssueApiToken = async (user: User) => {
@@ -18,19 +18,19 @@ export const reIssueApiToken = async (user: User) => {
   console.log(apiTokenExpiredAt);
 };
 
-/**
- * @description 토큰 발급
+/** @deprecated
+ *  @description 토큰 발급
  */
 export const issueApiToken = async ({
   accountNumber,
   appKey,
   appSecret,
 }: TNewAccount): Promise<TIssueTokenRes> => {
-  const accountInfo = new AccountInfo();
-
-  accountInfo.accountNumber = accountNumber;
-  accountInfo.appKey = appKey;
-  accountInfo.appSecret = appSecret;
+  const accountInfo = new AccountInfo({
+    accountNumber,
+    appKey,
+    appSecret,
+  });
 
   await validateOrReject(accountInfo, {
     groups: [AccountInfoValidatorGroups.verify],
@@ -53,7 +53,7 @@ export const issueApiToken = async ({
   return res;
 };
 
-/**
+/** @미사용
  * @desc 토큰 폐기
  */
 export const revokeAppToken = async (
