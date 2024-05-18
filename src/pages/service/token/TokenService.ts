@@ -40,7 +40,7 @@ export const issueApiToken = async ({
   });
 
   const res = await axiosPost<TIssueTokenReq, TIssueTokenRes>(
-    `${process.env.VTS_URL}/oauth2/tokenP`,
+    `${process.env.VTS}/oauth2/tokenP`,
     {
       grant_type: "client_credentials",
       appkey: accountInfo.appKey,
@@ -62,7 +62,7 @@ export const revokeAppToken = async (
 ) => {
   await fetchHelper<TRevokeTokenReq>({
     method: "POST",
-    url: `${process.env.VTS_URL}/oauth2/revokeP`,
+    url: `${process.env.VTS}/oauth2/revokeP`,
     data: {
       appKey: data.appKey,
       appSecret: data.appSecret,

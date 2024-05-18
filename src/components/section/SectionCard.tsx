@@ -21,9 +21,9 @@ const SectionCard = (props: TProps): React.ReactNode => {
     amount: TProps["amount"];
   }): React.ReactNode => {
     let value = "";
-    if (amountUnit === "KRW") value = `₩ ${amount}`;
-    if (amountUnit === "USD") value = `$ ${amount}`;
-    if (amountUnit === "건") value = `${amount} 건`;
+    if (amountUnit === "KRW") value = `₩ ${amount.toLocaleString()}`;
+    if (amountUnit === "USD") value = `$ ${amount.toLocaleString()}`;
+    if (amountUnit === "건") value = `${amount.toLocaleString()} 건`;
     return <h4>{value}</h4>;
   };
   return (

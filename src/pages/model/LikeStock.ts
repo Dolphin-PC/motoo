@@ -8,7 +8,11 @@ export class LikeStock extends BaseModel {
 
   constructor(data: any) {
     data = super(data);
-    this.accountNumber = data.account_number;
-    this.stockId = data.stock_id;
+    this.accountNumber = data.accountNumber;
+    this.stockId = data.stockId;
+  }
+
+  static from(data: any) {
+    return new LikeStock(data);
   }
 }

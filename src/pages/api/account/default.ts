@@ -5,6 +5,11 @@ import { authOptions } from "../auth/[...nextauth]";
 import { CResponse, ResOk } from "..";
 import { AccountInfo } from "@/pages/model/AccountInfo";
 
+/**
+ * @description 기본계좌 설정
+ * /api/account/default
+ */
+
 export type TChangeDefaultAccount = {
   prevAccountNumber: string;
   newAccountNumber: string;

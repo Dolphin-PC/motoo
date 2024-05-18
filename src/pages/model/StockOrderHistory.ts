@@ -19,16 +19,20 @@ export class StockOrderHistory extends BaseModel {
   constructor(data: any) {
     data = super(data);
 
-    this.accountNumber = data.account_number;
-    this.stockId = data.stock_id;
+    this.accountNumber = data.accountNumber;
+    this.stockId = data.stockId;
 
-    this.orderType = data.order_type;
-    this.orderStatus = data.order_status;
-    this.orderTime = data.order_time;
-    this.conclusionTime = data.conclusion_time;
+    this.orderType = data.orderType;
+    this.orderStatus = data.orderStatus;
+    this.orderTime = data.orderTime;
+    this.conclusionTime = data.conclusionTime;
 
-    this.orderPrice = data.order_price;
-    this.orderQuantity = data.order_quantity;
-    this.conclusionPrice = data.conclusion_price;
+    this.orderPrice = data.orderPrice;
+    this.orderQuantity = data.orderQuantity;
+    this.conclusionPrice = data.conclusionPrice;
+  }
+
+  static from(data: any) {
+    return new StockOrderHistory(data);
   }
 }

@@ -1,10 +1,6 @@
 import { AccountInfo } from "@/pages/model/AccountInfo";
 import { ValidationError } from "class-validator";
 import { Session } from "next-auth";
-import { SessionContextValue } from "next-auth/react";
-import { ReadonlyHeaders } from "next/dist/server/web/spec-extension/adapters/headers";
-import dynamic from "next/dynamic";
-import { headers } from "next/headers";
 
 export const getServerUrl = () => {
   // FIXME : dynamic import 를 사용하면 에러가 발생한다.
@@ -95,3 +91,28 @@ export const getMessageFromValidaionError = (error: ValidationError) => {
   }
   return "Is not exists at validation error";
 };
+
+// convert string from object
+export const convertObjectToQuery = (obj: Record<string, any>) => {
+  let str = [];
+  for (const [key, value] of Object.entries(obj)) {
+    str.push(`${key}=${value}`);
+  }
+  return str.join("&");
+};
+
+// export const separateHeaderAndRow = (dataList: Record<string, any>[]) => {
+//   let headers: TTableHeader[] = Object.keys(dataList[0]).map((key) => {
+//     return {
+//       displayName: TableDisplayName[key],
+//       key: key,
+//       type: getTableRowType(key),
+//     };
+//   });
+
+//   const row = dataList.map((data) => {
+//     return Object.values(data);
+//   });
+
+//   return { headers, row }; // Fix the variable name from 'header' to 'headers'
+// };

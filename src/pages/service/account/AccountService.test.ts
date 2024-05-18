@@ -1,5 +1,10 @@
 import { AccountInfo } from "@/pages/model/AccountInfo";
-import { getAccountInfo, saveNewAccount } from "./AccountService";
+import {
+  calcStockPrice,
+  getAccountInfo,
+  getOwnStockList,
+  saveNewAccount,
+} from "./AccountService";
 import { ValidationError } from "class-validator";
 import { issueApiToken } from "../token/TokenService";
 
@@ -88,5 +93,37 @@ describe("AccountService.test.ts", () => {
     if (account) {
       expect(account).toBeInstanceOf(AccountInfo);
     }
+  });
+
+  it("보유주식 조회 by accountNumber", async () => {
+    // given
+    let accountNumber = "333333333333";
+
+    // when
+    let account = await getOwnStockList(accountNumber);
+
+    // then
+    console.info(account);
+  });
+
+  it("보유주식가격 조회", async () => {
+    // given
+    let accountNumber = "333333333333";
+
+    // given-pre
+    let account = await getAccountInfo(accountNumber);
+    let stockList = await getOwnStockList(accountNumber);
+    // const stockIdList = stockList.map((stock) => stock.stockId);
+
+    // console.info(stockList);
+    // when
+    let res = await calcStockPrice({
+      stockList,
+      VTS_TOKEN: account!.apiToken!,
+      VTS_APPKEY: account!.appKey!,
+      VTS_APPSECRET: account!.appSecret!,
+    });
+    console.info(res);
+    console.log(res.reduce((acc, cur) => acc + cur.price * cur.quantity, 0));
   });
 });
