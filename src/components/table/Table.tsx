@@ -12,24 +12,6 @@ import {
 import { TTableHeaderInfo } from "@/pages/service/common/CommonService";
 import Image from "next/image";
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-// const rows = [
-//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-//   createData("Eclair", 262, 16.0, 24, 6.0),
-//   createData("Cupcake", 305, 3.7, 67, 4.3),
-//   createData("Gingerbread", 356, 16.0, 49, 3.9),
-// ];
-
 type TTableCompProps = {
   headerObj: Record<string, TTableHeaderInfo>;
   dataList: Record<string, any>[];
@@ -62,16 +44,29 @@ const TableComp = ({
                           {new Date(value).toLocaleDateString()}
                         </TableCell>
                       );
+                    case "number":
+                      return (
+                        <TableCell key={key}>
+                          {value.toLocaleString()}
+                        </TableCell>
+                      );
                     case "img":
                       return (
                         <TableCell key={key}>
-                          <Image src={value} alt="img" />
+                          <Image
+                            src={
+                              value
+                                ? `/public/stocks/${value}.png`
+                                : "/public/stocks/main_icon.svg"
+                            }
+                            alt="img"
+                            width={24}
+                            height={24}
+                          />
                         </TableCell>
                       );
-
-                    default:
-                      return <TableCell key={key}>{value}</TableCell>;
                   }
+                  return <TableCell key={key}>{value}</TableCell>;
                 })}
               </TableRow>
             );
