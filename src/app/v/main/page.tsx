@@ -5,6 +5,7 @@ import Section from "@/components/section/Section";
 import TableComp from "@/components/table/Table";
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
 import { LikeStock } from "@/pages/model/LikeStock";
+import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
 import CommonService from "@/pages/service/common/CommonService";
 import StockService, {
   TAmountStockInfo,
@@ -38,8 +39,10 @@ const MainPage = async () => {
     }, 0);
 
     // 주식주문 내역
-    const stockHistory = await StockService.getStockHistory({
-      accountNumber: accountNumber,
+    const stockHistory = await StockOrderHistory.findMany({
+      where: {
+        account_number: accountNumber,
+      },
     });
     for (const history of stockHistory) {
       // 판매수익, [판매] && [완료] && [체결가격이 존재]

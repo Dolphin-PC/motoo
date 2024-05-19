@@ -1,6 +1,8 @@
 import { OrderStatus, OrderType } from "./enum";
 import { BaseModel } from "./Base";
 import { MinLength } from "class-validator";
+import { Prisma } from "@prisma/client";
+import prisma from "../service/prismaClient";
 
 export class StockOrderHistory extends BaseModel {
   @MinLength(10)
@@ -17,22 +19,20 @@ export class StockOrderHistory extends BaseModel {
   conclusionPrice?: number;
 
   constructor(data: any) {
-    data = super(data);
-
-    this.accountNumber = data.accountNumber;
-    this.stockId = data.stockId;
-
-    this.orderType = data.orderType;
-    this.orderStatus = data.orderStatus;
-    this.orderTime = data.orderTime;
-    this.conclusionTime = data.conclusionTime;
-
-    this.orderPrice = data.orderPrice;
-    this.orderQuantity = data.orderQuantity;
-    this.conclusionPrice = data.conclusionPrice;
+    super(data);
   }
 
-  static from(data: any) {
-    return new StockOrderHistory(data);
+  // statics //
+  static async findMany({
+    where,
+  }: {
+    where: Prisma.StockOrderHistoryWhereInput;
+  }) {
+    const result = await prisma.stockOrderHistory
+      .findMany({ where })
+      .then((res) => res.map((history) => new StockOrderHistory(history)));
+
+    return result;
   }
+  // statics //
 }

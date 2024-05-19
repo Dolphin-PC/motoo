@@ -1,4 +1,4 @@
-import { getStockPrice } from "./OpenApiService";
+import { OpenApiService } from "./OpenApiService";
 
 describe("OpenApiService.test.ts", () => {
   it("getStockPrice", async () => {
@@ -11,7 +11,7 @@ describe("OpenApiService.test.ts", () => {
     const stockId = "005930";
 
     // when
-    const res = await getStockPrice({
+    const res = await OpenApiService.getStockPrice({
       VTS_TOKEN,
       VTS_APPKEY,
       VTS_APPSECRET,

@@ -6,8 +6,9 @@ import {
   IsBoolean,
   MinLength,
   IsNumberString,
+  validateOrReject,
+  ValidationError,
 } from "class-validator";
-import { convertObjectPropertiesSnakeCaseToCamelCase } from "@/lib/util/util";
 import { prisma } from "@/pages/service/prismaClient";
 import { BaseModel } from "./Base";
 import { OpenApiService } from "../service/openapi/OpenApiService";
@@ -65,19 +66,7 @@ export class AccountInfo extends BaseModel {
     super(data);
   }
 
-  static async findFirst(
-    where: Prisma.AccountInfoWhereInput
-  ): Promise<AccountInfo | null> {
-    let accountInfo = await prisma.accountInfo.findFirst({ where });
-
-    if (accountInfo == null) return null;
-
-    const resAccountInfo = new AccountInfo(accountInfo);
-    await resAccountInfo.confirmApiToken();
-
-    return resAccountInfo;
-  }
-
+  // methods //
   /** @desc API 토큰만료 확인 및 재발급
    *
    */
@@ -120,4 +109,106 @@ export class AccountInfo extends BaseModel {
       api_token_expired_at: this.apiTokenExpiredAt,
     };
   }
+  // methods //
+
+  // statics //
+  /**@desc 계좌 정보를 조회합니다.
+   * @param where - 조회 조건
+   * @param isConfirm - 토큰 만료 확인 여부
+   * @returns
+   */
+  static async findFirst({
+    where,
+    isConfirm = true,
+  }: {
+    where: Prisma.AccountInfoWhereInput;
+    isConfirm?: boolean;
+  }): Promise<AccountInfo | null> {
+    let accountInfo = await prisma.accountInfo.findFirst({ where });
+
+    if (accountInfo == null) return null;
+
+    const resAccountInfo = new AccountInfo(accountInfo);
+    if (isConfirm) await resAccountInfo.confirmApiToken();
+
+    return resAccountInfo;
+  }
+
+  /**@desc 사용자의 계좌목록 정보를 조회합니다.
+   * @param param0
+   * @returns
+   */
+  static async findMany({
+    where,
+  }: {
+    where: Prisma.AccountInfoWhereInput;
+  }): Promise<AccountInfo[]> {
+    const accountInfoList = await prisma.accountInfo.findMany({ where });
+
+    return accountInfoList.map((accountInfo) => new AccountInfo(accountInfo));
+  }
+
+  /**@desc 새로운 계좌를 등록합니다.
+   * @param param0
+   * @returns
+   */
+  static async create({
+    userId,
+    accountNumber,
+    appKey,
+    appSecret,
+    apiToken,
+    apiTokenExpiredAt,
+  }: {
+    userId: AccountInfo["userId"];
+    accountNumber: AccountInfo["accountNumber"];
+    appKey: AccountInfo["appKey"];
+    appSecret: AccountInfo["appSecret"];
+    apiToken: AccountInfo["apiToken"];
+    apiTokenExpiredAt: AccountInfo["apiTokenExpiredAt"];
+  }): Promise<AccountInfo> {
+    await AccountInfo.findFirst({
+      where: { account_number: accountNumber },
+      isConfirm: false,
+    }).then((existsAccount) => {
+      if (existsAccount) throw new Error("이미 등록된 계좌입니다.");
+    });
+
+    let defaultAccountYn = await prisma.accountInfo
+      .findMany({
+        where: {
+          user_id: userId,
+        },
+      })
+      .then((accountListByUserId) => accountListByUserId.length == 0);
+
+    const accountInfo = new AccountInfo({
+      userId,
+      accountNumber,
+      appKey,
+      appSecret,
+      defaultAccountYn,
+      apiToken: apiToken,
+      apiTokenExpiredAt: apiTokenExpiredAt,
+    });
+
+    await validateOrReject(accountInfo, {
+      groups: [AccountInfoValidatorGroups.new],
+    }).catch((errors: ValidationError[]) => {
+      throw errors[0];
+    });
+
+    const newAccountInfo = await prisma.accountInfo
+      .create({
+        data: accountInfo.toPrisma(),
+      })
+      .then(async (accountInfo) => {
+        await AmountMoney.newSave(accountInfo.account_number);
+        return accountInfo;
+      });
+
+    return new AccountInfo(newAccountInfo);
+  }
+
+  // statics //
 }

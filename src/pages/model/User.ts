@@ -64,8 +64,10 @@ export class User extends BaseModel {
 
     const res = new User(user);
     res.currentAccountInfo = await AccountInfo.findFirst({
-      user_id: user.id,
-      default_account_yn: true,
+      where: {
+        user_id: user.id,
+        default_account_yn: true,
+      },
     });
 
     return res;

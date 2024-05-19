@@ -116,3 +116,12 @@ export const convertObjectToQuery = (obj: Record<string, any>) => {
 
 //   return { headers, row }; // Fix the variable name from 'header' to 'headers'
 // };
+
+export const getKoreanTime = () => {
+  const now = new Date();
+  const utc = now.getTime();
+  const koreaTimeDiff = 9 * 60 * 60 * 1000;
+  const korNow = new Date(utc + koreaTimeDiff);
+
+  return korNow;
+};

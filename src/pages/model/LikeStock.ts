@@ -1,5 +1,7 @@
 import { MinLength } from "class-validator";
 import { BaseModel } from "./Base";
+import { Prisma } from "@prisma/client";
+import prisma from "../service/prismaClient";
 
 export class LikeStock extends BaseModel {
   @MinLength(10)
@@ -7,12 +9,18 @@ export class LikeStock extends BaseModel {
   stockId: string;
 
   constructor(data: any) {
-    data = super(data);
-    this.accountNumber = data.accountNumber;
-    this.stockId = data.stockId;
+    super(data);
   }
-
-  static from(data: any) {
-    return new LikeStock(data);
-  }
+  // statics //
+  static findMany = async ({
+    where,
+  }: {
+    where: Prisma.LikeStockWhereInput;
+  }): Promise<LikeStock[]> => {
+    const result = await prisma.likeStock
+      .findMany({ where })
+      .then((res) => res.map((stock) => new LikeStock(stock)));
+    return result;
+  };
+  // statics //
 }

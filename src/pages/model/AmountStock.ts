@@ -1,5 +1,7 @@
 import { MinLength } from "class-validator";
 import { BaseModel } from "./Base";
+import { prisma } from "@/pages/service/prismaClient";
+import { Prisma } from "@prisma/client";
 
 // 보유주식
 export class AmountStock extends BaseModel {
@@ -14,15 +16,21 @@ export class AmountStock extends BaseModel {
   priceUpdateAt: Date;
 
   constructor(data: any) {
-    data = super(data);
-
-    this.id = data.id;
-    this.accountNumber = data.accountNumber;
-    this.stockId = data.stockId;
-    this.quantity = data.quantity;
+    super(data);
   }
 
-  static from(data: any) {
-    return new AmountStock(data);
+  // statics //
+  static async findMany({
+    where,
+  }: {
+    where: Prisma.AmountStockWhereInput;
+  }): Promise<AmountStock[]> {
+    const result = await prisma.amountStock
+      .findMany({ where })
+      .then((res) => res.map((stock) => new AmountStock(stock)));
+
+    return result;
   }
+
+  // statics //
 }

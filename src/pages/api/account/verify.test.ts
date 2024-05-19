@@ -3,12 +3,12 @@ import { testHandler } from "@/lib/test/helper";
 import { CResponse, EnumResonseMessage } from "..";
 import { TIssueTokenRes } from "@/pages/service/token/TokenDao";
 
-describe.skip("POST /api/account/verify", () => {
+describe("POST /api/account/verify", () => {
   it("200 성공", async () => {
     const res = await testHandler(POST, {
       method: "POST",
       body: {
-        accountNumber: 3123213213213,
+        accountNumber: "3123213213213",
         appKey: process.env.TEST_APP_KEY,
         appSecret: process.env.TEST_APP_SECRET,
       },

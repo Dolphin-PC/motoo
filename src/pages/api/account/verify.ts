@@ -1,24 +1,29 @@
-import { TNewAccount } from "@/app/v/my/account/new/page";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { TVerifyAccount } from "@/app/v/my/account/new/page";
 import {
   TIssueTokenRes,
   TIssueTokenResError,
 } from "@/pages/service/token/TokenDao";
-import { issueApiToken } from "@/pages/service/token/TokenService";
-import { ValidationError, validateOrReject } from "class-validator";
+import { ValidationError } from "class-validator";
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, EnumResonseMessage, ResInvalid, ResOk } from "..";
 import { AxiosError } from "axios";
 import { getMessageFromValidaionError } from "@/lib/util/util";
+import { OpenApiService } from "@/pages/service/openapi/OpenApiService";
 
 export default async function POST(
   req: NextApiRequest,
   res: NextApiResponse<CResponse<TIssueTokenRes>>
 ) {
-  const { accountNumber, appKey, appSecret }: TNewAccount = req.body;
+  const { accountNumber, appKey, appSecret }: TVerifyAccount = req.body;
+
+  // console.log(accountNumber, appKey, appSecret);
 
   try {
-    const data = await issueApiToken({ accountNumber, appKey, appSecret });
+    const data = await OpenApiService.issueApiToken({
+      accountNumber,
+      appKey,
+      appSecret,
+    });
 
     res.status(200).json(ResOk(data, EnumResonseMessage.ACCOUNT_SUCCESS));
   } catch (error) {

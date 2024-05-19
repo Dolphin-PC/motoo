@@ -1,13 +1,17 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ResOk } from "..";
 import { AccountInfo } from "@/pages/model/AccountInfo";
-import { getAccountInfoListByUserId } from "@/pages/service/account/AccountService";
 
 export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = req.query;
 
   try {
-    const data = await getAccountInfoListByUserId(parseInt(userId![0]));
+    // const data = await getAccountInfoListByUserId(parseInt(userId![0]));
+    const data = await AccountInfo.findMany({
+      where: {
+        user_id: parseInt(userId![0]),
+      },
+    });
 
     res
       .status(200)

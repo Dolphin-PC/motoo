@@ -19,12 +19,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 
-export type TNewAccount = {
+export type TVerifyAccount = {
   accountNumber: AccountInfo["accountNumber"];
   appKey: AccountInfo["appKey"];
   appSecret: AccountInfo["appSecret"];
-  apiToken?: AccountInfo["apiToken"];
-  apiTokenExpiredAt?: AccountInfo["apiTokenExpiredAt"];
+};
+
+export type TNewAccount = TVerifyAccount & {
+  apiToken: AccountInfo["apiToken"];
+  apiTokenExpiredAt: AccountInfo["apiTokenExpiredAt"];
 };
 
 const VMyAccountNew = () => {

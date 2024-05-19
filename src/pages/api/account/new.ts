@@ -3,7 +3,6 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { CResponse, ResInvalid, ResOk } from "..";
-import { saveNewAccount } from "@/pages/service/account/AccountService";
 import { TNewAccount } from "@/app/v/my/account/new/page";
 
 const POST = async (
@@ -21,20 +20,15 @@ const POST = async (
       apiToken,
       apiTokenExpiredAt,
     }: TNewAccount = req.body;
-    // console.log(accountNumber, appKey, appSecret);
 
-    const newAccount = new AccountInfo();
-    newAccount.userId = session.user.id;
-    newAccount.accountNumber = accountNumber;
-    newAccount.appKey = appKey;
-    newAccount.appSecret = appSecret;
-    newAccount.defaultAccountYn = false;
-    newAccount.apiToken = apiToken ?? null;
-    newAccount.apiTokenExpiredAt = apiTokenExpiredAt ?? null;
-
-    let resAccount = await saveNewAccount(newAccount);
-
-    // saveNewAccount(accountInfo);
+    const resAccount = await AccountInfo.create({
+      userId: session.user.id,
+      accountNumber,
+      appKey,
+      appSecret,
+      apiToken,
+      apiTokenExpiredAt,
+    });
     res.status(200).json(ResOk(resAccount, "계좌가 등록되었습니다."));
   } catch (error) {
     res.status(400).json(ResInvalid(error, "계좌 등록에 실패했습니다."));

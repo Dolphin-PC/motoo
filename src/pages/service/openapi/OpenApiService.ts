@@ -1,8 +1,7 @@
 import { axiosGet, axiosPost } from "@/lib/api/helper";
 import { convertObjectToQuery } from "@/lib/util/util";
-import { issueApiToken } from "../token/TokenService";
 import { TIssueTokenReq, TIssueTokenRes } from "../token/TokenDao";
-import { TNewAccount } from "@/app/v/my/account/new/page";
+import { TNewAccount, TVerifyAccount } from "@/app/v/my/account/new/page";
 import { ValidationError, validateOrReject } from "class-validator";
 import {
   AccountInfo,
@@ -108,40 +107,48 @@ export type TgetStockPriceReq = {
   VTS_APPSECRET: string;
   stockId: string;
 };
-export const getStockPrice = async ({
-  VTS_TOKEN,
-  VTS_APPKEY,
-  VTS_APPSECRET,
-  stockId,
-}: TgetStockPriceReq): Promise<TgetStockPriceRes> => {
-  const fid_obj = { fid_cond_mrkt_div_code: "J", fid_input_iscd: stockId };
-  const tr_id = "FHKST01010100"; // 모의투자
-
-  const url = `${
-    process.env.VTS
-  }/uapi/domestic-stock/v1/quotations/inquire-price?${convertObjectToQuery(
-    fid_obj
-  )}`;
-  const res = await axiosGet<TgetStockPriceRes>(url, {
-    headers: {
-      contextType: "application/json",
-      authorization: `Bearer ${VTS_TOKEN}`,
-      appkey: VTS_APPKEY,
-      appsecret: VTS_APPSECRET,
-      tr_id,
-    },
-  });
-
-  return res;
-};
 
 export const OpenApiService = {
-  getStockPrice,
-  issueApiToken: async ({
+  /** @desc 주식 실시간 가격 정보 조회
+   *
+   * @param param0
+   * @returns
+   */
+  getStockPrice: async ({
+    VTS_TOKEN,
+    VTS_APPKEY,
+    VTS_APPSECRET,
+    stockId,
+  }: TgetStockPriceReq): Promise<TgetStockPriceRes> => {
+    const fid_obj = { fid_cond_mrkt_div_code: "J", fid_input_iscd: stockId };
+    const tr_id = "FHKST01010100"; // 모의투자
+
+    const url = `${
+      process.env.VTS
+    }/uapi/domestic-stock/v1/quotations/inquire-price?${convertObjectToQuery(
+      fid_obj
+    )}`;
+    const res = await axiosGet<TgetStockPriceRes>(url, {
+      headers: {
+        contextType: "application/json",
+        authorization: `Bearer ${VTS_TOKEN}`,
+        appkey: VTS_APPKEY,
+        appsecret: VTS_APPSECRET,
+        tr_id,
+      },
+    });
+
+    return res;
+  },
+  /** @desc 한국투자증권 API 토큰 발급
+   * @param param0
+   * @returns
+   */
+  issueApiToken: async function ({
     accountNumber,
     appKey,
     appSecret,
-  }: TNewAccount): Promise<TIssueTokenRes> => {
+  }: TVerifyAccount): Promise<TIssueTokenRes> {
     const accountInfo = new AccountInfo({
       accountNumber,
       appKey,
