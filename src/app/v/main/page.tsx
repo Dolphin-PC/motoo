@@ -20,7 +20,7 @@ const MainPage = async () => {
     accountNumber: accountNumber,
   });
   stockPriceSum = stockInfoList.reduce((acc, cur) => {
-    let sum = cur.price * cur.quantity;
+    let sum = cur.price || 0 * cur.quantity;
     return acc + sum;
   }, 0);
   // 보유 주식
@@ -110,7 +110,7 @@ const MainPage = async () => {
                 {
                   data: stockInfoList
                     .slice(0, 5)
-                    .map((stock) => stock.price * stock.quantity),
+                    .map((stock) => stock.price || 0 * stock.quantity),
                   backgroundColor: Object.values(colors.purple)
                     .reverse()
                     .slice(4),
@@ -135,7 +135,7 @@ const MainPage = async () => {
                 {
                   data: stockInfoList
                     .slice(0, 5)
-                    .map((stock) => stock.price * stock.quantity),
+                    .map((stock) => stock.price || 0 * stock.quantity),
                   backgroundColor: Object.values(colors.purple)
                     .reverse()
                     .slice(4),
