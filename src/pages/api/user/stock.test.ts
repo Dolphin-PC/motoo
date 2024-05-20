@@ -8,7 +8,7 @@ describe("stock.test.ts", () => {
       const id = 1;
       const accountNumber = "333333333333";
 
-      const stockInfoList = await StockService.getStockList({
+      const stockInfoList = await StockService.getAmountStockInfoList({
         accountNumber: accountNumber,
       });
 

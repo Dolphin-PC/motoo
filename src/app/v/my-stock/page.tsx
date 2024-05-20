@@ -1,21 +1,39 @@
 import Button from "@/components/buttons/Button";
 import ChartComp from "@/components/chart/Chart";
 import Section from "@/components/section/Section";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { getServerSession } from "next-auth";
 import React from "react";
 import RevenueCard from "./RevenueCard";
-import TableComp from "@/components/table/Table";
+import { AmountMoney } from "@/pages/model/AmountMoney";
+import useAccountInfo from "@/lib/hooks/useAccountInfo";
+import StockService from "@/pages/service/stock/StockService";
+import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
+import TableContainer from "@/components/table/TableContainer";
 
 const MyStockPage = async () => {
-  const session = await getServerSession(authOptions);
+  const accountInfo = await useAccountInfo();
 
   // TODO API
   /**
    * - 내 계좌 예수금 조회(AmountMoney)
    * - 내 계좌 주식 조회(AmountStockInfo)
-   * - 내 계좌 주문 내역 조회(StockHistory)
+   * - 내 계좌 주문 내역 조회(StockOrderHistory)
    */
+
+  const amountMoney = await AmountMoney.findUnique({
+    where: { account_number: accountInfo.accountNumber },
+  });
+  const amountStockInfoList = await StockService.getAmountStockInfoList({
+    accountNumber: accountInfo.accountNumber,
+  });
+  const stockOrderHistoryList = await StockService.getStockOrderHistoryList({
+    accountNumber: accountInfo.accountNumber,
+  });
+
+  const stockPriceQuantitySum = amountStockInfoList.reduce(
+    (acc, cur) => acc + cur.price * cur.quantity,
+    0
+  );
+  console.log(stockOrderHistoryList);
 
   return (
     <div className="flex flex-col gap-10">
@@ -23,9 +41,9 @@ const MyStockPage = async () => {
         title="내 계좌정보"
         right={<Button.Link href="/v/my/account"></Button.Link>}
       >
-        <h4>₩ 958,000</h4>
+        <h4>₩ {amountMoney.krw}</h4>
         <p className="text-primary-500 underline">
-          {session?.user.currentAccountInfo?.accountNumber}
+          {accountInfo.accountNumber}
         </p>
       </Section>
       <Section title="자산현황">
@@ -36,7 +54,7 @@ const MyStockPage = async () => {
               labels: ["주식", "현금"],
               datasets: [
                 {
-                  data: [500000, 458000],
+                  data: [stockPriceQuantitySum, amountMoney.krw],
                   backgroundColor: ["#FF6384", "#36A2EB"],
                 },
               ],
@@ -50,28 +68,31 @@ const MyStockPage = async () => {
             },
           }}
         />
-        <div className="flex flex-wrap justify-between">
+        <div className="">
           <Section.Card
             className="flex-1"
             amountUnit="KRW"
-            amount={500000000}
+            amount={stockPriceQuantitySum}
             title="주식"
           />
           <Section.Card
             className="flex-1"
             amountUnit="KRW"
-            amount={5000000}
+            amount={amountMoney.krw}
             title="현금"
           />
         </div>
       </Section>
 
       <Section title="수익 현황">
-        <RevenueCard />
+        <RevenueCard stockOrderHistoryList={stockOrderHistoryList} />
       </Section>
 
       <Section title="주문 내역">
-        <TableComp />
+        <TableContainer
+          tableName="/v/my-stock_stockOrderHistoryList"
+          dataList={stockOrderHistoryList}
+        />
       </Section>
     </div>
   );

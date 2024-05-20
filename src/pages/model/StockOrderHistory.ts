@@ -1,8 +1,18 @@
-import { OrderStatus, OrderType } from "./enum";
 import { BaseModel } from "./Base";
 import { MinLength } from "class-validator";
 import { Prisma } from "@prisma/client";
 import prisma from "../service/prismaClient";
+
+export enum OrderStatus {
+  PENDING,
+  SUCCESS,
+  FAIL,
+}
+
+export enum OrderType {
+  BUY,
+  SELL,
+}
 
 export class StockOrderHistory extends BaseModel {
   @MinLength(10)
@@ -23,6 +33,12 @@ export class StockOrderHistory extends BaseModel {
   }
 
   // statics //
+
+  /** @desc 주식 주문 내역을 가져옵니다.
+   *
+   * @param param0
+   * @returns
+   */
   static async findMany({
     where,
   }: {

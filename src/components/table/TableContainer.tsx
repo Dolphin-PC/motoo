@@ -10,6 +10,7 @@ const TableContainer = ({ tableName, dataList }: TableContainerProps) => {
   const tableHeader = CommonService.getTableHeader(tableName);
 
   return <TableComp headerObj={tableHeader} dataList={dataList} />;
+  // return <div>dsa</div>;
 };
 
 export default TableContainer;

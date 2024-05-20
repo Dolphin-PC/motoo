@@ -68,6 +68,7 @@ export class User extends BaseModel {
         user_id: user.id,
         default_account_yn: true,
       },
+      isConfirm: true,
     });
 
     return res;

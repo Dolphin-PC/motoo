@@ -2,76 +2,65 @@
 import Button from "@/components/buttons/Button";
 import ChartComp from "@/components/chart/Chart";
 import Section from "@/components/section/Section";
-import TableComp from "@/components/table/Table";
-import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { LikeStock } from "@/pages/model/LikeStock";
+import TableContainer from "@/components/table/TableContainer";
+import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
-import CommonService from "@/pages/service/common/CommonService";
 import StockService, {
-  TAmountStockInfo,
+  TLikeStockInfo,
 } from "@/pages/service/stock/StockService";
-import { getServerSession } from "next-auth";
 import colors from "tailwindcss/colors";
 
 const MainPage = async () => {
-  const session = await getServerSession(authOptions);
+  const { accountNumber } = await useAccountInfo();
 
-  const likeStockTableHeader = CommonService.getTableHeader(
-    "/v/main_likeStockList"
-  );
-
-  const accountNumber = session?.user.currentAccountInfo?.accountNumber;
-
-  let stockInfoList: TAmountStockInfo[] = [];
-  let likeStockList: LikeStock[] = [];
   let [stockPriceSum, stockSellRevenueSum, stockOrderCount, stockWaitCount] = [
     0, 0, 0, 0,
   ];
 
-  if (accountNumber) {
-    // 보유 주식
-    stockInfoList = await StockService.getStockList({
-      accountNumber: accountNumber,
-    });
-    stockPriceSum = stockInfoList.reduce((acc, cur) => {
-      let sum = cur.price * cur.quantity;
-      return acc + sum;
-    }, 0);
+  // 보유 주식
+  const stockInfoList = await StockService.getAmountStockInfoList({
+    accountNumber: accountNumber,
+  });
+  stockPriceSum = stockInfoList.reduce((acc, cur) => {
+    let sum = cur.price * cur.quantity;
+    return acc + sum;
+  }, 0);
+  // 보유 주식
 
-    // 주식주문 내역
-    const stockHistory = await StockOrderHistory.findMany({
-      where: {
-        account_number: accountNumber,
-      },
-    });
-    for (const history of stockHistory) {
-      // 판매수익, [판매] && [완료] && [체결가격이 존재]
-      if (
-        history.orderType == 0 &&
-        history.orderStatus == 2 &&
-        history.conclusionPrice
-      ) {
-        let sum = history.conclusionPrice - history.orderPrice;
-        stockSellRevenueSum += sum * history.orderQuantity;
-      }
+  // 관심 종목
+  const likeStockInfoList = await StockService.getLikeStockInfoList({
+    accountNumber: accountNumber,
+  });
+  // 관심 종목
 
-      // 대기중인 주문
-      if (history.orderStatus == 0) {
-        stockWaitCount++;
-      }
+  // 주식주문 내역
+  const stockHistory = await StockOrderHistory.findMany({
+    where: {
+      account_number: accountNumber,
+    },
+  });
+  for (const history of stockHistory) {
+    // 판매수익, [판매] && [완료] && [체결가격이 존재]
+    if (
+      history.orderType == 0 &&
+      history.orderStatus == 2 &&
+      history.conclusionPrice
+    ) {
+      let sum = history.conclusionPrice - history.orderPrice;
+      stockSellRevenueSum += sum * history.orderQuantity;
     }
-    stockOrderCount = stockHistory.length;
 
-    // 관심 종목
-    likeStockList = await StockService.getLikeStockList({
-      accountNumber: accountNumber,
-    });
+    // 대기중인 주문
+    if (history.orderStatus == 0) {
+      stockWaitCount++;
+    }
   }
-
-  // console.log(likeStockList);
+  stockOrderCount = stockHistory.length;
+  // 주식주문 내역
 
   return (
     <div className="flex flex-col gap-10">
+      {/* 내 주식 */}
       <div style={{ height: "20vh" }}>
         <Section.Scroll
           title="내 주식"
@@ -109,6 +98,7 @@ const MainPage = async () => {
         </Section.Scroll>
       </div>
 
+      {/* 내 포트폴리오 */}
       <Section
         title="내 포트폴리오 TOP 5"
         right={<Button.Link href="/v/portfolio"></Button.Link>}
@@ -166,18 +156,17 @@ const MainPage = async () => {
         />
       </Section>
 
+      {/* 관심 종목 */}
       <Section
         title="관심 종목"
         right={<Button.Link href="/v/like-stock"></Button.Link>}
       >
-        <TableComp headerObj={likeStockTableHeader} dataList={likeStockList} />
+        {/* <TableComp headerObj={headerInfo} dataList={likeStockList} /> */}
+        <TableContainer
+          tableName="/v/main_likeStockList"
+          dataList={likeStockInfoList}
+        />
       </Section>
-      {/* <Section
-        title="최근 본 주식"
-        right={<Button.Link href="/v/main"></Button.Link>}
-      >
-        <TableComp />
-      </Section> */}
     </div>
   );
 };

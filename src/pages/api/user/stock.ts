@@ -17,7 +17,9 @@ const GET = async (req: NextApiRequest, res: NextApiResponse) => {
     const { id, currentAccountInfo } = session!.user!;
     const { accountNumber } = currentAccountInfo!;
 
-    const stockInfoList = await StockService.getStockList(accountNumber);
+    const stockInfoList = await StockService.getAmountStockInfoList({
+      accountNumber: accountNumber,
+    });
 
     ResOk(stockInfoList, "주식 조회에 성공했습니다.");
   } catch (error) {

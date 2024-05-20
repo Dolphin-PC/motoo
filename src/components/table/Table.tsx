@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { TTableHeaderInfo } from "@/pages/service/common/CommonService";
 import Image from "next/image";
+import Link from "next/link";
 
 export type TTableCompProps = {
   headerObj: Record<string, TTableHeaderInfo>;
@@ -26,11 +27,17 @@ const TableComp = (props: TTableCompProps): React.ReactNode => {
   const { headerObj = {}, dataList = [] } = props;
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <Table
+        sx={{ minWidth: 650 }}
+        aria-label="simple table"
+        className="whitespace-nowrap"
+      >
         <TableHead>
           <TableRow>
             {Object.values(headerObj).map((header) => (
-              <TableCell key={header.key}>{header.displayName}</TableCell>
+              <TableCell className="text-center" key={header.key}>
+                {header.displayName}
+              </TableCell>
             ))}
           </TableRow>
         </TableHead>
@@ -44,13 +51,13 @@ const TableComp = (props: TTableCompProps): React.ReactNode => {
                     case "Date":
                       return (
                         <TableCell key={key}>
-                          {new Date(value).toLocaleDateString()}
+                          {value && new Date(value).toLocaleDateString()}
                         </TableCell>
                       );
                     case "number":
                       return (
-                        <TableCell key={key}>
-                          {value.toLocaleString()}
+                        <TableCell key={key} className="text-center">
+                          {value ? value.toLocaleString() : "-"}
                         </TableCell>
                       );
                     case "img":
@@ -66,6 +73,18 @@ const TableComp = (props: TTableCompProps): React.ReactNode => {
                             width={24}
                             height={24}
                           />
+                        </TableCell>
+                      );
+                    case "value":
+                      return (
+                        <TableCell key={key}>{header.value[value]}</TableCell>
+                      );
+                    case "link":
+                      return (
+                        <TableCell key={key}>
+                          <Link href={header.value + `/${rowObj.id}`}>
+                            Detail
+                          </Link>
                         </TableCell>
                       );
                   }

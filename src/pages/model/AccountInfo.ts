@@ -112,9 +112,12 @@ export class AccountInfo extends BaseModel {
   // methods //
 
   // statics //
+
   /**@desc 계좌 정보를 조회합니다.
-   * @param where - 조회 조건
-   * @param isConfirm - 토큰 만료 확인 여부
+   *
+   * @param prm
+   * @param { Prisma.AccountInfoWhereInput } prm.where - 조회 조건
+   * @param { boolean} prm.isConfirm - 토큰 만료 확인 여부
    * @returns
    */
   static async findFirst({
@@ -203,7 +206,9 @@ export class AccountInfo extends BaseModel {
         data: accountInfo.toPrisma(),
       })
       .then(async (accountInfo) => {
-        await AmountMoney.newSave(accountInfo.account_number);
+        await AmountMoney.newSave({
+          accountNumber: accountInfo.account_number,
+        });
         return accountInfo;
       });
 

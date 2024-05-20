@@ -34,7 +34,7 @@ const SectionCard = (props: TProps): React.ReactNode => {
       }}
     >
       <div className="flex items-center justify-between">
-        <p>{title}</p>
+        <p className="font-bold">{title}</p>
         {props.href && (
           <Link href={props.href}>
             <RightChevron />
