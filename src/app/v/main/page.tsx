@@ -159,7 +159,6 @@ const MainPage = async () => {
         title="관심 종목"
         right={<Button.Link href="/v/like-stock"></Button.Link>}
       >
-        {/* <TableComp headerObj={headerInfo} dataList={likeStockList} /> */}
         <TableContainer
           tableName="/v/main_likeStockList"
           dataList={likeStockInfoList}
