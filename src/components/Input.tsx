@@ -2,9 +2,7 @@ import { ErrorMessage } from "@hookform/error-message";
 import clsx from "clsx";
 import React, { HTMLInputTypeAttribute } from "react";
 import {
-  Path,
   UseControllerProps,
-  UseFormRegister,
   useController,
   FieldValues,
 } from "react-hook-form";

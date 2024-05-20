@@ -1,23 +1,14 @@
 import Button from "@/components/buttons/Button";
 import ChartComp from "@/components/chart/Chart";
 import Section from "@/components/section/Section";
-import React from "react";
 import RevenueCard from "./RevenueCard";
 import { AmountMoney } from "@/pages/model/AmountMoney";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import StockService from "@/pages/service/stock/StockService";
-import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
 import TableContainer from "@/components/table/TableContainer";
 
 const MyStockPage = async () => {
   const accountInfo = await useAccountInfo();
-
-  // TODO API
-  /**
-   * - 내 계좌 예수금 조회(AmountMoney)
-   * - 내 계좌 주식 조회(AmountStockInfo)
-   * - 내 계좌 주문 내역 조회(StockOrderHistory)
-   */
 
   const amountMoney = await AmountMoney.findUnique({
     where: { account_number: accountInfo.accountNumber },
@@ -33,7 +24,6 @@ const MyStockPage = async () => {
     (acc, cur) => acc + cur.price * cur.quantity,
     0
   );
-  console.log(stockOrderHistoryList);
 
   return (
     <div className="flex flex-col gap-10">

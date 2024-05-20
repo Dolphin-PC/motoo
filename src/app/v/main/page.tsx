@@ -5,9 +5,7 @@ import Section from "@/components/section/Section";
 import TableContainer from "@/components/table/TableContainer";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
-import StockService, {
-  TLikeStockInfo,
-} from "@/pages/service/stock/StockService";
+import StockService from "@/pages/service/stock/StockService";
 import colors from "tailwindcss/colors";
 
 const MainPage = async () => {

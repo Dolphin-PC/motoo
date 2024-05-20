@@ -3,7 +3,7 @@ import React from "react";
 import Button from "../buttons/Button";
 import Logo from "../icon/Logo";
 import Link from "next/link";
-import { SessionContextValue, signOut, useSession } from "next-auth/react";
+import { SessionContextValue, useSession } from "next-auth/react";
 import Image from "next/image";
 
 const Header = ({ right }: { right?: React.ReactNode }) => {

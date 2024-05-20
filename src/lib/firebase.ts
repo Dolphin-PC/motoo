@@ -1,5 +1,6 @@
+// ** NOT USED ** //
+
 import { FirebaseError } from "firebase/app";
-import { getAuth } from "firebase/auth";
 export const Collections = {
   USER: "user",
   NOTICE: "notice",

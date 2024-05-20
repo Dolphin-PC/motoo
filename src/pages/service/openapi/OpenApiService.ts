@@ -1,7 +1,7 @@
 import { axiosGet, axiosPost } from "@/lib/api/helper";
 import { convertObjectToQuery } from "@/lib/util/util";
 import { TIssueTokenReq, TIssueTokenRes } from "../token/TokenDao";
-import { TNewAccount, TVerifyAccount } from "@/app/v/my/account/new/page";
+import { TVerifyAccount } from "@/app/v/my/account/new/page";
 import { ValidationError, validateOrReject } from "class-validator";
 import {
   AccountInfo,

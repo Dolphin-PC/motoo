@@ -5,7 +5,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { TSignUpReq } from "@/pages/api/auth/signup";
 import { CResponse } from "@/pages/api";
 import { useRouter } from "next/navigation";
-import { ErrorMessage } from "@hookform/error-message";
 import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
 import { User } from "@/pages/model/User";
 
