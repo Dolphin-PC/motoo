@@ -12,10 +12,16 @@ import {
 import { TTableHeaderInfo } from "@/pages/service/common/CommonService";
 import Image from "next/image";
 
-type TTableCompProps = {
+export type TTableCompProps = {
   headerObj: Record<string, TTableHeaderInfo>;
   dataList: Record<string, any>[];
 };
+
+/** @desc CommonService에 등록된 테이블 헤더 정보를 바탕으로 테이블을 생성합니다.
+ *
+ * @param props
+ * @returns
+ */
 const TableComp = (props: TTableCompProps): React.ReactNode => {
   const { headerObj = {}, dataList = [] } = props;
   return (
