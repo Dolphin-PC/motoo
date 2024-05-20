@@ -88,7 +88,11 @@ const TableComp = (props: TTableCompProps): React.ReactNode => {
                         </TableCell>
                       );
                   }
-                  return <TableCell key={key}>{value}</TableCell>;
+                  return (
+                    <TableCell key={key} className="text-center">
+                      {value}
+                    </TableCell>
+                  );
                 })}
               </TableRow>
             );

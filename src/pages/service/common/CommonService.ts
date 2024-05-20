@@ -1,6 +1,14 @@
+import {
+  TAmountStockInfo,
+  TLikeStockInfo,
+  TStockOrderHistoryInfo,
+} from "../stock/StockService";
+import { PartialRecord } from "@/lib/types/global";
+
 export type TTableName =
   | "/v/main_likeStockList"
-  | "/v/my-stock_stockOrderHistoryList";
+  | "/v/my-stock_stockOrderHistoryList"
+  | "/v/portfolio_amountStockInfoList";
 
 export type TTableHeaderInfo = {
   displayName: string;
@@ -12,7 +20,7 @@ export type TTableHeaderInfo = {
 const CommonService = {
   getTableHeader: (tableName: TTableName): Record<string, TTableHeaderInfo> => {
     switch (tableName) {
-      case "/v/main_likeStockList":
+      case "/v/main_likeStockList": {
         return {
           name: {
             displayName: "종목명",
@@ -34,12 +42,14 @@ const CommonService = {
             key: "price",
             type: "number",
           },
-        };
+        } as PartialRecord<keyof TLikeStockInfo, TTableHeaderInfo>;
+      }
       case "/v/my-stock_stockOrderHistoryList": {
         const TableEnumDisplay = {
           orderType: ["매수", "매도"],
           orderStatus: ["대기", "완료", "실패"],
         };
+
         return {
           orderTime: {
             displayName: "주문일",
@@ -94,7 +104,30 @@ const CommonService = {
             type: "link",
             value: "/v/my-stock/stock-order-history",
           },
-        };
+        } as PartialRecord<
+          keyof TStockOrderHistoryInfo | "link",
+          TTableHeaderInfo
+        >;
+      }
+      case "/v/portfolio_amountStockInfoList": {
+        return {
+          name: {
+            displayName: "종목명",
+            key: "name",
+            type: "string",
+          },
+          quantity: {
+            displayName: "보유 주식 수",
+            key: "quantity",
+            type: "number",
+          },
+
+          price: {
+            displayName: "현재가",
+            key: "price",
+            type: "number",
+          },
+        } as PartialRecord<keyof TAmountStockInfo, TTableHeaderInfo>;
       }
     }
   },
