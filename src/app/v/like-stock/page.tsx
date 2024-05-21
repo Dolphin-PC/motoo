@@ -1,7 +1,7 @@
 import React from "react";
-import TabScroll from "./TabScroll";
 import StockService from "@/pages/service/stock/StockService";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
+import TabScrollContainer from "./TabScrollContainer";
 
 const LikeStockPage = async () => {
   const accountInfo = await useAccountInfo();
@@ -11,7 +11,7 @@ const LikeStockPage = async () => {
     });
   return (
     <>
-      <TabScroll groupLikeStockList={groupLikeStockList} />
+      <TabScrollContainer groupLikeStockList={groupLikeStockList} />
     </>
   );
 };

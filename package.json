@@ -50,6 +50,7 @@
     "react-dom": "18.2.0",
     "react-hook-form": "^7.51.2",
     "react-redux": "^9.1.0",
+    "recoil": "^0.7.7",
     "tailwindcss": "3.4.1",
     "typescript": "5.4.2",
     "uuid": "^9.0.1"

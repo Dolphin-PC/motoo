@@ -11,10 +11,25 @@ export type TSignInRes = {
  * @swagger
  * /api/auth/login:
  *   post:
- *     description: Returns the hello world
- *     responses:
- *       200:
- *         description: hello world
+ *    tags:
+ *     - Auth
+ *    description: 유저 로그인
+ *    parameters:
+ *      - name: email
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        description: 이메일
+ *      - name: password
+ *        in: formData
+ *        required: true
+ *        type: string
+ *        description: 비밀번호
+ *    responses:
+ *      200:
+ *        description: 로그인 성공
+ *      401:
+ *        description: 로그인 실패
  */
 export default async function POST(req: NextApiRequest, res: NextApiResponse) {
   const { email, password }: User = req.body;

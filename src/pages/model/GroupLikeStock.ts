@@ -2,6 +2,7 @@ import { Prisma } from "@prisma/client";
 import { BaseModel } from "./Base";
 import { LikeStock } from "./LikeStock";
 import prisma from "../service/prismaClient";
+import { AccountInfo } from "./AccountInfo";
 
 export class GroupLikeStock extends BaseModel {
   id: number;
@@ -36,6 +37,28 @@ export class GroupLikeStock extends BaseModel {
   }): Promise<GroupLikeStock | null> {
     const result = await prisma.groupLikeStock.findFirst({ where });
     if (result == null) return null;
+    return new GroupLikeStock(result);
+  }
+
+  static async create({
+    accountNumber,
+    groupName,
+  }: {
+    accountNumber: AccountInfo["accountNumber"];
+    groupName: GroupLikeStock["groupName"];
+  }): Promise<GroupLikeStock> {
+    const count = await prisma.groupLikeStock.count({
+      where: { account_number: accountNumber },
+    });
+    //// 생성시간을 우선순위로 사용
+    //// const priority = new Date().getTime();
+    const result = await prisma.groupLikeStock.create({
+      data: {
+        group_name: groupName,
+        group_prioirty: count + 1,
+        account_number: accountNumber,
+      },
+    });
     return new GroupLikeStock(result);
   }
 

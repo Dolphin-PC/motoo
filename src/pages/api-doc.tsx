@@ -13,7 +13,7 @@ export const getStaticProps: GetStaticProps = async () => {
     definition: {
       openapi: "3.0.0",
       info: {
-        title: "Next Swagger API Example",
+        title: "Motoo API Swagger",
         version: "1.0",
       },
       components: {
@@ -22,19 +22,6 @@ export const getStaticProps: GetStaticProps = async () => {
             type: "http",
             scheme: "bearer",
             bearerFormat: "JWT",
-          },
-          OAuth2: {
-            type: "oauth2",
-            flows: {
-              authorizationCode: {
-                authorizationUrl: "https://example.com/oauth/authorize",
-                tokenUrl: "https://example.com/oauth/token",
-                scopes: {
-                  read: "Grants read access",
-                  write: "Grants write access",
-                },
-              },
-            },
           },
         },
       },
