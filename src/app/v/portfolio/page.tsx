@@ -15,7 +15,7 @@ const PortfolioPage = async () => {
 
   const [stockPriceSum] = [
     amountStockInfoList.reduce((acc, cur) => {
-      let sum = cur.price || 0 * cur.quantity;
+      let sum = (cur.price || 0) * cur.quantity;
       return acc + sum;
     }, 0),
   ];
