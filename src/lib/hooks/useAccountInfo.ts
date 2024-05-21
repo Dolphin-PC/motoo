@@ -5,6 +5,10 @@ import { AccountInfo } from "@/pages/model/AccountInfo";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
+/** @desc 현재 로그인한 사용자의 계좌정보를 가져옵니다.(server side)
+ *
+ * @returns
+ */
 const useAccountInfo = async (): Promise<AccountInfo> => {
   const session = await getServerSession(authOptions);
 

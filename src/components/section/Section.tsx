@@ -1,12 +1,13 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import SectionCard from "./SectionCard";
 
 export type TSectionProps = {
   title?: string;
-  children: React.ReactNode;
+  children: ReactNode;
   className?: HTMLDivElement["className"];
   right?: React.ReactNode;
 };
+
 const Section = (props: TSectionProps): React.ReactNode => {
   return (
     <div className="flex flex-col gap-3 h-full neumorphism">

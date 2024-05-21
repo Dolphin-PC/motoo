@@ -17,6 +17,7 @@ import { StockOrderHistory } from "./StockOrderHistory";
 import { AmountMoney } from "./AmountMoney";
 import { AmountStock } from "./AmountStock";
 import { LikeStock } from "./LikeStock";
+import { GroupLikeStock } from "./GroupLikeStock";
 
 export enum AccountInfoValidatorGroups {
   verify = "VERIFY_ACCOUNT",
@@ -59,7 +60,7 @@ export class AccountInfo extends BaseModel {
   stockOrderHistoryList?: StockOrderHistory[];
   amountMoneyList?: AmountMoney[];
   amountStockList?: AmountStock[];
-  likeStockList?: LikeStock[];
+  groupLikeStockList?: GroupLikeStock[];
   // properties //
 
   constructor(data: any) {

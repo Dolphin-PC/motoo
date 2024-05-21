@@ -3,9 +3,20 @@ import { AccountInfo } from "@/pages/model/AccountInfo";
 import { AmountStock } from "@/pages/model/AmountStock";
 import { LikeStock } from "@/pages/model/LikeStock";
 import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
+import { get } from "http";
+import { GroupLikeStock } from "@/pages/model/GroupLikeStock";
 
 export type TAmountStockInfo = AmountStock & Omit<StockInfo, "updateInfo">;
 export type TLikeStockInfo = LikeStock & Omit<StockInfo, "updateInfo">;
+
+export type TGroupLikeStockInfo = {
+  id: number;
+  groupName: string;
+  groupPriority: number;
+  accountNumber: string;
+  likeStockInfoList: TLikeStockInfo[];
+};
+
 export type TStockOrderHistoryInfo = StockOrderHistory &
   Omit<StockInfo, "updateInfo"> & {
     orderTotal: number;
@@ -48,18 +59,18 @@ const StockService = {
     return amountStockInfoList;
   },
 
-  /** @desc 관심 주식 목록을 가져옵니다.
+  /** @desc 특정그룹의 관심 주식정보 목록을 가져옵니다.
    *
    * @param param0
    * @returns
    */
-  getLikeStockInfoList: async ({
-    accountNumber,
+  getLikeStockInfoListByGroupId: async ({
+    groupId,
   }: {
-    accountNumber: AccountInfo["accountNumber"];
+    groupId: GroupLikeStock["id"];
   }): Promise<TLikeStockInfo[]> => {
     const likeStockList = await LikeStock.findMany({
-      where: { account_number: accountNumber },
+      where: { group_id: groupId },
     });
 
     const likeStockInfoList = Promise.all(
@@ -71,6 +82,37 @@ const StockService = {
     );
 
     return likeStockInfoList;
+  },
+
+  /** @desc 사용자의 계좌의 [그룹 관심주식정보] 목록을 가져옵니다.
+   *
+   * @param param0
+   * @returns
+   */
+  getGroupLikeStockInfoListByAccountNumber: async ({
+    accountNumber,
+  }: {
+    accountNumber: AccountInfo["accountNumber"];
+  }): Promise<TGroupLikeStockInfo[]> => {
+    const groupList = await GroupLikeStock.findMany({
+      where: { account_number: accountNumber },
+    });
+
+    const resultList = Promise.all(
+      groupList.map(async (group) => {
+        const likeStockInfoList =
+          await StockService.getLikeStockInfoListByGroupId({
+            groupId: group.id,
+          });
+
+        return {
+          ...group,
+          likeStockInfoList: likeStockInfoList,
+        };
+      })
+    );
+
+    return resultList;
   },
 
   /** @desc 주식 주문 내역을 가져옵니다.

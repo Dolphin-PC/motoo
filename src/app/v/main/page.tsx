@@ -20,15 +20,15 @@ const MainPage = async () => {
     accountNumber: accountNumber,
   });
   stockPriceSum = stockInfoList.reduce((acc, cur) => {
-    let sum = cur.price || 0 * cur.quantity;
+    let sum = (cur.price || 0) * cur.quantity;
     return acc + sum;
   }, 0);
   // 보유 주식
 
   // 관심 종목
-  const likeStockInfoList = await StockService.getLikeStockInfoList({
-    accountNumber: accountNumber,
-  });
+  // const likeStockInfoList = await StockService.getLikeStockInfoList({
+  //   accountNumber: accountNumber,
+  // });
   // 관심 종목
 
   // 주식주문 내역
@@ -154,8 +154,8 @@ const MainPage = async () => {
         />
       </Section>
 
-      {/* 관심 종목 */}
-      <Section
+      {/* 관심 종목 : like_stock에 [그룹]모델 추가로, 여기서는 삭제 */}
+      {/* <Section
         title="관심 종목"
         right={<Button.Link href="/v/like-stock"></Button.Link>}
       >
@@ -163,7 +163,7 @@ const MainPage = async () => {
           tableName="/v/main_likeStockList"
           dataList={likeStockInfoList}
         />
-      </Section>
+      </Section> */}
     </div>
   );
 };
