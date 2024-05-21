@@ -1,8 +1,8 @@
 "use client";
 
 import { MouseEvent, useEffect, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
-import { tabOpenStateList } from "../atoms/tab";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { tabOpenState, tabOpenStateList } from "../atoms/tab";
 
 export const useTabScroll = ({ length }: { length: number }) => {
   const tabBodyRef = useRef<HTMLDivElement[]>([]);
@@ -10,7 +10,11 @@ export const useTabScroll = ({ length }: { length: number }) => {
   const headerRef = useRef<HTMLDivElement | null>(null);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
 
-  const [isOpenTabList, setIsOpenTabList] = useRecoilState(tabOpenStateList);
+  // const [isOpenTabList, setIsOpenTabList] = useRecoilState(tabOpenStateList);
+  const setIsOpenTabList = useSetRecoilState(tabOpenStateList);
+  const setOpenList = Array(length)
+    .fill(false)
+    .map((_, idx) => useSetRecoilState(tabOpenState(idx)));
 
   useEffect(() => {
     if (headerRef.current) {
@@ -39,11 +43,12 @@ export const useTabScroll = ({ length }: { length: number }) => {
         block: "start",
         inline: "nearest",
       });
-      setIsOpenTabList(() => {
-        const newState = [...isOpenTabList];
-        newState[tabIndex] = true;
-        return newState;
-      });
+      // setIsOpenTabList(() => {
+      //   const newState = [...isOpenTabList];
+      //   newState[tabIndex] = true;
+      //   return newState;
+      // });
+      setOpenList[tabIndex](true);
     }
   };
 
@@ -51,7 +56,7 @@ export const useTabScroll = ({ length }: { length: number }) => {
     registryRef,
     handleScroll,
     headerRef,
-    isOpenTabList,
+    // isOpenTabList,
     setIsOpenTabList,
   };
 };

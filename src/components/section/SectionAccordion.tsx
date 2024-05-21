@@ -4,19 +4,19 @@ import Section, { TSectionProps } from "./Section";
 import DownChevron from "@/assets/icons/chevron-down.svg";
 import Button from "../buttons/Button";
 import clsx from "clsx";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { tabOpenState } from "@/lib/atoms/tab";
 
 type TSectionAccordionProps = {
   index: number;
   noContent: ReactNode;
-  isOpen: boolean;
+  // isOpen: boolean;
 } & TSectionProps;
 
 const SectionAccordion = (props: TSectionAccordionProps) => {
-  const { index, children, noContent = "내용이 없어요.", isOpen } = props;
+  const { index, children, noContent = "내용이 없어요." } = props;
 
-  const setIsOpen = useSetRecoilState(tabOpenState(index));
+  const [isOpen, setIsOpen] = useRecoilState(tabOpenState(index));
 
   const toggleAccordion = () => {
     setIsOpen(!isOpen);

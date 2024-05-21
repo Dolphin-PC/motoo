@@ -14,7 +14,7 @@ const TabScroll = ({
 }: {
   groupLikeStockList: TGroupLikeStockInfo[];
 }) => {
-  const { registryRef, handleScroll, headerRef, isOpenTabList } = useTabScroll({
+  const { registryRef, handleScroll, headerRef } = useTabScroll({
     length: groupLikeStockList.length,
   });
 
@@ -60,7 +60,7 @@ const TabScroll = ({
               index={idx}
               title={group.groupName}
               noContent={<Button primary>주식 추가하기</Button>}
-              isOpen={isOpenTabList[idx]}
+              // isOpen={isOpenTabList[idx]}
             >
               {group.likeStockInfoList.length &&
                 group.likeStockInfoList.map((likeStock, idx) => {
