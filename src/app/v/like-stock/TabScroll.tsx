@@ -7,8 +7,6 @@ import { useTabScroll } from "@/lib/hooks/useTabScroll";
 import { EnumCResponseStatus } from "@/pages/api";
 import { TGroupLikeStockInfo } from "@/pages/service/stock/StockService";
 
-// XXX렌더링최적화 :: TabScroll할 때, tabOpenStateList atom의 재렌더링 최적화 방법이 없을까.....
-
 const TabScroll = ({
   groupLikeStockList,
 }: {
@@ -37,7 +35,8 @@ const TabScroll = ({
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="sticky top-0" ref={headerRef}>
+      {/* XXX :: z-index를 준 이유 : Section.Accordion > Button에서 클릭시 transform효과를 주게되는데, 이때 새로운 [스택 컨텍스트]가 생성되어 z-index가 올라가게 됨  */}
+      <div className="sticky top-0 z-10" ref={headerRef}>
         <Section.Scroll title="관심주식">
           <div className="sticky left-0">
             <Button primary onClick={handleAdd}>
@@ -60,7 +59,6 @@ const TabScroll = ({
               index={idx}
               title={group.groupName}
               noContent={<Button primary>주식 추가하기</Button>}
-              // isOpen={isOpenTabList[idx]}
             >
               {group.likeStockInfoList.length &&
                 group.likeStockInfoList.map((likeStock, idx) => {
