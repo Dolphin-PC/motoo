@@ -4,7 +4,7 @@ import Button from "@/components/buttons/Button";
 import LinkButton from "@/components/buttons/LinkButton";
 import LogoutButton from "@/components/buttons/LogoutButton";
 import { fetchHelperWithData } from "@/lib/api/helper";
-import { EnumCResponseStatus } from "@/pages/api";
+import { StatusCode } from "@/pages/api";
 import { AccountInfo } from "@/pages/model/AccountInfo";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -49,7 +49,7 @@ const MyPage = () => {
         url: `/api/user/${id}`,
       });
 
-      if (resData.status === EnumCResponseStatus.SUCCESS) {
+      if (resData.status === StatusCode.SUCCESS) {
         alert(resData.message);
         signOut();
       }

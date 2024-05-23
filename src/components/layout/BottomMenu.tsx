@@ -16,9 +16,9 @@ const BottomMenu = () => {
       href: "my-stock",
     },
     {
-      name: "포트폴리오",
+      name: "주식 주문",
       icon_name: "chart-trend",
-      href: "portfolio",
+      href: "stock",
     },
     {
       name: "관심종목",

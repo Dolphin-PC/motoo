@@ -4,7 +4,7 @@ import Button from "@/components/buttons/Button";
 import Section from "@/components/section/Section";
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { useTabScroll } from "@/lib/hooks/useTabScroll";
-import { EnumCResponseStatus } from "@/pages/api";
+import { StatusCode } from "@/pages/api";
 import { TGroupLikeStockInfo } from "@/pages/service/stock/StockService";
 
 const TabScroll = ({
@@ -26,7 +26,7 @@ const TabScroll = ({
         data: { groupName },
       });
 
-      if (res.status === EnumCResponseStatus.SUCCESS) {
+      if (res.status === StatusCode.SUCCESS) {
         alert(res.message);
         window.location.reload();
       }

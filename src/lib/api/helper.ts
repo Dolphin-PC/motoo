@@ -1,5 +1,6 @@
-import { CResponse, EnumCResponseStatus } from "@/pages/api";
+import { CResponse, StatusCode } from "@/pages/api";
 import axios, { AxiosRequestConfig } from "axios";
+import { RequestInit } from "next/dist/server/web/spec-extension/request";
 
 export type TResponse<T> = {
   result: true;
@@ -17,15 +18,18 @@ export const fetchHelper = <T>({
   url,
   data,
   method,
+  options,
 }: {
   url: string;
   data?: T;
   method: "GET" | "POST" | "PUT" | "DELETE";
+  options?: RequestInit;
 }) => {
   return fetch(url, {
     method,
     body: JSON.stringify(data),
     headers: { "Content-Type": "application/json" },
+    ...options,
   });
 };
 
@@ -33,18 +37,20 @@ export const fetchHelperWithData = async <T, R>({
   url,
   data,
   method,
+  options,
 }: {
   url: string;
   data?: T;
   method: "GET" | "POST" | "PUT" | "DELETE";
+  options?: RequestInit;
 }): Promise<CResponse<R>> => {
   return new Promise((resolve, reject) => {
-    fetchHelper<T>({ url, data, method })
+    fetchHelper<T>({ url, data, method, options })
       .then(async (res) => {
         let responseData = (await res.json()) as CResponse<R>;
         // console.log(responseData);
 
-        if (responseData.status == EnumCResponseStatus.INVALID) {
+        if (responseData.status == StatusCode.INVALID) {
           throw responseData;
         }
 

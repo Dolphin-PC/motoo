@@ -334,6 +334,7 @@ const config: Config = {
         l: "0px 6px 13px rgba(23, 26, 31, 0.14), 0px 0px 2px rgba(23, 26, 31, 0.12)",
         xl: "0px 12.75px 26.5px rgba(23, 26, 31, 0.23), 0px 0px 2px rgba(23, 26, 31, 0.12)",
       },
+      colors: {},
     },
   },
   plugins: [
@@ -346,6 +347,7 @@ const config: Config = {
             /* Chrome, Safari and Opera */ display: "none",
           },
         },
+        ".badge": {},
       };
       addUtilities(newUtilities);
     },

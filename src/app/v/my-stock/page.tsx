@@ -1,11 +1,14 @@
 import Button from "@/components/buttons/Button";
 import ChartComp from "@/components/chart/Chart";
 import Section from "@/components/section/Section";
+import React from "react";
 import RevenueCard from "./RevenueCard";
 import { AmountMoney } from "@/pages/model/AmountMoney";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import StockService from "@/pages/service/stock/StockService";
+import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
 import TableContainer from "@/components/table/TableContainer";
+import colors from "tailwindcss/colors";
 
 const MyStockPage = async () => {
   const accountInfo = await useAccountInfo();
@@ -21,12 +24,13 @@ const MyStockPage = async () => {
   });
 
   const stockPriceQuantitySum = amountStockInfoList.reduce(
-    (acc, cur) => acc + cur.price * cur.quantity,
+    (acc, cur) => acc + (cur.price || 0) * cur.quantity,
     0
   );
 
   return (
     <div className="flex flex-col gap-10">
+      {/* 내 계좌정보 */}
       <Section
         title="내 계좌정보"
         right={<Button.Link href="/v/my/account"></Button.Link>}
@@ -36,6 +40,8 @@ const MyStockPage = async () => {
           {accountInfo.accountNumber}
         </p>
       </Section>
+
+      {/* 자산현황 */}
       <Section title="자산현황">
         <ChartComp
           option={{
@@ -74,6 +80,40 @@ const MyStockPage = async () => {
         </div>
       </Section>
 
+      {/* 주식 비중 */}
+      <Section title="주식 비중">
+        <ChartComp
+          option={{
+            type: "doughnut",
+            data: {
+              labels: amountStockInfoList.map((stock) => stock.name),
+              datasets: [
+                {
+                  data: amountStockInfoList.map(
+                    (stock) => stock.price || 0 * stock.quantity
+                  ),
+                  backgroundColor: Object.values(colors.purple)
+                    .reverse()
+                    .slice(4),
+                },
+              ],
+            },
+            options: {
+              plugins: {
+                legend: {
+                  position: "bottom",
+                },
+              },
+            },
+          }}
+        />
+        <TableContainer
+          tableName="/v/portfolio_amountStockInfoList"
+          dataList={amountStockInfoList}
+        />
+      </Section>
+
+      {/* 수익 현황 */}
       <Section title="수익 현황">
         <RevenueCard stockOrderHistoryList={stockOrderHistoryList} />
       </Section>

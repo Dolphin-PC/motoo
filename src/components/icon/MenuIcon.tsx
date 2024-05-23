@@ -10,7 +10,7 @@ type TProps = {
 export type TMenuIconProps = {
   name: string;
   icon_name: "home" | "line-chart" | "chart-trend" | "archive" | "user";
-  href: "main" | "my-stock" | "portfolio" | "like-stock" | "my";
+  href: "main" | "my-stock" | "stock" | "like-stock" | "my";
 };
 
 const MenuIcon = ({ isSelect, iconInfo }: TProps) => {

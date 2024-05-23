@@ -4,6 +4,7 @@ import { AccountInfo } from "./AccountInfo";
 import { BaseModel } from "./Base";
 import { OpenApiService } from "../service/openapi/OpenApiService";
 import { getKoreanTime } from "@/lib/util/util";
+import { Prisma } from "@prisma/client";
 
 // # 주식정보
 export class StockInfo extends BaseModel {
@@ -100,6 +101,16 @@ export class StockInfo extends BaseModel {
     }
 
     return stock;
+  }
+
+  static async findMany({
+    where,
+  }: {
+    where: Prisma.StockInfoWhereInput;
+  }): Promise<StockInfo[]> {
+    return (await prisma.stockInfo.findMany({ where })).map(
+      (data) => new StockInfo(data)
+    );
   }
 
   // statics //

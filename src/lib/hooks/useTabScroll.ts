@@ -1,8 +1,8 @@
 "use client";
 
+import { tabOpenStateList } from "@/app/v/like-stock/atom";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
-import { tabOpenStateList } from "../atoms/tab";
 
 export const useTabScroll = ({ length }: { length: number }) => {
   const tabBodyRef = useRef<HTMLDivElement[]>([]);

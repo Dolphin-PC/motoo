@@ -4,7 +4,7 @@ import Input from "@/components/Input";
 import Button from "@/components/buttons/Button";
 import InnerLayout from "@/components/layout/InnerLayout";
 import { fetchHelperWithData } from "@/lib/api/helper";
-import { EnumCResponseStatus } from "@/pages/api";
+import { StatusCode } from "@/pages/api";
 import {
   AccountInfo,
   AccountInfoValidatorGroups,
@@ -56,7 +56,7 @@ const VMyAccountNew = () => {
       method: "POST",
     });
 
-    if (res.status == EnumCResponseStatus.INVALID) {
+    if (res.status == StatusCode.INVALID) {
       alert(res.message);
       return;
     }

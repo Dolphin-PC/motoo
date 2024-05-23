@@ -5,7 +5,7 @@ import DownChevron from "@/assets/icons/chevron-down.svg";
 import Button from "../buttons/Button";
 import clsx from "clsx";
 import { useRecoilState } from "recoil";
-import { tabOpenStateList } from "@/lib/atoms/tab";
+import { tabOpenStateList } from "@/app/v/like-stock/atom";
 
 type TSectionAccordionProps = {
   index: number;
