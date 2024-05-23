@@ -1,5 +1,5 @@
 "use client";
-import React, { ReactNode } from "react";
+import React, { MouseEvent, ReactNode } from "react";
 import Section, { TSectionProps } from "./Section";
 import DownChevron from "@/assets/icons/chevron-down.svg";
 import Button from "../buttons/Button";
@@ -17,23 +17,26 @@ const SectionAccordion = (props: TSectionAccordionProps) => {
 
   const [isOpen, setIsOpen] = useRecoilState(tabOpenStateList(index));
 
-  const toggleAccordion = () => {
+  const toggleAccordion = (e: MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
     setIsOpen(!isOpen);
   };
 
   return (
     <Section
       title={props.title}
+      titleProps={{ onClick: toggleAccordion }}
       right={
-        <Button onClick={toggleAccordion}>
-          <div
-            className={clsx("transition-transform duration-500 ease-in-out", {
+        <div
+          className={clsx(
+            "transition-transform duration-500 ease-in-out cursor-pointer",
+            {
               "transform rotate-180": isOpen,
-            })}
-          >
-            <DownChevron />
-          </div>
-        </Button>
+            }
+          )}
+        >
+          <DownChevron />
+        </div>
       }
     >
       <div

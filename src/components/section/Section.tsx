@@ -1,10 +1,11 @@
-import React, { ReactNode } from "react";
+import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import SectionCard from "./SectionCard";
 import SectionScroll from "./SectionScroll";
 import dynamic from "next/dynamic";
 
 export type TSectionProps = {
   title?: string;
+  titleProps?: ButtonHTMLAttributes<HTMLDivElement>;
   children: ReactNode;
   className?: HTMLDivElement["className"];
   right?: React.ReactNode;
@@ -13,9 +14,12 @@ export type TSectionProps = {
 const Section = (props: TSectionProps): React.ReactNode => {
   return (
     <div className="flex flex-col h-full neumorphism">
-      <div className="flex flex-row justify-between items-center">
+      <div
+        className="flex flex-row justify-between items-center"
+        {...props.titleProps}
+      >
         {props.title && (
-          <h5 className="font-bold text-primary-550">| {props.title}</h5>
+          <h5 className={"font-bold text-primary-550"}>| {props.title}</h5>
         )}
         {props.right && props.right}
       </div>

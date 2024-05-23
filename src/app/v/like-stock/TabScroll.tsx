@@ -1,6 +1,7 @@
 "use client";
 
 import Button from "@/components/buttons/Button";
+import StockCard from "@/components/card/StockCard";
 import Section from "@/components/section/Section";
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { useTabScroll } from "@/lib/hooks/useTabScroll";
@@ -62,17 +63,7 @@ const TabScroll = ({
             >
               {group.likeStockInfoList.length &&
                 group.likeStockInfoList.map((likeStock, idx) => {
-                  return (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between"
-                    >
-                      <p>
-                        {likeStock.name} ({likeStock.stockId})
-                      </p>
-                      <Button primary>BUY</Button>
-                    </div>
-                  );
+                  return <StockCard key={idx} stock={likeStock} />;
                 })}
             </Section.Accordion>
           </div>

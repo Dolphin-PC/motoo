@@ -2,9 +2,10 @@ import { StockInfo } from "@/pages/model/StockInfo";
 import React from "react";
 import Button from "../buttons/Button";
 import RightChevron from "@/assets/icons/chevron-right.svg";
+import { TLikeStockInfo } from "@/pages/service/stock/StockService";
 
 type TStockCardProps = {
-  stock: StockInfo;
+  stock: StockInfo | TLikeStockInfo;
 };
 
 const StockCard = (props: TStockCardProps) => {
