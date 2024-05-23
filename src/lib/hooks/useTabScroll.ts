@@ -30,7 +30,7 @@ export const useTabScroll = ({ length }: { length: number }) => {
     }
   };
 
-  // 버튼 클릭시, ref에 등록된 element로 스크롤 이동
+  // 버튼 클릭시, ref에 등록된 element로 스크롤 이동 & open 상태 변경
   const handleScroll = (e: MouseEvent<HTMLButtonElement>) => {
     const tabIndex = e.currentTarget.tabIndex;
     if (tabBodyRef.current) {
