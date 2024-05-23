@@ -4,13 +4,12 @@ import Section, { TSectionProps } from "./Section";
 import DownChevron from "@/assets/icons/chevron-down.svg";
 import Button from "../buttons/Button";
 import clsx from "clsx";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { tabOpenState } from "@/lib/atoms/tab";
 
 type TSectionAccordionProps = {
   index: number;
   noContent: ReactNode;
-  // isOpen: boolean;
 } & TSectionProps;
 
 const SectionAccordion = (props: TSectionAccordionProps) => {
@@ -47,5 +46,4 @@ const SectionAccordion = (props: TSectionAccordionProps) => {
     </Section>
   );
 };
-
 export default SectionAccordion;

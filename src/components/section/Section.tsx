@@ -1,6 +1,7 @@
 import React, { ReactNode } from "react";
 import SectionCard from "./SectionCard";
-import SectionAccordion from "./SectionAccordion";
+import SectionScroll from "./SectionScroll";
+import dynamic from "next/dynamic";
 
 export type TSectionProps = {
   title?: string;
@@ -23,27 +24,13 @@ const Section = (props: TSectionProps): React.ReactNode => {
   );
 };
 
-const SectionScrollable = (props: TSectionProps): React.ReactNode => {
-  return (
-    <Section
-      {...props}
-      className={`flex flex-row gap-5 overflow-x-auto whitespace-nowrap hide-scrollbar ${props.className}`}
-    />
-  );
-  //   return (
-  //     <div className="flex flex-col gap-3">
-  //       <h5 className="font-bold text-primary-550">| {props.title}</h5>
-  //       <div
-
-  //       >
-  //         {props.children}
-  //       </div>
-  //     </div>
-  //   );
-};
-
+// SSR
 Section.Card = SectionCard;
-Section.Scroll = SectionScrollable;
-Section.Accordion = SectionAccordion;
+Section.Scroll = SectionScroll;
+// CSR
+Section.Accordion = dynamic(() => import("./SectionAccordion"), {
+  ssr: false,
+  loading: () => <div>loading...</div>,
+});
 
 export default Section;
