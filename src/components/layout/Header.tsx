@@ -11,7 +11,7 @@ const Header = ({ right }: { right?: React.ReactNode }) => {
 
   return (
     <div
-      className="sticky top-0 bg-white shadow-sm
+      className="bg-white shadow-sm h-16
     flex justify-between items-center p-4 text-primary-500 w-full"
     >
       <Link href={session.status == "authenticated" ? "/v/main" : "/"}>

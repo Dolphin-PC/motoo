@@ -14,9 +14,9 @@ const InnerLayout = (props: TProps) => {
   // const pathname = usePathname();
   const router = useRouter();
   return (
-    <div>
-      <div className="flex justify-center items-center">
-        <div className="">
+    <>
+      <div className="flex justify-center items-center sticky top-0 bg-white z-40 h-16 w-full">
+        <div className="w-2/12 flex justify-center">
           <Button onClick={() => router.back()}>
             <LeftChevron />
           </Button>
@@ -27,7 +27,7 @@ const InnerLayout = (props: TProps) => {
         <div className="w-2/12">{props.option}</div>
       </div>
       <main className="pt-3">{props.children}</main>
-    </div>
+    </>
   );
 };
 

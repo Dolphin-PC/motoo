@@ -12,6 +12,7 @@ export class AmountStock extends BaseModel {
   accountNumber: number;
   quantity: number;
 
+  avgAmount: number;
   // historyId: number;
 
   constructor(data: any) {

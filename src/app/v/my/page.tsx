@@ -67,7 +67,7 @@ const MyPage = () => {
   }, [status]);
 
   return (
-    <div className="flex flex-col gap-5">
+    <div className="flex flex-col gap-5 p-5">
       <section className="flex flex-col gap-5">
         <div className="flex items-center justify-between ">
           <h4>내 정보</h4>
