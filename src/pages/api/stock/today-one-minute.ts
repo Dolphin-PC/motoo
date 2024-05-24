@@ -34,7 +34,7 @@ export default async function handler(
         VTS_TOKEN: apiToken,
         startTime: hour + minute + "00",
       });
-      console.info(resData);
+      // console.info(resData);
       resData.time = {
         hour,
         minute,

@@ -11,7 +11,7 @@ export const useTabScroll = () => {
 
   useEffect(() => {
     if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight + 50);
+      setHeaderHeight(headerRef.current.getBoundingClientRect().top);
     }
   }, []);
 
@@ -34,7 +34,7 @@ export const useTabScroll = () => {
       (tabBodyRef.current[tabIndex] as HTMLDivElement).scrollIntoView({
         behavior: "smooth",
         block: "start",
-        inline: "nearest",
+        inline: "start",
       });
     }
   };

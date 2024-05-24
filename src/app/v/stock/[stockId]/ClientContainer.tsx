@@ -21,8 +21,8 @@ const ClientContainer = (props: TProps) => {
   return (
     <RecoilRoot>
       <div className="flex flex-col gap-5">
-        <div className="flex flex-col gap-5 " ref={headerRef}>
-          <CurrentPrice stockId={stockId} />
+        <CurrentPrice stockId={stockId} />
+        <div ref={headerRef} className="sticky top-20">
           <Section.Scroll>
             <Button onClick={handleScroll}>차트</Button>
             {!isEmpty(amountStock) && (
