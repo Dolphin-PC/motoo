@@ -12,7 +12,7 @@ export class AmountStock extends BaseModel {
   accountNumber: number;
   quantity: number;
 
-  historyId: number;
+  // historyId: number;
 
   constructor(data: any) {
     super(data);
@@ -27,6 +27,18 @@ export class AmountStock extends BaseModel {
     const result = await prisma.amountStock
       .findMany({ where })
       .then((res) => res.map((stock) => new AmountStock(stock)));
+
+    return result;
+  }
+
+  static async findUnique({
+    where,
+  }: {
+    where: Prisma.AmountStockWhereUniqueInput;
+  }) {
+    const result = await prisma.amountStock
+      .findUnique({ where })
+      .then((stock) => new AmountStock(stock));
 
     return result;
   }

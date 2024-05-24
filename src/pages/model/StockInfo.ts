@@ -103,6 +103,7 @@ export class StockInfo extends BaseModel {
     return stock;
   }
 
+  /** @desc 보유한 주식 목록 조회 */
   static async findMany({
     where,
   }: {
