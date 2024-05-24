@@ -117,6 +117,7 @@ export const convertObjectToQuery = (obj: Record<string, any>) => {
 //   return { headers, row }; // Fix the variable name from 'header' to 'headers'
 // };
 
+/** @desc 한국시간기준으로 시간을 구합니다. */
 export const getKoreanTime = (date?: Date) => {
   const now = new Date(date || new Date());
   const utc = now.getTime();
@@ -146,4 +147,18 @@ export const splitDate = (date: Date) => {
     minute,
     second,
   };
+};
+
+/** @desc HHmmss -> HH:mm */
+export const sixDateToHourMinute = (date: string) => {
+  return date.slice(0, 2) + ":" + date.slice(2, 4);
+};
+
+export const isEmpty = (value: any) => {
+  return (
+    value === null ||
+    value === undefined ||
+    value === "" ||
+    Object.keys(value).length === 0
+  );
 };

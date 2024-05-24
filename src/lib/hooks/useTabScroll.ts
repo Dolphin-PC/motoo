@@ -2,6 +2,7 @@
 
 import { MouseEvent, useEffect, useRef, useState } from "react";
 
+/** @desc TabHeader 클릭시, registryRef로 등록된 요소로 스크롤 */
 export const useTabScroll = () => {
   const tabBodyRef = useRef<HTMLDivElement[]>([]);
 
@@ -21,6 +22,8 @@ export const useTabScroll = () => {
     if (e.tabIndex > -1) {
       e.style.scrollMarginTop = headerHeight + "px"; // 스크롤 시 headerHeight 만큼 marginTop 적용
       tabBodyRef.current[e.tabIndex] = e; // tabBodyRef에 등록
+    } else {
+      throw new Error("tabIndex가 없습니다.");
     }
   };
 
