@@ -1,5 +1,6 @@
 "use client";
 import Section from "@/components/section/Section";
+import Tooltip from "@/components/tooltip/Tooltip";
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { StatusCode } from "@/pages/api";
 import { TInquireTimeItemChartPriceRes } from "@/pages/service/openapi/OpenApiService";
@@ -29,10 +30,10 @@ const StockInfoPage = ({ params }: { params: { stockId: string } }) => {
 
   useEffect(() => {
     fetchInquireData();
-    const fetchInterval = setInterval(fetchInquireData, 1000 * 60);
-    return () => {
-      clearInterval(fetchInterval);
-    };
+    // const fetchInterval = setInterval(fetchInquireData, 1000 * 60);
+    // return () => {
+    //   clearInterval(fetchInterval);
+    // };
   }, []);
 
   if (!inquireData || !inquireData.output1) return <div>Loading...</div>;
@@ -68,12 +69,11 @@ const StockInfoPage = ({ params }: { params: { stockId: string } }) => {
   const Update = (): ReactNode => {
     if (inquireData?.time) {
       return (
-        <div>
-          {/* TODO Info 공통 컴포넌트 만들기 (설명 글 :: 1분마다 업데이트 된다) */}
+        <Tooltip title="1분 간격으로 조회됩니다.">
           <small className="text-primary-300">
             Updated {inquireData.time.hour}:{inquireData.time.minute}
           </small>
-        </div>
+        </Tooltip>
       );
     }
   };
