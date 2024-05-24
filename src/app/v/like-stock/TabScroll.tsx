@@ -1,5 +1,6 @@
 "use client";
 
+import { MouseEvent } from "react";
 import Button from "@/components/buttons/Button";
 import StockCard from "@/components/card/StockCard";
 import Section from "@/components/section/Section";
@@ -7,15 +8,19 @@ import { fetchHelperWithData } from "@/lib/api/helper";
 import { useTabScroll } from "@/lib/hooks/useTabScroll";
 import { StatusCode } from "@/pages/api";
 import { TGroupLikeStockInfo } from "@/pages/service/stock/StockService";
+import { useSetRecoilState } from "recoil";
+import { tabOpenStateList } from "./atom";
 
 const TabScroll = ({
   groupLikeStockList,
 }: {
   groupLikeStockList: TGroupLikeStockInfo[];
 }) => {
-  const { registryRef, handleScroll, headerRef } = useTabScroll({
-    length: groupLikeStockList.length,
-  });
+  const { registryRef, handleScroll, headerRef } = useTabScroll();
+
+  const setTabOpen = Array(groupLikeStockList.length)
+    .fill(false)
+    .map((_, idx) => useSetRecoilState(tabOpenStateList(idx)));
 
   const handleAdd = async () => {
     const groupName = prompt("추가할 그룹명을 입력해주세요.");
@@ -34,6 +39,13 @@ const TabScroll = ({
     }
   };
 
+  const handleScrollTabOpen = (e: MouseEvent<HTMLButtonElement>) => {
+    const tabIndex = e.currentTarget.tabIndex;
+
+    handleScroll(e);
+    setTabOpen[tabIndex](true);
+  };
+
   return (
     <div className="flex flex-col gap-5">
       {/* XXX :: z-index를 준 이유 : Section.Accordion > Button에서 클릭시 transform효과를 주게되는데, 이때 새로운 [스택 컨텍스트]가 생성되어 z-index가 올라가게 됨  */}
@@ -46,7 +58,7 @@ const TabScroll = ({
           </div>
           {groupLikeStockList.map((group, idx) => {
             return (
-              <Button key={idx} tabIndex={idx} onClick={handleScroll}>
+              <Button key={idx} tabIndex={idx} onClick={handleScrollTabOpen}>
                 {group.groupName}
               </Button>
             );

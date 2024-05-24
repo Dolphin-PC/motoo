@@ -1,18 +1,12 @@
 "use client";
 
-import { tabOpenStateList } from "@/app/v/like-stock/atom";
 import { MouseEvent, useEffect, useRef, useState } from "react";
-import { useSetRecoilState } from "recoil";
 
-export const useTabScroll = ({ length }: { length: number }) => {
+export const useTabScroll = () => {
   const tabBodyRef = useRef<HTMLDivElement[]>([]);
 
   const headerRef = useRef<HTMLDivElement | null>(null);
   const [headerHeight, setHeaderHeight] = useState<number>(0);
-
-  const setTabOpen = Array(length)
-    .fill(false)
-    .map((_, idx) => useSetRecoilState(tabOpenStateList(idx)));
 
   useEffect(() => {
     if (headerRef.current) {
@@ -39,8 +33,6 @@ export const useTabScroll = ({ length }: { length: number }) => {
         block: "start",
         inline: "nearest",
       });
-
-      setTabOpen[tabIndex](true);
     }
   };
 
