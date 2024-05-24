@@ -1,0 +1,21 @@
+{
+  "Next API-handler Snippet": {
+    "prefix": ["api-handler", "api", "handler"],
+    "body": [
+      "import { NextApiRequest, NextApiResponse } from \"next\";",
+      "import { CResponse, ResOk } from \"@/pages/api/index\";",
+      "",
+      "",
+      "export default async function handler(",
+      "  req: NextApiRequest,",
+      "  res: NextApiResponse<CResponse<any>>",
+      ") {",
+      "  if (req.method == \"GET\") {",
+      "    // res.status(200).json(ResOk<any>());",
+      "  }",
+      "}",
+      ""
+    ],
+    "description": ""
+  }
+}

@@ -16,7 +16,7 @@ const BottomMenu = () => {
       href: "my-stock",
     },
     {
-      name: "주식 주문",
+      name: "주식",
       icon_name: "chart-trend",
       href: "stock",
     },

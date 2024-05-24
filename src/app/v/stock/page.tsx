@@ -1,11 +1,18 @@
+"use client";
 import React from "react";
-import SearchContainer from "./SearchContainer";
+import { RecoilRoot } from "recoil";
+import SearchInput from "./SearchInput";
+import SearchResult from "./SearchResult";
 
-const StockPage = async () => {
+const StockPage = () => {
   return (
-    <div>
-      <SearchContainer />
-    </div>
+    <RecoilRoot>
+      <div className="flex flex-col gap-5">
+        <SearchInput />
+
+        <SearchResult />
+      </div>
+    </RecoilRoot>
   );
 };
 

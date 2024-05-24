@@ -3,6 +3,7 @@
 const path = require("path");
 
 const nextConfig = {
+  reactStrictMode: false,
   // svg file import config
   webpack(config) {
     config.module.rules.push({

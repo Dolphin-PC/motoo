@@ -9,9 +9,9 @@ import { Prisma } from "@prisma/client";
 // # 주식정보
 export class StockInfo extends BaseModel {
   stockId: string;
-  type: String;
-  name: String;
-  imgSrc?: String;
+  type: string;
+  name: string;
+  imgSrc?: string;
 
   price?: number;
   priceUpdateAt?: Date;

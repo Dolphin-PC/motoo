@@ -59,7 +59,11 @@ const TabScroll = ({
             <Section.Accordion
               index={idx}
               title={group.groupName}
-              noContent={<Button primary>주식 추가하기</Button>}
+              noContent={
+                <Button.Link href="/v/stock" primary>
+                  주식 추가하기
+                </Button.Link>
+              }
             >
               {group.likeStockInfoList.length &&
                 group.likeStockInfoList.map((likeStock, idx) => {

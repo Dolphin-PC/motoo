@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { CResponse, ResOk } from "..";
 import { StockInfo } from "@/pages/model/StockInfo";
+import { CResponse, ResOk } from "@/pages/api/index";
 
 export default async function handler(
   req: NextApiRequest,

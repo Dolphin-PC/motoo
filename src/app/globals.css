@@ -23,6 +23,9 @@ h4 {
   font-weight: bold;
   line-height: 2rem;
 }
+h5 {
+  font-weight: bold;
+}
 
 .svg {
   fill: currentColor;

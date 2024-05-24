@@ -21,4 +21,24 @@ describe("OpenApiService.test.ts", () => {
     // then
     console.info(res);
   });
+
+  it("주식당일 분봉조회", async () => {
+    // given
+
+    // then
+    try {
+      const res = await OpenApiService.inquireTimeItemChartPrice({
+        VTS_APPKEY: process.env.TEST_APP_KEY!,
+        VTS_APPSECRET: process.env.TEST_APP_SECRET!,
+        VTS_TOKEN: process.env.TEST_VTS_TOKEN!,
+        stockId: "005380",
+        startTime: "123000",
+      });
+
+      // when
+      console.info(res);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 });

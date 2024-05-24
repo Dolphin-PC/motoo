@@ -117,11 +117,33 @@ export const convertObjectToQuery = (obj: Record<string, any>) => {
 //   return { headers, row }; // Fix the variable name from 'header' to 'headers'
 // };
 
-export const getKoreanTime = () => {
-  const now = new Date();
+export const getKoreanTime = (date?: Date) => {
+  const now = new Date(date || new Date());
   const utc = now.getTime();
   const koreaTimeDiff = 9 * 60 * 60 * 1000;
   const korNow = new Date(utc + koreaTimeDiff);
 
   return korNow;
+};
+
+/** @desc 서버시간 -> 클라이언트시간 변환
+ *
+ * @param date
+ */
+export const splitDate = (date: Date) => {
+  const localTime = date.toISOString();
+  const [_day, _time] = localTime.split("T");
+
+  const [year, month, day] = _day.split("-");
+  let [hour, minute, second] = _time.split(":");
+  second = second.split(".")[0];
+
+  return {
+    year,
+    month,
+    day,
+    hour,
+    minute,
+    second,
+  };
 };

@@ -1,0 +1,18 @@
+{
+  "swagger": {
+    "prefix": "swagger",
+    "body": [
+      "/**",
+      " * @swagger",
+      " *",
+      " * ${1:API 경로}:",
+      " *  ${2: API method 유형}:",
+      " *    tags:",
+      " *      - ${3: Swagger Tag}",
+      " *    description: ${4: API 설명}",
+      " *",
+      " */"
+    ],
+    "description": "swagger"
+  }
+}
