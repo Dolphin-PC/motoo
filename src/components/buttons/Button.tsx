@@ -31,7 +31,7 @@ const Button = ({
         className
       )}
     >
-      <button className={"p-2 w-full"} {...props}>
+      <button className={"p-2 w-full h-full"} {...props}>
         {children}
       </button>
     </div>

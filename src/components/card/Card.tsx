@@ -1,6 +1,8 @@
 // import Image from "next/image";
 import Image from "next/image";
 import React, { ReactElement } from "react";
+import TextCard from "./TextCard";
+import StockCard from "./StockCard";
 
 const Card = ({
   img_src,
@@ -39,5 +41,7 @@ const Card = ({
     </div>
   );
 };
+Card.Stock = StockCard;
+Card.Text = TextCard;
 
 export default Card;

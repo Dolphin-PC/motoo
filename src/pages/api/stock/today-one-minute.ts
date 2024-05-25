@@ -27,17 +27,20 @@ export default async function handler(
       const { stockId } = req.body;
 
       const { hour, minute } = splitDate(getKoreanTime());
+      let timeStr = hour + minute + "00";
+      if (timeStr >= "153000") timeStr = "153000";
+
       const resData = await OpenApiService.inquireTimeItemChartPrice({
         stockId,
         VTS_APPKEY: appKey,
         VTS_APPSECRET: appSecret,
         VTS_TOKEN: apiToken,
-        startTime: hour + minute + "00",
+        startTime: timeStr,
       });
       // console.info(resData);
       resData.time = {
-        hour,
-        minute,
+        hour: timeStr.slice(0, 2),
+        minute: timeStr.slice(2, 4),
       };
       res
         .status(200)

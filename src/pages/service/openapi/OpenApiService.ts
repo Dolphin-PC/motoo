@@ -10,20 +10,28 @@ import {
 import { StockInfo } from "@/pages/model/StockInfo";
 import axios from "axios";
 
-// 참고 https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-quotations2#L_07802512-4f49-4486-91b4-1050b6f5dc9d
 /** @description 한국투자증권 V_주식현재가 시세 조회 응답
- *
+ * @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-quotations2#L_07802512-4f49-4486-91b4-1050b6f5dc9d
  */
 export type TgetStockPriceRes = {
-  rt_cd: string; // 0 성공, 0 이외 실패
-  msg_cd: string; // 응답코드
-  msg1: string; // 응답 메시지
+  /** 0 성공, 0 이외 실패 */
+  rt_cd: string;
+  /** 응답코드 */
+  msg_cd: string;
+  /**응답 메시지 */
+  msg1: string;
+  /**응답상세 */
   output: {
-    stck_prpr: string; // 주식 현재가
-    rprs_mrkt_kor_name: string; // 대표시장명 (ex: KOSPI200)
-    bstp_kor_isnm: string; // 업종 (ex: 건설업)
-    prdy_vrss: string; // 전일대비 변동가격
-    prdy_vrss_sign: "1" | "2" | "3" | "4" | "5"; // 전일대비 부호 (1:상한/2:상승/3:보합/4:하한/5:하락)
+    /**주식 현재가 */
+    stck_prpr: string;
+    /**대표시장명 (ex: KOSPI200) */
+    rprs_mrkt_kor_name: string;
+    /**업종 (ex: 건설업) */
+    bstp_kor_isnm: string;
+    /**전일대비 변동가격 */
+    prdy_vrss: string;
+    /**전일대비 부호 (1:상한/2:상승/3:보합/4:하한/5:하락) */
+    prdy_vrss_sign: "1" | "2" | "3" | "4" | "5";
     // iscd_stat_cls_code: string;
     // marg_rate: string;
     // temp_stop_yn: string;
@@ -114,7 +122,7 @@ export type TgetStockPriceReq = {
 };
 
 /** @desc 주식당일분봉조회 응답
- *
+ * @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-quotations2#L_eddbb36a-1d55-461a-b242-3067ba1e5640
  */
 export type TInquireTimeItemChartPriceRes = {
   /**@desc 응답코드 (0:성공, 0 이외 실패)*/

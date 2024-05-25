@@ -36,7 +36,7 @@ const TodayOneMinute = (props: TProps) => {
   }, [stockId]);
 
   useEffect(() => {
-    fetchInquireData();
+    // fetchInquireData();
     // const fetchInterval = setInterval(fetchInquireData, 1000 * 60);
     // return () => {
     //   clearInterval(fetchInterval);
@@ -76,6 +76,13 @@ const TodayOneMinute = (props: TProps) => {
           ],
         },
         options: {
+          plugins: {
+            title: {
+              display: true,
+              text: `${inquireData.time?.hour}:${inquireData.time?.minute} 기준`,
+              align: "end",
+            },
+          },
           scales: {
             x: {
               display: false, // x축 레이블 비활성화

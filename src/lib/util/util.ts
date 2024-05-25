@@ -162,3 +162,23 @@ export const isEmpty = (value: any) => {
     Object.keys(value).length === 0
   );
 };
+
+/** @desc 숫자를 한국식 표기법으로 변환합니다.
+ *
+ * @param str
+ * @param format
+ * @returns
+ */
+export const stringToNumberLocale = (str: string, format?: boolean) => {
+  if (isNaN(Number(str))) return str;
+  if (format) {
+    if (str.length > 12) {
+      return Number(str).toLocaleString().slice(0, -12) + "조";
+    } else if (str.length > 8) {
+      return Number(str).toLocaleString().slice(0, -8) + "억";
+    } else if (str.length > 4) {
+      return Number(str).toLocaleString().slice(0, -4) + "만";
+    }
+  }
+  return Number(str).toLocaleString();
+};

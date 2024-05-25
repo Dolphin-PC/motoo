@@ -3,6 +3,7 @@ import { AmountStock } from "@/pages/model/AmountStock";
 import React, { ReactNode, useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import { inquireDataState } from "./atom";
+import Card from "@/components/card/Card";
 
 type TProps = {
   amountStock: AmountStock;
@@ -60,21 +61,20 @@ const MyStockInfo = (props: TProps) => {
       <small>평균 체결금액</small>
       <h4>{avgAmount.toLocaleString()} 원</h4>
       <div className="mt-3 flex flex-col gap-3">
-        <div className="flex justify-between items-center">
-          <span className="text-gray-500">보유 수량</span>
-          <h5>{stockQuantity.toLocaleString() + "주"}</h5>
-        </div>
-        <div className="flex justify-between items-start">
-          <span className="text-gray-500">평가 금액</span>
+        <Card.Text
+          label="보유 수량"
+          content={stockQuantity.toLocaleString() + "주"}
+        />
+        <Card.Text label="평가 금액">
           <div className="text-right">
             <h5>{totalPrice.toLocaleString() + "원"}</h5>
             <수익률 />
           </div>
-        </div>
-        <div className="flex justify-between items-center">
-          <span className="text-gray-500">투자 원금</span>
-          <h5>{orgPrice.toLocaleString() + "원"}</h5>
-        </div>
+        </Card.Text>
+        <Card.Text
+          label="투자 원금"
+          content={orgPrice.toLocaleString() + "원"}
+        />
       </div>
     </div>
   );

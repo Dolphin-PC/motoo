@@ -4,6 +4,7 @@ import Tooltip from "@/components/tooltip/Tooltip";
 import React, { ReactNode, useEffect } from "react";
 import { currentPriceState, inquireDataState, stockIdState } from "./atom";
 import { useRecoilState, useRecoilValue } from "recoil";
+import { getKoreanTime, splitDate } from "@/lib/util/util";
 
 type TProps = {
   stockId: string;
@@ -13,6 +14,8 @@ const CurrentPrice = (props: TProps) => {
   const [stockId, setStockId] = useRecoilState<string | null>(stockIdState);
   const currentPrice = useRecoilValue(currentPriceState);
   const inquireData = useRecoilValue(inquireDataState);
+
+  const { hour, minute } = splitDate(getKoreanTime());
 
   useEffect(() => {
     setStockId(props.stockId);
@@ -51,12 +54,13 @@ const CurrentPrice = (props: TProps) => {
       return (
         <Tooltip title="1분 간격으로 조회됩니다.">
           <small className="text-primary-300">
-            Updated {inquireData.time.hour}:{inquireData.time.minute}
+            Updated {hour}:{minute}
           </small>
         </Tooltip>
       );
     }
   };
+
   return (
     <Section
       title={`${inquireData?.output1.hts_kor_isnm} (${stockId})`}

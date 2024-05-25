@@ -11,7 +11,7 @@ export const useTabScroll = () => {
 
   useEffect(() => {
     if (headerRef.current) {
-      setHeaderHeight(headerRef.current.getBoundingClientRect().top);
+      setHeaderHeight(headerRef.current.getBoundingClientRect().bottom + 20);
     }
   }, []);
 
@@ -21,6 +21,7 @@ export const useTabScroll = () => {
 
     if (e.tabIndex > -1) {
       e.style.scrollMarginTop = headerHeight + "px"; // 스크롤 시 headerHeight 만큼 marginTop 적용
+
       tabBodyRef.current[e.tabIndex] = e; // tabBodyRef에 등록
     } else {
       throw new Error("tabIndex가 없습니다.");
@@ -29,9 +30,11 @@ export const useTabScroll = () => {
 
   // 버튼 클릭시, ref에 등록된 element로 스크롤 이동 & open 상태 변경
   const handleScroll = (e: MouseEvent<HTMLButtonElement>) => {
-    const tabIndex = e.currentTarget.tabIndex;
     if (tabBodyRef.current) {
-      (tabBodyRef.current[tabIndex] as HTMLDivElement).scrollIntoView({
+      const tabIndex = e.currentTarget.tabIndex;
+      const tab = tabBodyRef.current[tabIndex];
+
+      tab.scrollIntoView({
         behavior: "smooth",
         block: "start",
         inline: "start",
