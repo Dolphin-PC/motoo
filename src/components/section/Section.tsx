@@ -2,6 +2,7 @@ import React, { ButtonHTMLAttributes, ReactNode } from "react";
 import SectionCard from "./SectionCard";
 import SectionScroll from "./SectionScroll";
 import dynamic from "next/dynamic";
+import NotData from "../icon/NotData";
 
 export type TSectionProps = {
   title?: string;
@@ -9,6 +10,7 @@ export type TSectionProps = {
   children: ReactNode;
   className?: HTMLDivElement["className"];
   right?: React.ReactNode;
+  notData?: boolean;
 };
 
 const Section = (props: TSectionProps): React.ReactNode => {
@@ -23,7 +25,9 @@ const Section = (props: TSectionProps): React.ReactNode => {
         )}
         {props.right && props.right}
       </div>
-      <div className={`${props.className || ""}`}>{props.children}</div>
+      <div className={`${props.className || ""}`}>
+        {props.notData === true ? <NotData /> : props.children}
+      </div>
     </div>
   );
 };

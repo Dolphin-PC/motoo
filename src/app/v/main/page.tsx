@@ -1,8 +1,8 @@
 // "use client";
 import Button from "@/components/buttons/Button";
 import ChartComp from "@/components/chart/Chart";
+import NotData from "@/components/icon/NotData";
 import Section from "@/components/section/Section";
-import TableContainer from "@/components/table/TableContainer";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
 import StockService from "@/pages/service/stock/StockService";
@@ -100,6 +100,7 @@ const MainPage = async () => {
       <Section
         title="내 포트폴리오 TOP 5"
         right={<Button.Link href="/v/portfolio"></Button.Link>}
+        notData={stockInfoList.length == 0}
       >
         <ChartComp
           option={{

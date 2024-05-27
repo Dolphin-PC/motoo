@@ -6,9 +6,9 @@ import RevenueCard from "./RevenueCard";
 import { AmountMoney } from "@/pages/model/AmountMoney";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import StockService from "@/pages/service/stock/StockService";
-import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
 import TableContainer from "@/components/table/TableContainer";
 import colors from "tailwindcss/colors";
+import NotData from "@/components/icon/NotData";
 
 const MyStockPage = async () => {
   const accountInfo = await useAccountInfo();
@@ -42,7 +42,7 @@ const MyStockPage = async () => {
       </Section>
 
       {/* 자산현황 */}
-      <Section title="자산현황">
+      <Section title="자산현황" notData={amountStockInfoList.length == 0}>
         <ChartComp
           option={{
             type: "doughnut",
@@ -81,7 +81,7 @@ const MyStockPage = async () => {
       </Section>
 
       {/* 주식 비중 */}
-      <Section title="주식 비중">
+      <Section title="주식 비중" notData={amountStockInfoList.length == 0}>
         <ChartComp
           option={{
             type: "doughnut",
@@ -118,7 +118,7 @@ const MyStockPage = async () => {
         <RevenueCard stockOrderHistoryList={stockOrderHistoryList} />
       </Section>
 
-      <Section title="주문 내역">
+      <Section title="주문 내역" notData={stockOrderHistoryList.length == 0}>
         <TableContainer
           tableName="/v/my-stock_stockOrderHistoryList"
           dataList={stockOrderHistoryList}
