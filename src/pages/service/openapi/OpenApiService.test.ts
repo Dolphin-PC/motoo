@@ -41,4 +41,21 @@ describe("OpenApiService.test.ts", () => {
       console.error(error);
     }
   });
+
+  it("웹 소켓 발급", async () => {
+    try {
+      // given
+
+      // when
+      const res = await OpenApiService.issueWebSocketApprovalKey({
+        appKey: process.env.TEST_APP_KEY!,
+        secretKey: process.env.TEST_APP_SECRET!,
+      });
+
+      // then
+      console.info(res);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 });

@@ -11,7 +11,10 @@ import {
 } from "class-validator";
 import { prisma } from "@/pages/service/prismaClient";
 import { BaseModel } from "./Base";
-import { OpenApiService } from "../service/openapi/OpenApiService";
+import {
+  OpenApiService,
+  TApprovalRes,
+} from "../service/openapi/OpenApiService";
 import { Notice } from "./Notice";
 import { StockOrderHistory } from "./StockOrderHistory";
 import { AmountMoney } from "./AmountMoney";
@@ -55,6 +58,8 @@ export class AccountInfo extends BaseModel {
   appSecret: string;
   apiToken: string | null;
   apiTokenExpiredAt: Date | null;
+
+  approvalKey: string | null;
 
   noticeList?: Notice[];
   stockOrderHistoryList?: StockOrderHistory[];
@@ -214,6 +219,40 @@ export class AccountInfo extends BaseModel {
       });
 
     return new AccountInfo(newAccountInfo);
+  }
+
+  /** @desc 웹 소켓 접속키 발급 및 등록 */
+  static async getApprovalKey({
+    accountNumber,
+  }: {
+    accountNumber: AccountInfo["accountNumber"];
+  }): Promise<TApprovalRes> {
+    const accountInfo = await prisma.accountInfo.findUnique({
+      where: {
+        account_number: accountNumber,
+      },
+    });
+
+    if (!accountInfo) throw new Error("계좌 정보가 없습니다.");
+    if (accountInfo.approval_key)
+      return { approval_key: accountInfo.approval_key };
+
+    // 웹 소켓 발급
+    const res = await OpenApiService.issueWebSocketApprovalKey({
+      appKey: accountInfo.app_key,
+      secretKey: accountInfo.app_secret,
+    });
+
+    await prisma.accountInfo.update({
+      where: {
+        account_number: accountNumber,
+      },
+      data: {
+        approval_key: res.approval_key,
+      },
+    });
+
+    return { approval_key: res.approval_key };
   }
 
   // statics //

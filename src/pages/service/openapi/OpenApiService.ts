@@ -176,6 +176,16 @@ export type TInquireTimeItemChartPriceRes = {
   }[];
 };
 
+export type TApprovalReq = {
+  grant_type: string;
+  appkey: string;
+  secretkey: string;
+};
+
+export type TApprovalRes = {
+  approval_key: string;
+};
+
 export const OpenApiService = {
   /** @desc 주식 실시간 가격 정보 조회
    *
@@ -284,6 +294,28 @@ export const OpenApiService = {
         tr_id: "FHKST03010200",
       },
     });
+
+    return res;
+  },
+
+  /** @desc 웹소켓접속키 발급
+   * @see https://apiportal.koreainvestment.com/apiservice/oauth2#L_5c87ba63-740a-4166-93ac-803510bb9c02
+   */
+  issueWebSocketApprovalKey: async function ({
+    appKey,
+    secretKey,
+  }: {
+    appKey: AccountInfo["appKey"];
+    secretKey: AccountInfo["appSecret"];
+  }) {
+    const res = await axiosPost<TApprovalReq, TApprovalRes>(
+      `${process.env.VTS}/oauth2/Approval`,
+      {
+        grant_type: "client_credentials",
+        appkey: appKey,
+        secretkey: secretKey,
+      }
+    );
 
     return res;
   },
