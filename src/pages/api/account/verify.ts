@@ -25,6 +25,13 @@ export default async function POST(
       appSecret,
     });
 
+    await OpenApiService.inquireStockBalance({
+      accountNumber,
+      appkey: appKey,
+      appsecret: appSecret,
+      VTS_TOKEN: data.access_token,
+    });
+
     res.status(200).json(ResOk(data, EnumResonseMessage.ACCOUNT_SUCCESS));
   } catch (error) {
     if (error instanceof AxiosError) {
@@ -36,6 +43,8 @@ export default async function POST(
       res
         .status(400)
         .json(ResInvalid(error, getMessageFromValidaionError(error)));
+    } else if (error instanceof Error) {
+      res.status(400).json(ResInvalid(error, error.message));
     } else {
       res.status(400).json(ResInvalid(error, EnumResonseMessage.ACCOUNT_FAIL));
     }

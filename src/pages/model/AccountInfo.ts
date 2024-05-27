@@ -8,6 +8,7 @@ import {
   IsNumberString,
   validateOrReject,
   ValidationError,
+  Length,
 } from "class-validator";
 import { prisma } from "@/pages/service/prismaClient";
 import { BaseModel } from "./Base";
@@ -35,7 +36,10 @@ export class AccountInfo extends BaseModel {
   userId: number;
 
   @IsNumberString()
-  @MinLength(10, {
+  // @MinLength(10, {
+  //   groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
+  // })
+  @Length(8, 8, {
     groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
   })
   accountNumber: string;

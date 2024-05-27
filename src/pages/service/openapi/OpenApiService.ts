@@ -413,6 +413,8 @@ export const OpenApiService = {
       },
     });
 
+    if (res.rt_cd !== "0") throw new Error(res.msg1);
+
     return res;
   },
 
@@ -478,6 +480,8 @@ export const OpenApiService = {
     const res = await axiosGet<TInquireStockBalanceRes>(url, {
       headers: headerObj,
     });
+
+    if (res.rt_cd !== "0") throw new Error(res.msg1);
 
     return res;
   },

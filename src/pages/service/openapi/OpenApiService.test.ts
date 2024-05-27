@@ -65,7 +65,7 @@ describe("OpenApiService.test.ts", () => {
 
       // when
       const res = await OpenApiService.inquireStockBalance({
-        accountNumber: process.env.TEST_ACCOUNT_NUMBER!,
+        accountNumber: "31232321",
         appkey: process.env.TEST_APP_KEY!,
         appsecret: process.env.TEST_APP_SECRET!,
         VTS_TOKEN: process.env.TEST_VTS_TOKEN!,
