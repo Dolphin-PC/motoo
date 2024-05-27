@@ -26,7 +26,8 @@ const ClientContainer = (props: TProps) => {
         {/* 현재가격 */}
         <CurrentPrice stockId={stockId} />
         {/* 탭 */}
-        <div ref={headerRef} className="sticky top-20">
+        {/* FIXME : Tab Scroll 시, 화면 어그러짐 */}
+        {/* <div ref={headerRef} className="sticky top-0">
           <Section.Scroll>
             <Button tabIndex={0} onClick={handleScroll}>
               차트
@@ -40,7 +41,7 @@ const ClientContainer = (props: TProps) => {
               종목정보
             </Button>
           </Section.Scroll>
-        </div>
+        </div> */}
         {/* 차트 */}
         <div tabIndex={0} ref={registryRef}>
           <Section title="차트(30분)">
