@@ -58,4 +58,23 @@ describe("OpenApiService.test.ts", () => {
       console.error(error);
     }
   });
+
+  it("주식 잔고 조회", async () => {
+    try {
+      // given
+
+      // when
+      const res = await OpenApiService.inquireStockBalance({
+        accountNumber: process.env.TEST_ACCOUNT_NUMBER!,
+        appkey: process.env.TEST_APP_KEY!,
+        appsecret: process.env.TEST_APP_SECRET!,
+        VTS_TOKEN: process.env.TEST_VTS_TOKEN!,
+      });
+
+      // then
+      console.info(res);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 });

@@ -9,6 +9,7 @@ import {
 } from "@/pages/model/AccountInfo";
 import { StockInfo } from "@/pages/model/StockInfo";
 import axios from "axios";
+import { Content } from "next/font/google";
 
 /** @description 한국투자증권 V_주식현재가 시세 조회 응답
  * @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-quotations2#L_07802512-4f49-4486-91b4-1050b6f5dc9d
@@ -186,6 +187,123 @@ export type TApprovalRes = {
   approval_key: string;
 };
 
+type TInquireStockBalanceRes = {
+  /** 연속조회검색조건100	 */
+  ctx_area_fk100: string;
+  /** 연속조회키100 */
+  ctx_area_nk100: string;
+  /** 응답상세1 */
+  output1: {
+    /** 상품번호 */
+    pdno: "000660";
+    /** 상품명 */
+    prdt_name: "SK하이닉스";
+    /** 매매구분명 */
+    trad_dvsn_name: "현금";
+    /** 전일매수수량 */
+    bfdy_buy_qty: "0";
+    /** 전일매도수량 */
+    bfdy_sll_qty: "0";
+    /** 금일매수수량 */
+    thdt_buyqty: "0";
+    /** 금일매도수량 */
+    thdt_sll_qty: "0";
+    /** 보유수량 */
+    hldg_qty: "100";
+    /** 주문가능수량 */
+    ord_psbl_qty: "100";
+    /** 매입평균가격 */
+    pchs_avg_pric: "164100.0000";
+    /** 매입금액 */
+    pchs_amt: "16410000";
+    /** 현재가 */
+    prpr: "207000";
+    /** 평가금액 */
+    evlu_amt: "20700000";
+    /** 평가손익금액 */
+    evlu_pfls_amt: "4290000";
+    /** 평가손익율 */
+    evlu_pfls_rt: "26.14";
+    /** 평가수익율(미사용항목) */
+    evlu_erng_rt: "26.14259598";
+    /** 대출일자 */
+    loan_dt: "";
+    /** 대출금액 */
+    loan_amt: "0";
+    /** 대주대각매금 */
+    stln_slng_chgs: "0";
+    /** 만기일자 */
+    expd_dt: "";
+    /** 등락율 */
+    fltt_rt: "4.23000000";
+    /** 전일대비증감 */
+    bfdy_cprs_icdc: "8400";
+    /** 종목증거금율명 */
+    item_mgna_rt_name: "40%";
+    /** 보증금율명 */
+    grta_rt_name: "";
+    /** 대용가격 */
+    sbst_pric: "0";
+    /** 주식대출단가 */
+    stck_loan_unpr: "0.0000";
+  }[];
+  /** 응답상세2 */
+  output2: {
+    /** 예수금총액 */
+    dnca_tot_amt: "13587670";
+    /** 익일정산금액(D+1예수금) */
+    nxdy_excc_amt: "13587670";
+    /** 가수도정산금액(D+2예수금) */
+    prvs_rcdl_excc_amt: "13587670";
+    /** CMA평가금액 */
+    cma_evlu_amt: "0";
+    /** 전일매수금액 */
+    bfdy_buy_amt: "0";
+    /** 금일매수금액 */
+    thdt_buy_amt: "0";
+    /** 익일자동상환금액 */
+    nxdy_auto_rdpt_amt: "0";
+    /** 전일매도금액 */
+    bfdy_sll_amt: "0";
+    /** 금일매도금액 */
+    thdt_sll_amt: "0";
+    /** D+2자동상환금액 */
+    d2_auto_rdpt_amt: "0";
+    /** 전일제비용금액 */
+    bfdy_tlex_amt: "0";
+    /** 금일제비용금액 */
+    thdt_tlex_amt: "0";
+    /** 총대출금액 */
+    tot_loan_amt: "0";
+    /** 유가평가금액 */
+    scts_evlu_amt: "20700000";
+    /** 총평가금액 */
+    tot_evlu_amt: "34287670";
+    /** 순자산금액 */
+    nass_amt: "34287670";
+    /** 융자금자동상환여부 */
+    fncg_gld_auto_rdpt_yn: "";
+    /** 매입금액합계금액 */
+    pchs_amt_smtl_amt: "16410000";
+    /** 평가금액합계금액 */
+    evlu_amt_smtl_amt: "20700000";
+    /** 평가손익합계금액 */
+    evlu_pfls_smtl_amt: "4290000";
+    /** 총대주매각대금 */
+    tot_stln_slng_chgs: "0";
+    /** 전일총자산평가금액 */
+    bfdy_tot_asst_evlu_amt: "33447670";
+    /** 자산증감액 */
+    asst_icdc_amt: "840000";
+    /** 자산증감수익율(데이터미제공) */
+    asst_icdc_erng_rt: "2.51138570";
+  }[];
+  /** @desc 성공실패여부 (0성공, 0이외실패) */
+  rt_cd: string;
+  msg_cd: string;
+  msg1: string;
+};
+
 export const OpenApiService = {
   /** @desc 주식 실시간 가격 정보 조회
    *
@@ -316,6 +434,50 @@ export const OpenApiService = {
         secretkey: secretKey,
       }
     );
+
+    return res;
+  },
+
+  /** @desc V_주식잔고조회
+   * @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-order#L_66c61080-674f-4c91-a0cc-db5e64e9a5e6
+   */
+  inquireStockBalance: async function ({
+    accountNumber,
+    VTS_TOKEN,
+    appkey,
+    appsecret,
+  }: {
+    accountNumber: AccountInfo["accountNumber"];
+    VTS_TOKEN: AccountInfo["apiToken"];
+    appkey: AccountInfo["appKey"];
+    appsecret: AccountInfo["appSecret"];
+  }) {
+    const baseUrl = `${process.env.VTS}/uapi/domestic-stock/v1/trading/inquire-balance`;
+    const headerObj = {
+      authorization: `Bearer ${VTS_TOKEN}`,
+      appkey,
+      appsecret,
+      tr_id: "VTTC8434R", // 모의 투자
+    };
+    const ParamObj = {
+      CANO: accountNumber, // 계좌번호 체계의 앞 8자리
+      ACNT_PRDT_CD: accountNumber.slice(-2), // 계좌번호 체계의 뒤 2자리
+      AFHR_FLPR_YN: "N", // 시간외 단일가 여부
+      OFL_YN: "", // 공란
+      INQR_DVSN: "01", // 조회구분 01 : 대출일별 02 : 종목별
+      UNPR_DVSN: "01", // 단가구분 01 : 기본값
+      FUND_STTL_ICLD_YN: "N", // 펀드결제분포함여부 N : 포함하지 않음 Y : 포함
+      FNCG_AMT_AUTO_RDPT_YN: "N", // 융자금액자동상환여부 N : 기본값
+      PRCS_DVSN: "00", // 처리구분 00 : 전일매매포함 01 : 전일매매미포함
+      CTX_AREA_FK100: "", // 공란 : 최초 조회시 이전 조회 Output CTX_AREA_FK100 값 : 다음페이지 조회시(2번째부터)
+      CTX_AREA_NK100: "", // 공란 : 최초 조회시 이전 조회 Output CTX_AREA_NK100 값 : 다음페이지 조회시(2번째부터)
+    };
+
+    const url = `${baseUrl}?${convertObjectToQuery(ParamObj)}`;
+
+    const res = await axiosGet<TInquireStockBalanceRes>(url, {
+      headers: headerObj,
+    });
 
     return res;
   },

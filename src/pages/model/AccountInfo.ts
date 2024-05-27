@@ -176,6 +176,7 @@ export class AccountInfo extends BaseModel {
     apiToken: AccountInfo["apiToken"];
     apiTokenExpiredAt: AccountInfo["apiTokenExpiredAt"];
   }): Promise<AccountInfo> {
+    // 1. 이미 등록된 계좌인지 확인
     await AccountInfo.findFirst({
       where: { account_number: accountNumber },
       isConfirm: false,
@@ -183,6 +184,7 @@ export class AccountInfo extends BaseModel {
       if (existsAccount) throw new Error("이미 등록된 계좌입니다.");
     });
 
+    // 2. 계좌가 없다면, 기본계좌로 등록
     let defaultAccountYn = await prisma.accountInfo
       .findMany({
         where: {
