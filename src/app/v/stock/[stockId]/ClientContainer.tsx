@@ -1,15 +1,15 @@
 "use client";
 import Section from "@/components/section/Section";
-import TodayOneMinute from "./TodayOneMinute";
-import CurrentPrice from "./CurrentPrice";
+import TodayOneMinute from "./components/TodayOneMinute";
+import CurrentPrice from "./components/CurrentPrice";
 import { RecoilRoot } from "recoil";
 import Button from "@/components/buttons/Button";
 import { useTabScroll } from "@/lib/hooks/useTabScroll";
-import MyStockInfo from "./MyStockInfo";
+import MyStockInfo from "./components/MyStockInfo";
 import { AmountStock } from "@/pages/model/AmountStock";
 import { isEmpty } from "@/lib/util/util";
-import { StockInfo } from "@/pages/model/StockInfo";
-import StockInfoComponent from "./StockInfoComponent";
+import StockInfoComponent from "./components/StockInfoComponent";
+import StockFooter from "./components/StockFooter";
 
 type TProps = {
   stockId: string;
@@ -62,6 +62,8 @@ const ClientContainer = (props: TProps) => {
           </Section>
         </div>
       </div>
+      {/* 매수/매도 버튼 */}
+      <StockFooter amountStock={amountStock} />
     </RecoilRoot>
   );
 };

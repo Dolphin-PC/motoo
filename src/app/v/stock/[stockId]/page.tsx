@@ -6,6 +6,7 @@ import React from "react";
 import ClientContainer from "./ClientContainer";
 import { AmountStock } from "@/pages/model/AmountStock";
 import Button from "@/components/buttons/Button";
+import { isEmpty } from "@/lib/util/util";
 
 type LayoutProps = {
   params: { stockId: string };
@@ -36,14 +37,6 @@ const StockIdPage = async (props: LayoutProps) => {
   return (
     <InnerLayout title={stockInfo.name}>
       <ClientContainer stockId={stockId} amountStock={amountStock} />
-      <footer className="flex flex-row gap-3 p-3 sticky bottom-0  z-20 bg-white shadow-up">
-        <Button primary className="w-full">
-          매수
-        </Button>
-        <Button outline className="w-full">
-          매도
-        </Button>
-      </footer>
     </InnerLayout>
   );
 };

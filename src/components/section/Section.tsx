@@ -28,9 +28,19 @@ const Section = (props: TSectionProps): React.ReactNode => {
   );
 };
 
+const SectionSkeleton = () => {
+  return (
+    <div className="animate-pulse">
+      <Section>Loading...</Section>
+    </div>
+  );
+};
+
 // SSR
+Section.Skeleton = SectionSkeleton;
 Section.Card = SectionCard;
 Section.Scroll = SectionScroll;
+
 // CSR
 Section.Accordion = dynamic(() => import("./SectionAccordion"), {
   ssr: false,

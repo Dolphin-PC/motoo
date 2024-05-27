@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { inquireDataState } from "./atom";
+import { inquireDataState } from "../atom";
 import { stringToNumberLocale } from "@/lib/util/util";
 import Card from "@/components/card/Card";
 

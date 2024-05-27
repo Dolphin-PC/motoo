@@ -7,7 +7,7 @@ import { TInquireTimeItemChartPriceRes } from "@/pages/service/openapi/OpenApiSe
 import { useCallback, useEffect } from "react";
 import { useRecoilState } from "recoil";
 import colors from "tailwindcss/colors";
-import { inquireDataState } from "./atom";
+import { inquireDataState } from "../atom";
 
 type TProps = {
   stockId: string;
@@ -36,7 +36,7 @@ const TodayOneMinute = (props: TProps) => {
   }, [stockId]);
 
   useEffect(() => {
-    // fetchInquireData();
+    fetchInquireData();
     // const fetchInterval = setInterval(fetchInquireData, 1000 * 60);
     // return () => {
     //   clearInterval(fetchInterval);

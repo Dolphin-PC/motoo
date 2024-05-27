@@ -2,7 +2,7 @@
 import { AmountStock } from "@/pages/model/AmountStock";
 import React, { ReactNode, useMemo } from "react";
 import { useRecoilValue } from "recoil";
-import { inquireDataState } from "./atom";
+import { inquireDataState } from "../atom";
 import Card from "@/components/card/Card";
 
 type TProps = {
