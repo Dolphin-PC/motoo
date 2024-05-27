@@ -5,15 +5,21 @@ import { authOptions } from "../auth/[...nextauth]";
 import { CResponse, ResOk } from "..";
 import { AccountInfo } from "@/pages/model/AccountInfo";
 
-/**
- * @description 기본계좌 설정
- * /api/account/default
- */
-
 export type TChangeDefaultAccount = {
   prevAccountNumber: string;
   newAccountNumber: string;
 };
+
+/**
+ * @swagger
+ *
+ * /api/account/default:
+ *  POST:
+ *    tags:
+ *      - Account
+ *    description: 기본계좌 설정
+ *
+ */
 export default async function POST(
   req: NextApiRequest,
   res: NextApiResponse<CResponse<AccountInfo>>
@@ -33,7 +39,7 @@ export default async function POST(
     },
   });
 
-  const resData = AccountInfo.from(
+  const resData = new AccountInfo(
     await prisma.accountInfo.update({
       where: {
         user_id: session?.user.id,

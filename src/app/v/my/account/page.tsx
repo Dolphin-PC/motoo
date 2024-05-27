@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { AccountInfo } from "@/pages/model/AccountInfo";
 import { fetchHelperWithData } from "@/lib/api/helper";
 
-const MyAppKeyPage = () => {
+const MyAccountPage = () => {
   const { data: session, update } = useSession();
   const [accountInfoList, setAccountInfoList] = useState<AccountInfo[]>([]);
 
@@ -49,4 +49,4 @@ const MyAppKeyPage = () => {
   );
 };
 
-export default MyAppKeyPage;
+export default MyAccountPage;
