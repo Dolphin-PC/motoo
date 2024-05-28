@@ -144,6 +144,25 @@ export class AccountInfo extends BaseModel {
     const resAccountInfo = new AccountInfo(accountInfo);
     if (isConfirm) await resAccountInfo.confirmApiToken();
 
+    // 웹소켓 미존재시, 웹소켓 발급 후 저장
+    if (!resAccountInfo.approvalKey) {
+      const res = await OpenApiService.issueWebSocketApprovalKey({
+        appKey: resAccountInfo.appKey,
+        secretKey: resAccountInfo.appSecret,
+      });
+
+      await prisma.accountInfo.update({
+        where: {
+          account_number: resAccountInfo.accountNumber,
+        },
+        data: {
+          approval_key: res.approval_key,
+        },
+      });
+
+      resAccountInfo.approvalKey = res.approval_key;
+    }
+
     return resAccountInfo;
   }
 

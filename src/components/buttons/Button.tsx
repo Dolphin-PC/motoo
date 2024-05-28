@@ -3,6 +3,7 @@ import React, { ButtonHTMLAttributes } from "react";
 import LogoutButton from "./LogoutButton";
 import LinkButton from "./LinkButton";
 import ActionButton from "./ActionButton";
+import dynamic from "next/dynamic";
 
 export type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   primary?: Boolean;
@@ -37,7 +38,17 @@ const Button = ({
     </div>
   );
 };
-Button.Logout = LogoutButton;
+
+// SSR
 Button.Link = LinkButton;
-Button.Action = ActionButton;
+
+// CSR
+Button.Logout = dynamic(() => import("./LogoutButton"), {
+  ssr: false,
+  loading: () => <div>loading...</div>,
+});
+Button.Action = dynamic(() => import("./ActionButton"), {
+  ssr: false,
+  loading: () => <div>loading...</div>,
+});
 export default Button;

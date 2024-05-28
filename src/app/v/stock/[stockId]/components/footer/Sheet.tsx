@@ -1,54 +1,13 @@
 "use client";
+
+import { ReactNode, useEffect } from "react";
+import { useRecoilValue } from "recoil";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { Variable } from "../Variable";
+import { currentPriceState, inquireDataState } from "../../atom";
 import Input from "@/components/Input";
-import BottomSheet from "@/components/bottomSheet/BottomSheet";
-import { bottomSheetOpenState } from "@/components/bottomSheet/atom";
 import Button from "@/components/buttons/Button";
-import { isEmpty } from "@/lib/util/util";
-import { AmountStock } from "@/pages/model/AmountStock";
-import React, { ReactNode, useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { Variable } from "./Variable";
-import { currentPriceState, inquireDataState } from "../atom";
-
-type TProps = {
-  amountStock: AmountStock;
-};
-
-const StockFooter = (props: TProps) => {
-  const [setIsOpenBuySheet, setIsOpenSellSheet] = ["buySheet", "sellSheet"].map(
-    (v) => useSetRecoilState(bottomSheetOpenState(v))
-  );
-
-  return (
-    <footer className="flex flex-row gap-3 p-3 sticky bottom-0 z-20">
-      <Button
-        primary
-        className="w-full"
-        onClick={() => setIsOpenBuySheet(true)}
-      >
-        매수
-      </Button>
-      <BottomSheet openStateKey="buySheet">
-        <Sheet type="buy" />
-      </BottomSheet>
-      {!isEmpty(props.amountStock) && (
-        <>
-          <Button
-            outline
-            className="w-full"
-            onClick={() => setIsOpenSellSheet(true)}
-          >
-            매도
-          </Button>
-          <BottomSheet openStateKey="sellSheet">
-            <Sheet type="sell" />
-          </BottomSheet>
-        </>
-      )}
-    </footer>
-  );
-};
+import HogaChart from "./HogaChart";
 
 type TBuySell = {
   price: number;
@@ -106,6 +65,9 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
           control={control}
           name="quantity"
           type="number"
+          attr={{
+            min: 1,
+          }}
           displayName="수량"
           placeholder="수량"
           rules={{
@@ -117,13 +79,14 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
           }}
         />
         <div>
-          <div className="flex justify-between">
+          <div className="flex justify-between items-baseline">
             <h4>호가</h4>
             <small>
-              {Number(currentPrice).toLocaleString()} * <Variable />
+              {Number(currentPrice).toLocaleString()} <Variable />
             </small>
           </div>
-          {/* TODO 호가 차트 */}
+          {/* TODO 호가 차트 ::  토큰에서 웹소켓키 가져오는 메소드 구현 && 호가 웹소켓 구현 및 parsing */}
+          <HogaChart />
         </div>
         <Button primary className="w-full fixed left-0 bottom-0 p-2">
           {type === "buy" ? "매수" : "매도"}
@@ -133,4 +96,4 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
   );
 };
 
-export default StockFooter;
+export default Sheet;

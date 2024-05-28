@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@hookform/error-message";
 import clsx from "clsx";
-import React, { HTMLInputTypeAttribute } from "react";
+import React, { HTMLInputTypeAttribute, InputHTMLAttributes } from "react";
 import {
   UseControllerProps,
   useController,
@@ -8,6 +8,7 @@ import {
 } from "react-hook-form";
 
 type TControlProps<T extends FieldValues> = UseControllerProps<T> & {
+  attr?: Partial<InputHTMLAttributes<HTMLInputElement>>;
   type: HTMLInputTypeAttribute;
   displayName?: string;
   placeholder?: string;
@@ -42,6 +43,7 @@ const Control = <T extends FieldValues>({ ...props }: TControlProps<T>) => {
           className={`bg-primary-100 outline-none`}
           type={props.type}
           readOnly={props.readOnly}
+          {...props.attr}
         />
       </div>
       {formState.errors[field.name] && (

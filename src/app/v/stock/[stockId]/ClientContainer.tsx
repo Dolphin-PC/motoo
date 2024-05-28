@@ -3,13 +3,12 @@ import Section from "@/components/section/Section";
 import TodayOneMinute from "./components/TodayOneMinute";
 import CurrentPrice from "./components/CurrentPrice";
 import { RecoilRoot } from "recoil";
-import Button from "@/components/buttons/Button";
 import { useTabScroll } from "@/lib/hooks/useTabScroll";
 import MyStockInfo from "./components/MyStockInfo";
 import { AmountStock } from "@/pages/model/AmountStock";
 import { isEmpty } from "@/lib/util/util";
 import StockInfoComponent from "./components/StockInfoComponent";
-import StockFooter from "./components/StockFooter";
+import StockFooter from "./components/footer/StockFooter";
 
 type TProps = {
   stockId: string;

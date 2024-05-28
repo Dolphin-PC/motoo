@@ -182,3 +182,12 @@ export const stringToNumberLocale = (str: string, format?: boolean) => {
   }
   return Number(str).toLocaleString();
 };
+
+export function isJson(str: any) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}

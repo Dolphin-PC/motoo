@@ -320,7 +320,7 @@ export const OpenApiService = {
     const tr_id = "FHKST01010100"; // 모의투자
 
     const url = `${
-      process.env.VTS
+      process.env.NEXT_PUBLIC_VTS_URL
     }/uapi/domestic-stock/v1/quotations/inquire-price?${convertObjectToQuery(
       fid_obj
     )}`;
@@ -359,7 +359,7 @@ export const OpenApiService = {
     });
 
     const res = await axiosPost<TIssueTokenReq, TIssueTokenRes>(
-      `${process.env.VTS}/oauth2/tokenP`,
+      `${process.env.NEXT_PUBLIC_VTS_URL}/oauth2/tokenP`,
       {
         grant_type: "client_credentials",
         appkey: accountInfo.appKey,
@@ -399,7 +399,7 @@ export const OpenApiService = {
       FID_PW_DATA_INCU_YN: "N", // 과거 데이터 포함 여부
     };
     const url = `${
-      process.env.VTS
+      process.env.NEXT_PUBLIC_VTS_URL
     }/uapi/domestic-stock/v1/quotations/inquire-time-itemchartprice?${convertObjectToQuery(
       queryParameter
     )}`;
@@ -429,7 +429,7 @@ export const OpenApiService = {
     secretKey: AccountInfo["appSecret"];
   }) {
     const res = await axiosPost<TApprovalReq, TApprovalRes>(
-      `${process.env.VTS}/oauth2/Approval`,
+      `${process.env.NEXT_PUBLIC_VTS_URL}/oauth2/Approval`,
       {
         grant_type: "client_credentials",
         appkey: appKey,
@@ -454,7 +454,7 @@ export const OpenApiService = {
     appkey: AccountInfo["appKey"];
     appsecret: AccountInfo["appSecret"];
   }) {
-    const baseUrl = `${process.env.VTS}/uapi/domestic-stock/v1/trading/inquire-balance`;
+    const baseUrl = `${process.env.NEXT_PUBLIC_VTS_URL}/uapi/domestic-stock/v1/trading/inquire-balance`;
     const headerObj = {
       authorization: `Bearer ${VTS_TOKEN}`,
       appkey,
