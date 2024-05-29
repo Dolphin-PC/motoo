@@ -1,17 +1,16 @@
 "use client";
-import { AmountStock } from "@/pages/model/AmountStock";
 import React, { ReactNode, useMemo } from "react";
 import { useRecoilValue } from "recoil";
-import { inquireDataState } from "../atom";
+import { amountStockState, inquireDataState } from "../atom";
 import Card from "@/components/card/Card";
+import NotData from "@/components/icon/NotData";
+import Section from "@/components/section/Section";
 
-type TProps = {
-  amountStock: AmountStock;
-};
-const MyStockInfo = (props: TProps) => {
-  const { amountStock } = props;
-
+const MyStockInfo = () => {
   const inquireData = useRecoilValue(inquireDataState);
+  const amountStock = useRecoilValue(amountStockState);
+
+  if (inquireData == null || amountStock == null) return <NotData />;
 
   /** @desc 평균 체결금액 */
   const avgAmount = useMemo(
@@ -24,12 +23,11 @@ const MyStockInfo = (props: TProps) => {
     [amountStock.quantity]
   );
   /** @desc 평가 금액 */
-  const totalPrice =
-    stockQuantity * Number(inquireData?.output1.stck_prpr || 0);
+  const totalPrice = stockQuantity * Number(inquireData.output1.stck_prpr || 0);
 
   /** @desc 투자 원금 */
   const orgPrice = useMemo(
-    () => Number(amountStock.quantity) * Number(amountStock.avgAmount),
+    () => Number(amountStock?.quantity) * Number(amountStock.avgAmount),
     [amountStock.quantity, amountStock.avgAmount]
   );
 
@@ -57,7 +55,7 @@ const MyStockInfo = (props: TProps) => {
   };
 
   return (
-    <div>
+    <Section title="내 주식">
       <small>평균 체결금액</small>
       <h4>{avgAmount.toLocaleString()} 원</h4>
       <div className="mt-3 flex flex-col gap-3">
@@ -76,7 +74,7 @@ const MyStockInfo = (props: TProps) => {
           content={orgPrice.toLocaleString() + "원"}
         />
       </div>
-    </div>
+    </Section>
   );
 };
 

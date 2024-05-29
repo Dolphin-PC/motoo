@@ -2,98 +2,155 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { isJson } from "../util/util";
+import { set } from "react-hook-form";
 
+type SocketInfo = {
+  webSocket: WebSocket;
+  isMounted: boolean;
+  retryCount: number;
+};
 const URL = process.env.NEXT_PUBLIC_VTS_SOCKET_URL;
 
 const MAX_RETRY_COUNT = 5;
 const MIN_INTERVAL = 1000;
 const MAX_JITTER = 200;
 
-const NORMAL_CODE = 1000;
+const NORMAL_CODE = 1006;
+const CLOSE_CODE = 1000;
 const ERROR_CODE = 9999;
 
-const isWebSocketOpen = (ws: WebSocket) => ws && ws.readyState === ws.OPEN;
+export enum SOCKET_STATUS {
+  NONE = -1,
+  CONNECTING = 0,
+  OPEN = 1,
+  CLOSING = 2,
+  CLOSED = 3,
+}
 
+/** @desc 웹소켓을 사용하기 위한 커스텀 훅 */
 export default function useWebSocket() {
-  const webSocket = useRef<WebSocket | null>(null);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<string | null>(null);
+  // 소켓의 상태를 state로 관리해야, 상태에 따른 UI처리(useEffect)가 가능함
+  const [socketStatus, setSocketStatus] = useState<SOCKET_STATUS>(-1);
 
-  // 연결 실패시 재시도를 위한 변수
-  const isMounted = useRef(true);
-  const retryCount = useRef(0);
-
-  const sendMessage = <T>(message: T) => {
-    if (webSocket.current && isWebSocketOpen(webSocket.current)) {
-      webSocket.current.send(JSON.stringify(message));
-    } else {
-      console.error("WebSocket is not connected");
+  useEffect(() => {
+    // 소켓 초기화
+    if (window.socketInfo == null) {
+      window.socketInfo = {
+        webSocket: new WebSocket(URL),
+        isSetUp: false,
+        retryCount: 0,
+      };
+      setSocketStatus(SOCKET_STATUS.CONNECTING);
     }
-  };
 
-  const setUpWebSocket = useCallback((ws: WebSocket) => {
-    ws.onopen = () => {
+    if (window.socketInfo.isSetUp == false) {
+      setUpWebSocket();
+
+      window.socketInfo.isSetUp = true;
+      console.info("WebSocket Setup Success");
+    }
+
+    // 멀티 웹소켓 연결을 위함 //
+    if (window.socketInfo.webSocket.readyState == WebSocket.OPEN) {
+      setSocketStatus(SOCKET_STATUS.OPEN);
+    }
+
+    // 연결중일때, 2번째 이후의 웹소켓연결은 0.01초 후에 소켓의 상태를 확인하여 OPEN으로 변경
+    if (window.socketInfo.webSocket.readyState == WebSocket.CONNECTING) {
+      const retry = setInterval(() => {
+        if (
+          window.socketInfo &&
+          window.socketInfo.webSocket.readyState == WebSocket.OPEN
+        ) {
+          setSocketStatus(SOCKET_STATUS.OPEN);
+          clearInterval(retry);
+        }
+      }, 10);
+    }
+    // 멀티 웹소켓 연결을 위함 //
+    return () => {
+      if (window.socketInfo && window.socketInfo.webSocket.OPEN) {
+        window.socketInfo.webSocket.close(CLOSE_CODE);
+        setSocketStatus(SOCKET_STATUS.CLOSING);
+
+        console.info("WebSocket Close by unmount");
+      }
+    };
+  }, []);
+
+  const setUpWebSocket = () => {
+    if (window.socketInfo == null) throw new Error("window.socketInfo is null");
+
+    const { webSocket } = window.socketInfo;
+
+    webSocket.onopen = () => {
+      setSocketStatus(SOCKET_STATUS.OPEN);
       console.info("WebSocket Opened");
-      retryCount.current = 0;
     };
 
-    ws.onmessage = (event) => {
+    webSocket.onmessage = (event) => {
+      // console.info("MESSAGE ::", event.data);
       // XXX : 첫응답의 데이터와 이후 데이터가 type이 같고, data만 다름... (구분할 방법이 없음, json인지 확인하는 수 밖에)
       if (isJson(event.data)) {
-        console.log("HEADER ::", JSON.parse(event.data));
+        const res = JSON.parse(event.data);
+
+        // 연결 성공
+        if (res.body && res.body.msg_cd == "OPSP0000") {
+          if (res.header.tr_id && res.body.msg1) {
+            console.info("연결 성공 ::", res.header.tr_id, res.body.msg1);
+          }
+        }
+        console.log("HEADER ::", res);
       } else {
         setMessage(event.data);
       }
     };
 
-    ws.onerror = (event) => {
+    webSocket.onerror = (event) => {
       // 에러 발생시, 에러코드로 웹소켓 종료
-      if (isMounted.current == true) {
-        ws.close(ERROR_CODE);
+      if (window.socketInfo!.isSetUp == true) {
+        webSocket.close(ERROR_CODE);
       }
     };
 
-    ws.onclose = (event) => {
-      if (isMounted.current == true) {
-        console.info("WebSocket Closed");
-
+    webSocket.onclose = (event) => {
+      if (window.socketInfo!.isSetUp) {
         // 재연결 시도 (Backoff알고리즘 + Jitter)
-        if (event.code != NORMAL_CODE) {
+        if (event.code != NORMAL_CODE && event.code != CLOSE_CODE) {
           // Backoff알고리즘
-          let interval = MIN_INTERVAL * Math.pow(2, retryCount.current);
+          let interval =
+            MIN_INTERVAL * Math.pow(2, window.socketInfo!.retryCount);
 
           // Jitter
           const jitter =
             Math.floor(Math.random() * (MAX_JITTER * 2 + 1)) - MAX_JITTER;
           interval += jitter;
 
-          if (retryCount.current < MAX_RETRY_COUNT) {
+          if (window.socketInfo!.retryCount < MAX_RETRY_COUNT) {
             setTimeout(() => {
-              webSocket.current = new WebSocket(URL);
-              setUpWebSocket(webSocket.current);
-              retryCount.current++;
+              window.socketInfo!.webSocket = new WebSocket(URL);
+              setUpWebSocket();
+              window.socketInfo!.retryCount++;
             }, interval);
           }
+        } else {
+          // 닫힌 websocket은 다시 열수 없으므로, 객체를 아예 삭제처리
+          window.socketInfo = null;
         }
       }
+      setSocketStatus(SOCKET_STATUS.CLOSED);
+      console.info("WebSocket Closed", event.code);
     };
-  }, []);
+  };
 
-  useEffect(() => {
-    // 재연결을 위한 초기화
-    retryCount.current = 0;
-    isMounted.current = true;
+  const sendMessage = <T>(message: T) => {
+    if (window.socketInfo && window.socketInfo.webSocket.OPEN) {
+      window.socketInfo.webSocket.send(JSON.stringify(message));
+    } else {
+      console.error("WebSocket is not connected");
+    }
+  };
 
-    webSocket.current = new WebSocket(URL);
-    setUpWebSocket(webSocket.current);
-
-    return () => {
-      if (webSocket.current && isWebSocketOpen(webSocket.current)) {
-        isMounted.current = false;
-        webSocket.current.close(NORMAL_CODE);
-        console.info("WebSocket Close");
-      }
-    };
-  }, []);
-
-  return { message, sendMessage };
+  return { message, sendMessage, socketStatus };
 }

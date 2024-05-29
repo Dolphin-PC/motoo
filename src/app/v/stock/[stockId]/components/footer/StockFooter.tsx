@@ -3,15 +3,12 @@ import BottomSheet from "@/components/bottomSheet/BottomSheet";
 import { bottomSheetOpenState } from "@/components/bottomSheet/atom";
 import Button from "@/components/buttons/Button";
 import { isEmpty } from "@/lib/util/util";
-import { AmountStock } from "@/pages/model/AmountStock";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import Sheet from "./Sheet";
+import { amountStockState } from "../../atom";
 
-type TProps = {
-  amountStock: AmountStock;
-};
-
-const StockFooter = (props: TProps) => {
+const StockFooter = () => {
+  const amountStock = useRecoilValue(amountStockState);
   const [
     [isOpenBuySheet, setIsOpenBuySheet],
     [isOpenSellSheet, setIsOpenSellSheet],
@@ -31,7 +28,7 @@ const StockFooter = (props: TProps) => {
           </BottomSheet>
         )}
       </div>
-      {!isEmpty(props.amountStock) && (
+      {!isEmpty(amountStock) && (
         <div className="w-full">
           <Button outline onClick={() => setIsOpenSellSheet(true)}>
             매도

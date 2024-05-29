@@ -1,6 +1,8 @@
+import { AmountStock } from "@/pages/model/AmountStock";
 import { TInquireTimeItemChartPriceRes } from "@/pages/service/openapi/OpenApiService";
 import { atom, selector } from "recoil";
 
+/** 분봉 데이터 */
 export const inquireDataState = atom<TInquireTimeItemChartPriceRes | null>({
   key: "inquireDataState",
   default: null,
@@ -18,5 +20,10 @@ export const currentPriceState = selector<number>({
 
 export const stockIdState = atom<string | null>({
   key: "stockIdState",
+  default: null,
+});
+
+export const amountStockState = atom<null | AmountStock>({
+  key: "amountStockState",
   default: null,
 });

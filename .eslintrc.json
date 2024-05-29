@@ -20,5 +20,8 @@
       2,
       { "namedComponents": ["arrow-function", "function-declaration"] }
     ]
+  },
+  "globals": {
+    "NodeJS": true
   }
 }

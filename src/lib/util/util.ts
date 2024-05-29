@@ -149,9 +149,9 @@ export const splitDate = (date: Date) => {
   };
 };
 
-/** @desc HHmmss -> HH:mm */
+/** @desc HHmmss -> HH:mm:ss */
 export const sixDateToHourMinute = (date: string) => {
-  return date.slice(0, 2) + ":" + date.slice(2, 4);
+  return date.slice(0, 2) + ":" + date.slice(2, 4) + ":" + date.slice(4, 6);
 };
 
 export const isEmpty = (value: any) => {

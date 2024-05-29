@@ -9,6 +9,7 @@ import { AmountStock } from "@/pages/model/AmountStock";
 import { isEmpty } from "@/lib/util/util";
 import StockInfoComponent from "./components/StockInfoComponent";
 import StockFooter from "./components/footer/StockFooter";
+import AtomInit from "./components/AtomInit";
 
 type TProps = {
   stockId: string;
@@ -22,8 +23,9 @@ const ClientContainer = (props: TProps) => {
   return (
     <RecoilRoot>
       <div className="flex flex-col gap-5">
+        <AtomInit stockId={stockId} amountStock={amountStock} />
         {/* 현재가격 */}
-        <CurrentPrice stockId={stockId} />
+        <CurrentPrice />
         {/* 탭 */}
         {/* FIXME : Tab Scroll 시, 화면 어그러짐 */}
         {/* <div ref={headerRef} className="sticky top-0">
@@ -43,27 +45,21 @@ const ClientContainer = (props: TProps) => {
         </div> */}
         {/* 차트 */}
         <div tabIndex={0} ref={registryRef}>
-          <Section title="차트(30분)">
-            <TodayOneMinute stockId={stockId} />
-          </Section>
+          <TodayOneMinute />
         </div>
         {/* 내 주식 */}
         {!isEmpty(amountStock) && (
           <div tabIndex={1} ref={registryRef}>
-            <Section title="내 주식">
-              <MyStockInfo amountStock={amountStock} />
-            </Section>
+            <MyStockInfo />
           </div>
         )}
         {/* 종목정보 */}
         <div tabIndex={2} ref={registryRef}>
-          <Section title="시세">
-            <StockInfoComponent stockId={stockId} />
-          </Section>
+          <StockInfoComponent />
         </div>
       </div>
       {/* 매수/매도 버튼 */}
-      <StockFooter amountStock={amountStock} />
+      <StockFooter />
     </RecoilRoot>
   );
 };

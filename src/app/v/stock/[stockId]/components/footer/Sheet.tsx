@@ -8,6 +8,8 @@ import { currentPriceState, inquireDataState } from "../../atom";
 import Input from "@/components/Input";
 import Button from "@/components/buttons/Button";
 import HogaChart from "./HogaChart";
+import useRealTimePrice from "./useRealTimePrice";
+import RealTimePrice from "./RealTimePrice";
 
 type TBuySell = {
   price: number;
@@ -41,8 +43,10 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
   return (
     <div className="p-3">
       <h5>{inquireData?.output1.hts_kor_isnm}</h5>
-      <h3>{Number(currentPrice).toLocaleString()}원</h3>
-      <Variable />
+
+      {/* <h3>{Number(currentPrice).toLocaleString()}원</h3>
+      <Variable /> */}
+      <RealTimePrice />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="mt-5 flex flex-col gap-3"
@@ -85,10 +89,9 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
               {Number(currentPrice).toLocaleString()} <Variable />
             </small>
           </div>
-          {/* TODO 호가 차트 ::  토큰에서 웹소켓키 가져오는 메소드 구현 && 호가 웹소켓 구현 및 parsing */}
           <HogaChart />
         </div>
-        <Button primary className="w-full fixed left-0 bottom-0 p-2">
+        <Button primary className="w-full fixed left-0 bottom-0">
           {type === "buy" ? "매수" : "매도"}
         </Button>
       </form>
