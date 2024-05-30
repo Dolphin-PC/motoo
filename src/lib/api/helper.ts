@@ -28,11 +28,12 @@ export const fetchHelper = <T>({
   return fetch(url, {
     method,
     body: JSON.stringify(data),
-    headers: { "Content-Type": "application/json" },
     ...options,
+    headers: { "Content-Type": "application/json" },
   });
 };
 
+/** Next 서버의 API호출용 */
 export const fetchHelperWithData = async <T, R>({
   url,
   data,
@@ -68,6 +69,8 @@ export const fetchHelperWithData = async <T, R>({
 
 const axiosInstance = axios.create({});
 
+/** 한국투자증권 API 전용 */
+// TODO: 토큰만료 응답시, 토큰 재발급 후 재요청
 export const axiosGet = async <T>(
   url: string,
   config?: AxiosRequestConfig

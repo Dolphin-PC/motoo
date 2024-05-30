@@ -1,4 +1,4 @@
-import { axiosGet, axiosPost } from "@/lib/api/helper";
+import { axiosGet, axiosPost, fetchHelperWithData } from "@/lib/api/helper";
 import { convertObjectToQuery } from "@/lib/util/util";
 import { TIssueTokenReq, TIssueTokenRes } from "../token/TokenDao";
 import { TVerifyAccount } from "@/app/v/my/account/new/page";
@@ -10,6 +10,14 @@ import {
 import { StockInfo } from "@/pages/model/StockInfo";
 import axios from "axios";
 import { Content } from "next/font/google";
+import { StatusCode } from "@/pages/api";
+
+/** @desc 한국투자증권 API통신을 위한 공통 파라미터 */
+type TApiCommonReq = {
+  VTS_TOKEN: AccountInfo["apiToken"];
+  VTS_APPKEY: AccountInfo["appKey"];
+  VTS_APPSECRET: AccountInfo["appSecret"];
+};
 
 /** @description 한국투자증권 V_주식현재가 시세 조회 응답
  * @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-quotations2#L_07802512-4f49-4486-91b4-1050b6f5dc9d
@@ -303,6 +311,50 @@ type TInquireStockBalanceRes = {
   msg_cd: string;
   msg1: string;
 };
+type TInquirePsblOrderReq = {
+  /**계좌번호 */
+  accountNumber: AccountInfo["accountNumber"];
+  /**종목번호 */
+  stockId: StockInfo["stockId"];
+  /**주문단가 */
+  orderPrice: string;
+  /**주문구분(00:지정가, 01:시장가) */
+  orderType: "00" | "01";
+};
+
+type TInquirePsblOrderRes = {
+  msg1: string;
+  msg_cd: string;
+  rt_cd: string;
+  output: {
+    /**주문가능현금 */
+    ord_psbl_cash: string;
+    /**주문가능대용 */
+    ord_psbl_sbst: string;
+    /**재사용가능금액 */
+    ruse_psbl_amt: string;
+    /**펀드환매대금 */
+    fund_rpch_chgs: string;
+    /**가능수량계산단가 */
+    psbl_qty_calc_unpr: string;
+    /**미수없는매수금액 */
+    nrcvb_buy_amt: string;
+    /**미수없는매수수량 */
+    nrcvb_buy_qty: string;
+
+    /**최대매수금액 */
+    max_buy_amt: string;
+    /**최대매수수량 */
+    max_buy_qty: string;
+
+    /**CMA평가금액 */
+    cma_evlu_amt: string;
+    /**해외재사용금액원화 */
+    ovrs_re_use_amt_wcrc: string;
+    /**주문가능외화금액원화 */
+    ord_psbl_frcr_amt_wcrc: string;
+  };
+};
 
 export const OpenApiService = {
   /** @desc 주식 실시간 가격 정보 조회
@@ -477,12 +529,52 @@ export const OpenApiService = {
 
     const url = `${baseUrl}?${convertObjectToQuery(ParamObj)}`;
 
-    const res = await axiosGet<TInquireStockBalanceRes>(url, {
-      headers: headerObj,
-    });
+    try {
+      const res = await axiosGet<TInquireStockBalanceRes>(url, {
+        headers: headerObj,
+      });
 
-    if (res.rt_cd !== "0") throw new Error(res.msg1);
+      return res;
+    } catch (error) {
+      console.error(error);
+    }
+  },
 
-    return res;
+  /** @desc 한국투자증권(매수가능조회 API)
+   * @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-order#L_806e407c-3082-44c0-9d71-e8534db5ad54
+   */
+  inquirePsblOrder: async function (
+    headerPrm: TApiCommonReq,
+    prm: TInquirePsblOrderReq
+  ) {
+    const baseUrl = `${process.env.NEXT_PUBLIC_VTS_URL}/uapi/domestic-stock/v1/trading/inquire-psbl-order`;
+    const prmObj = {
+      CANO: prm.accountNumber.slice(0, 9), // 계좌번호 앞 8자리
+      ACNT_PRDT_CD: prm.accountNumber.slice(-2), // 계좌번호 뒤 2자리
+      PDNO: prm.stockId, // 종목번호
+      ORD_UNPR: prm.orderPrice, // 주문단가
+      ORD_DVSN: prm.orderType, // 주문구분(00:지정가, 01:시장가)
+      CMA_EVLU_AMT_ICLD_YN: "N", // CMA평가금액포함여부
+      OVRS_ICLD_YN: "N", // 해외포함여부
+    };
+    const url = baseUrl + "?" + convertObjectToQuery(prmObj);
+
+    const headerObj = {
+      "content-type": "application/json",
+      authorization: `Bearer ${headerPrm.VTS_TOKEN}`,
+      appkey: headerPrm.VTS_APPKEY,
+      appsecret: headerPrm.VTS_APPSECRET,
+      tr_id: "VTTC8908R",
+    };
+
+    try {
+      const resData = await axiosGet<TInquirePsblOrderRes>(url, {
+        headers: headerObj,
+      });
+
+      return resData;
+    } catch (error) {
+      console.error(error);
+    }
   },
 };

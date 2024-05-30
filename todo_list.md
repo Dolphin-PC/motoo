@@ -6,3 +6,5 @@ TODO stock_info 테이블 데이터 미리 넣어두기 (스크래핑 불가, �
 --- API ---
 TODO next-swagger 보완하기 /api/ 하위폴더
 TODO API의 next-auth middleware적용하기
+
+TODO: 토큰만료 응답시, 토큰 재발급 후 재요청

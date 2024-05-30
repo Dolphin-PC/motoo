@@ -77,4 +77,27 @@ describe("OpenApiService.test.ts", () => {
       console.error(error);
     }
   });
+
+  it("매수가능조회", async () => {
+    // given
+    const accountNumber = "50104221";
+    const appkey = process.env.TEST_APP_KEY!;
+    const appSecret = process.env.TEST_APP_SECRET!;
+    const VTS_TOKEN = process.env.TEST_VTS_TOKEN!;
+    const stockId = "005930";
+    const orderPrice = "75000";
+
+    // when
+    const res = await OpenApiService.inquirePsblOrder(
+      { VTS_TOKEN, VTS_APPKEY: appkey, VTS_APPSECRET: appSecret },
+      {
+        accountNumber,
+        orderPrice,
+        orderType: "00",
+        stockId,
+      }
+    );
+    // then
+    console.info(res);
+  });
 });

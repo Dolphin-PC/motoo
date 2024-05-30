@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useCallback, useEffect } from "react";
+import { ReactNode, Suspense, useCallback, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { currentPriceState, inquireDataState } from "../../atom";
@@ -9,6 +9,7 @@ import Button from "@/components/buttons/Button";
 import HogaChart from "./HogaChart";
 import RealTimePrice from "./RealTimePrice";
 import Section from "@/components/section/Section";
+import MyAmountMoney from "./MyAmountMoney";
 
 type TBuySell = {
   price: number;
@@ -21,7 +22,6 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
   const {
     handleSubmit,
     control,
-    reset,
     formState: { errors },
     setValue,
   } = useForm<TBuySell>({
@@ -91,6 +91,9 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
             <Button primary className="w-full sticky bottom-5">
               {type === "buy" ? "매수" : "매도"}
             </Button>
+            <Suspense fallback={<div>Loading...</div>}>
+              <MyAmountMoney />
+            </Suspense>
           </form>
         </Section>
       </div>

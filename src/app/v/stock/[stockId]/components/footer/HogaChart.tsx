@@ -175,7 +175,7 @@ type TProps = {
 /** @desc 실시간 호가차트 (웹소켓)
  *  @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-real2#L_9cda726b-6f0b-48b5-8369-6d66bea05a2a
  */
-export default function HogaChart(props: TProps) {
+const HogaChart = (props: TProps) => {
   const stockId = useRecoilValue(stockIdState);
   const { data: session } = useSession();
 
@@ -309,4 +309,6 @@ export default function HogaChart(props: TProps) {
       />
     </div>
   );
-}
+};
+
+export default HogaChart;
