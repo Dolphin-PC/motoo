@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import useWebSocket, { SOCKET_STATUS } from "@/lib/hooks/useWebSocket";
 import { useSession } from "next-auth/react";
 import { useRecoilValue } from "recoil";
-import { stockIdState } from "../../atom";
+import { currentPriceState, stockIdState } from "../../atom";
 import { AccountInfo } from "@/pages/model/AccountInfo";
 import { StockInfo } from "@/pages/model/StockInfo";
 import { Variable } from "../Variable";
@@ -81,9 +81,9 @@ type TMessage = {
 };
 
 export default function RealTimePrice() {
-  // TODO 장 시간에 테스트 할 것...
   const { data: session } = useSession();
   const stockId = useRecoilValue(stockIdState);
+  const currentPrice = useRecoilValue(currentPriceState);
 
   const { message, sendMessage, socketStatus } = useWebSocket("H0STCNT0");
   const [resData, setResData] = useState<ReturnType<typeof resStringToJson>>();
@@ -120,13 +120,20 @@ export default function RealTimePrice() {
     }
   }, [message]);
 
+  // XXX 분봉조회 데이터는 있으나, 실시간 체결가 데이터가 없을 경우
+  if (!resData)
+    return (
+      <div>
+        <h4>{Number(currentPrice).toLocaleString()} 원</h4>
+      </div>
+    );
   return (
     <div>
-      <h4>{Number(resData?.STCK_PRPR).toLocaleString()} 원</h4>
+      <h4>{Number(resData.STCK_PRPR).toLocaleString()} 원</h4>
       <Variable
-        prev_price={resData?.PRDY_VRSS}
-        prev_rate={resData?.PRDY_CTRT}
-        sign={resData?.PRDY_VRSS_SIGN}
+        prev_price={resData.PRDY_VRSS}
+        prev_rate={resData.PRDY_CTRT}
+        sign={resData.PRDY_VRSS_SIGN}
       />
     </div>
   );

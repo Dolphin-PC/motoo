@@ -44,8 +44,14 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
   }, []);
 
   return (
-    <div className="flex flex-col gap-5 p-3">
-      <div className="sticky top-12">
+    <div className="flex flex-col p-5 gap-5">
+      <div style={{ height: "50vh" }}>
+        <Section.Scroll title="실시간 호가" className="flex flex-col">
+          <HogaChart setPrice={setPrice} />
+        </Section.Scroll>
+      </div>
+
+      <div className="sticky bottom-5">
         <Section title={inquireData?.output1.hts_kor_isnm}>
           <RealTimePrice />
 
@@ -88,19 +94,13 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
             {/* TODO : 매수가능조회 1회 */}
             {/* 총 주문 금액 */}
 
-            <Button primary className="w-full sticky bottom-5">
-              {type === "buy" ? "매수" : "매도"}
-            </Button>
+            <Button primary>{type === "buy" ? "매수" : "매도"}</Button>
             <Suspense fallback={<div>Loading...</div>}>
               <MyAmountMoney />
             </Suspense>
           </form>
         </Section>
       </div>
-
-      <Section.Scroll title="호가" className="flex-col">
-        <HogaChart setPrice={setPrice} />
-      </Section.Scroll>
     </div>
   );
 };

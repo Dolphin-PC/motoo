@@ -13,8 +13,6 @@ const MyAmountMoney = async () => {
     },
   });
 
-  console.log(amountMoney);
-
   return (
     <div>
       <small>구매가능 {amountMoney.krw.toLocaleString()}원</small>
