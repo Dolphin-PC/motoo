@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode, useCallback, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { currentPriceState, inquireDataState } from "../../atom";
@@ -33,11 +33,15 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
 
   useEffect(() => {
     setValue("price", currentPrice);
-  }, [currentPrice]);
+  }, []);
 
   const onSubmit: SubmitHandler<TBuySell> = async (data) => {
     console.log(data);
   };
+
+  const setPrice = useCallback((price: number) => {
+    setValue("price", price);
+  }, []);
 
   return (
     <div className="flex flex-col gap-5 p-3">
@@ -81,6 +85,9 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
               }}
             />
 
+            {/* TODO : 매수가능조회 1회 */}
+            {/* 총 주문 금액 */}
+
             <Button primary className="w-full sticky bottom-5">
               {type === "buy" ? "매수" : "매도"}
             </Button>
@@ -89,7 +96,7 @@ const Sheet = ({ type }: { type: "buy" | "sell" }): ReactNode => {
       </div>
 
       <Section.Scroll title="호가" className="flex-col">
-        <HogaChart />
+        <HogaChart setPrice={setPrice} />
       </Section.Scroll>
     </div>
   );

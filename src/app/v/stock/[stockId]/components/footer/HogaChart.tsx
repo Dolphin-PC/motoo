@@ -8,7 +8,12 @@ import { stockIdState } from "../../atom";
 import { useRecoilValue } from "recoil";
 import ChartComp from "@/components/chart/Chart";
 import colors from "tailwindcss/colors";
-import { ChartConfiguration, ChartData } from "chart.js";
+import {
+  ActiveElement,
+  ChartConfiguration,
+  ChartData,
+  ChartEvent,
+} from "chart.js";
 import NotData from "@/components/icon/NotData";
 import { sixDateToHourMinute } from "@/lib/util/util";
 import "chartjs-plugin-datalabels";
@@ -163,17 +168,21 @@ type TMessage = {
   };
 };
 
+type TProps = {
+  setPrice: (price: number) => void;
+};
+
 /** @desc 실시간 호가차트 (웹소켓)
  *  @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-real2#L_9cda726b-6f0b-48b5-8369-6d66bea05a2a
  */
-export default function HogaChart() {
+export default function HogaChart(props: TProps) {
   const stockId = useRecoilValue(stockIdState);
   const { data: session } = useSession();
 
   const { message, sendMessage, socketStatus } = useWebSocket("H0STASP0");
 
   // XXX: message state가 변경되면 어차피 재렌더링이 되기때문에, 굳이 state로 관리될 필요가 없음
-  const chartData = useRef<null | {
+  const chartDataRef = useRef<null | {
     data: ChartData;
     time: string;
   }>(null);
@@ -182,6 +191,7 @@ export default function HogaChart() {
   const chartConfig = useRef<Omit<ChartConfiguration, "data">>({
     type: "bar",
     options: {
+      onClick: (event, item) => handleClickChartBar(event, item),
       interaction: {
         intersect: false,
         mode: "y", // hover시 y축에 대한 정보만 표시
@@ -210,7 +220,31 @@ export default function HogaChart() {
     },
   });
 
-  // // TODO 호가차트 미응답시 타임아웃 (useTimeout)
+  const handleClickChartBar = (e: ChartEvent, itemArray: ActiveElement[]) => {
+    if (itemArray.length > 0) {
+      const chartElement = itemArray[0];
+      const dataIndex = chartElement.index;
+      const datasetIndex = chartElement.datasetIndex;
+
+      if (chartDataRef.current == null) return;
+
+      // const rowData =
+      //   chartData.current.data.datasets[datasetIndex].data[dataIndex];
+
+      if (chartDataRef.current.data.labels) {
+        const priceLabel = chartDataRef.current.data.labels[
+          dataIndex
+        ] as string;
+
+        const priceNumber = parseInt(priceLabel.replace(/,/g, ""));
+
+        if (!isNaN(priceNumber)) {
+          props.setPrice(priceNumber);
+        }
+      }
+    }
+  };
+
   // /** 웹소켓 메시지 보내는 구간 */
   useEffect(() => {
     if (
@@ -242,7 +276,7 @@ export default function HogaChart() {
     if (message) {
       const { code, tr_id, tr_key, data, hogaList } = resStringToJson(message);
 
-      chartData.current = {
+      chartDataRef.current = {
         data: {
           labels: hogaList.map((item) => item.price.toLocaleString()),
           datasets: [
@@ -264,14 +298,14 @@ export default function HogaChart() {
     }
   }, [message]);
 
-  if (chartData.current == null) return <NotData description="LOADING..." />;
+  if (chartDataRef.current == null) return <NotData description="LOADING..." />;
 
   return (
     <div className="mb-5">
-      <small>{sixDateToHourMinute(chartData.current.time)}</small>
+      <small>{sixDateToHourMinute(chartDataRef.current.time)}</small>
       <ChartComp.RealTime
         option={chartConfig.current}
-        chartData={chartData.current.data}
+        chartData={chartDataRef.current.data}
       />
     </div>
   );
