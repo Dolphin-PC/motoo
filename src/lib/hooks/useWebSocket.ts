@@ -3,12 +3,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { isJson } from "../util/util";
 import { set } from "react-hook-form";
+import { SetterOrUpdater, useRecoilValue, useSetRecoilState } from "recoil";
+import { socketMessageState } from "./atom";
 
-type SocketInfo = {
-  webSocket: WebSocket;
-  isMounted: boolean;
-  retryCount: number;
-};
 const URL = process.env.NEXT_PUBLIC_VTS_SOCKET_URL;
 
 const MAX_RETRY_COUNT = 5;
@@ -27,11 +24,27 @@ export enum SOCKET_STATUS {
   CLOSED = 3,
 }
 
-/** @desc 웹소켓을 사용하기 위한 커스텀 훅 */
-export default function useWebSocket() {
-  const [message, setMessage] = useState<string | null>(null);
-  // 소켓의 상태를 state로 관리해야, 상태에 따른 UI처리(useEffect)가 가능함
+//! 새로운 웹소켓 연동하기전, 타입등록 필요!!, 소켓에서 수신되는 메시지를 해당 atomFamily[TYPE]에 담아줌
+const MESSAGE_TYPE = ["H0STASP0", "H0STCNT0"] as const;
+type SOCKET_MESSAGE_TYPE = (typeof MESSAGE_TYPE)[number];
+
+/** @desc 웹소켓을 사용하기 위한 커스텀 훅(RecoilRoot Wrap 필수) */
+export default function useWebSocket(msgType: SOCKET_MESSAGE_TYPE) {
+  //XXX 소켓의 상태를 state로 관리해야, 상태에 따른 UI처리(useEffect)가 가능함
   const [socketStatus, setSocketStatus] = useState<SOCKET_STATUS>(-1);
+
+  // 소켓 수신 메시지 타입별 처리를 위한 객체 생성
+  const rcvMsgTypeObj = useRef<{
+    [key: string]: SetterOrUpdater<string | null>;
+  }>(
+    MESSAGE_TYPE.reduce((obj, trId) => {
+      return {
+        ...obj,
+        [trId]: useSetRecoilState(socketMessageState(trId)),
+      };
+    }, {})
+  );
+  const message = useRecoilValue(socketMessageState(msgType));
 
   useEffect(() => {
     // 소켓 초기화
@@ -103,7 +116,10 @@ export default function useWebSocket() {
         }
         console.log("HEADER ::", res);
       } else {
-        setMessage(event.data);
+        // console.info("MESSAGE ::", event.data);
+        const msgTrId: string = event.data.slice(2, 10);
+        const set = rcvMsgTypeObj.current[msgTrId];
+        set(event.data);
       }
     };
 

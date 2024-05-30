@@ -32,13 +32,17 @@ const CurrentPrice = () => {
   return (
     <div>
       <Section
-        title={`${inquireData?.output1.hts_kor_isnm} (${stockId})`}
+        title={`${inquireData.output1.hts_kor_isnm} (${stockId})`}
         className="sticky top-0"
       >
         <h4>{Number(currentPrice).toLocaleString()} 원</h4>
         <small>
           어제보다
-          <Variable />
+          <Variable
+            prev_price={inquireData.output1.prdy_vrss}
+            prev_rate={inquireData.output1.prdy_ctrt}
+            sign={inquireData.output1.prdy_vrss_sign}
+          />
         </small>
         <Update />
       </Section>

@@ -170,7 +170,7 @@ export default function HogaChart() {
   const stockId = useRecoilValue(stockIdState);
   const { data: session } = useSession();
 
-  const { message, sendMessage, socketStatus } = useWebSocket();
+  const { message, sendMessage, socketStatus } = useWebSocket("H0STASP0");
 
   // XXX: message state가 변경되면 어차피 재렌더링이 되기때문에, 굳이 state로 관리될 필요가 없음
   const chartData = useRef<null | {
@@ -178,7 +178,7 @@ export default function HogaChart() {
     time: string;
   }>(null);
 
-  // 차트 설정
+  //* 차트 설정
   const chartConfig = useRef<Omit<ChartConfiguration, "data">>({
     type: "bar",
     options: {
@@ -193,6 +193,7 @@ export default function HogaChart() {
       animation: {
         duration: 0, // 업데이트시 애니메이션 없앰
       },
+      aspectRatio: 0.5,
       plugins: {
         datalabels: {
           display: (context) =>
@@ -266,7 +267,7 @@ export default function HogaChart() {
   if (chartData.current == null) return <NotData description="LOADING..." />;
 
   return (
-    <div className="h-screen mb-5">
+    <div className="mb-5">
       <small>{sixDateToHourMinute(chartData.current.time)}</small>
       <ChartComp.RealTime
         option={chartConfig.current}

@@ -141,7 +141,7 @@ export type TInquireTimeItemChartPriceRes = {
   output1: {
     /**@desc 전일대비 변동가격*/
     prdy_vrss: string;
-    /**@desc 전일대비 부호(?) (1:상한/2:상승/3:보합/4:하한/5:하락, 정확하지 않음)*/
+    /**@desc 전일대비 부호(?) (1:상한/2:상승/3:보합/4:하한/5:하락)*/
     prdy_vrss_sign: "1" | "2" | "3" | "4" | "5";
     /**@desc 전일대비 대비율*/
     prdy_ctrt: string;
