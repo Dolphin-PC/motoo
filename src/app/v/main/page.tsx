@@ -5,6 +5,8 @@ import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
 import StockService from "@/pages/service/stock/StockService";
 import colors from "tailwindcss/colors";
+import Init from "./Init";
+import RecoilContainer from "@/components/container/RecoilContainer";
 
 const MainPage = async () => {
   const { accountNumber } = await useAccountInfo();
@@ -56,6 +58,9 @@ const MainPage = async () => {
 
   return (
     <div className="flex flex-col gap-10">
+      <RecoilContainer>
+        <Init />
+      </RecoilContainer>
       {/* 내 주식 */}
       <div style={{ height: "20vh" }}>
         <Section.Scroll

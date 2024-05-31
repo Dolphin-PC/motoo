@@ -38,7 +38,10 @@ export default function RootLayout({
               <LogoSvg className="w-20 h-20 transfrom rotate-45" />
               <h1>모투</h1>
             </aside>
-            <main className="m-auto w-full sm:w-9/12 md:w-6/12 lg:w-5/12 lg:translate-x-20 h-screen overflow-hidden">
+            <main
+              id="main"
+              className="m-auto w-full sm:w-9/12 md:w-6/12 lg:w-5/12 lg:translate-x-20 h-screen overflow-hidden"
+            >
               {children}
             </main>
           </div>
