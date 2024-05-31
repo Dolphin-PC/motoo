@@ -1,7 +1,5 @@
-// "use client";
 import Button from "@/components/buttons/Button";
 import ChartComp from "@/components/chart/Chart";
-import NotData from "@/components/icon/NotData";
 import Section from "@/components/section/Section";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
