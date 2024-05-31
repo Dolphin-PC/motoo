@@ -191,3 +191,16 @@ export function isJson(str: any) {
   }
   return true;
 }
+
+export const getSessionStorageItem = (key: string): any => {
+  const item = sessionStorage.getItem(key);
+  if (item) {
+    return JSON.parse(item);
+  }
+  return null;
+};
+
+export const setSessionStorageItem = (key: string, value: any): void => {
+  const item = JSON.stringify(value);
+  sessionStorage.setItem(key, item);
+};

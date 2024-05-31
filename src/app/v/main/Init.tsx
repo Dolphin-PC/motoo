@@ -2,20 +2,40 @@
 import React, { useEffect, useState } from "react";
 import Loading from "./loading";
 import { useSetRecoilState } from "recoil";
-import { loadingInfoState } from "@/components/loading/atom";
+import { loadingInfoState, loadingState } from "@/components/loading/atom";
+import { fetchHelperWithData } from "@/lib/api/helper";
+import { getSessionStorageItem, setSessionStorageItem } from "@/lib/util/util";
 
-const ID = "main" as const;
+const ID = "main";
+const SYNC_ID = "SYNC_AMOUNT_INFO";
 
 export default function Init() {
   const setLoadingInfo = useSetRecoilState(loadingInfoState(ID));
+  const setLoading = useSetRecoilState(loadingState(ID));
+
+  const syncAmountInfo = async () => {
+    await fetchHelperWithData<null, any>({
+      method: "POST",
+      url: "/api/account/sync",
+    }).then((res) => {
+      setSessionStorageItem(SYNC_ID, true);
+      setLoading(false);
+
+      console.log(res.message);
+    });
+  };
 
   useEffect(() => {
-    setLoadingInfo({
-      loading: true,
-      id: ID,
-      message: "주식정보를 동기화중입니다.",
-    });
-    // TODO 주식잔고조회 API호출해서, 주식잔고 조회 후, 유저정보에 주식잔고정보 추가
+    const isSync = getSessionStorageItem(SYNC_ID);
+
+    if (isSync != true) {
+      setLoadingInfo({
+        loading: true,
+        id: ID,
+        message: "주식정보를 동기화중입니다.",
+      });
+      syncAmountInfo();
+    }
   }, []);
 
   return <Loading.Portal id={ID} />;

@@ -43,7 +43,7 @@ const SignInPage = () => {
     if (status === "authenticated") {
       const { appKey, appSecret } = getUserTokenInfo(session);
 
-      router.push(appKey && appSecret ? "/v/main" : "/v/my");
+      router.replace(appKey && appSecret ? "/v/main" : "/v/my");
     }
   }, [status]);
 

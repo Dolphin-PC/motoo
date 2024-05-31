@@ -6,6 +6,9 @@ const Loading = ({ message }: { message?: string }) => {
   return <NotData description={message ?? "LOADING..."} />;
 };
 
-Loading.Portal = dynamic(() => import("./LoadingPortal"));
+Loading.Portal = dynamic(() => import("./LoadingPortal"), {
+  ssr: false,
+  loading: () => <div />,
+});
 
 export default Loading;

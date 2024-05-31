@@ -1,4 +1,4 @@
-import { MinLength } from "class-validator";
+import { Length, MinLength } from "class-validator";
 import { BaseModel } from "./Base";
 import { prisma } from "@/pages/service/prismaClient";
 import { Prisma } from "@prisma/client";
@@ -8,7 +8,7 @@ export class AmountStock extends BaseModel {
   id: number;
 
   stockId: string;
-  @MinLength(10)
+  @Length(8, 8)
   accountNumber: number;
   quantity: number;
 

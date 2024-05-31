@@ -1,5 +1,5 @@
 import { BaseModel } from "./Base";
-import { MinLength } from "class-validator";
+import { Length, MinLength } from "class-validator";
 import { Prisma } from "@prisma/client";
 import prisma from "../service/prismaClient";
 
@@ -15,7 +15,7 @@ export enum OrderType {
 }
 
 export class StockOrderHistory extends BaseModel {
-  @MinLength(10)
+  @Length(8, 8)
   accountNumber: number;
   stockId: string;
 

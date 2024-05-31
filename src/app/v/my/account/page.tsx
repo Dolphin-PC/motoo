@@ -26,6 +26,7 @@ const MyAccountPage = () => {
     }
   }, [session]);
 
+  // FIXME : 계좌정보 업데이트시, DB에는 업데이트 되지만, next-auth 토큰세션정보가 업데이트 되지 않음
   const updateCurrentAccount = async (newAccountInfo: AccountInfo) => {
     await update({
       ...session?.user,

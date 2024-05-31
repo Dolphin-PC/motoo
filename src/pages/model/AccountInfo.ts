@@ -22,6 +22,7 @@ import { AmountMoney } from "./AmountMoney";
 import { AmountStock } from "./AmountStock";
 import { LikeStock } from "./LikeStock";
 import { GroupLikeStock } from "./GroupLikeStock";
+import { convertObjectPropertiesCamelCaseToSnakeCase } from "@/lib/util/util";
 
 export enum AccountInfoValidatorGroups {
   verify = "VERIFY_ACCOUNT",
@@ -36,9 +37,6 @@ export class AccountInfo extends BaseModel {
   userId: number;
 
   @IsNumberString()
-  // @MinLength(10, {
-  //   groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
-  // })
   @Length(8, 8, {
     groups: [AccountInfoValidatorGroups.new, AccountInfoValidatorGroups.verify],
   })
@@ -109,14 +107,15 @@ export class AccountInfo extends BaseModel {
 
   toPrisma(): P_AccountInfo {
     return {
-      user_id: this.userId,
       account_number: this.accountNumber,
+      user_id: this.userId,
       default_account_yn: this.defaultAccountYn ?? false,
       account_expired_at: this.accountExpiredAt,
       app_key: this.appKey,
       app_secret: this.appSecret,
       api_token: this.apiToken,
       api_token_expired_at: this.apiTokenExpiredAt,
+      approval_key: this.approvalKey,
     };
   }
   // methods //

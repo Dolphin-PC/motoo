@@ -1,10 +1,10 @@
-import { MinLength } from "class-validator";
+import { Length, MinLength } from "class-validator";
 import { BaseModel } from "./Base";
 import { Prisma } from "@prisma/client";
 import prisma from "../service/prismaClient";
 
 export class LikeStock extends BaseModel {
-  @MinLength(10)
+  @Length(8, 8)
   accountNumber: number;
   stockId: string;
 

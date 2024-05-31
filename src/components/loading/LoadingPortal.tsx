@@ -1,7 +1,7 @@
 "use client";
 import "client-only";
 
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import Loading from "./Loading";
 import ReactDOM from "react-dom";
 import { useRecoilValue } from "recoil";
