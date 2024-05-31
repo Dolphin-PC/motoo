@@ -15,7 +15,9 @@ const MyAmountMoney = async () => {
 
   return (
     <div>
-      <small>구매가능 {amountMoney.krw.toLocaleString()}원</small>
+      <small>
+        구매가능 {Number(amountMoney.dncaTotAmt).toLocaleString()}원
+      </small>
     </div>
   );
 };

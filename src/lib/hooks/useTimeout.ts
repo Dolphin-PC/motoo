@@ -6,9 +6,7 @@ export default function useTimeout(ms: number) {
   const timer = useRef<NodeJS.Timeout | null>();
 
   function startTimer() {
-    console.info("Timer started");
     timer.current = setTimeout(() => {
-      console.info("Timer ended");
       setIsTimeout(true);
     }, ms);
   }

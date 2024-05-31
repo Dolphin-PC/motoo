@@ -8,7 +8,6 @@ import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import StockService from "@/pages/service/stock/StockService";
 import TableContainer from "@/components/table/TableContainer";
 import colors from "tailwindcss/colors";
-import NotData from "@/components/icon/NotData";
 
 const MyStockPage = async () => {
   const accountInfo = await useAccountInfo();
@@ -32,13 +31,13 @@ const MyStockPage = async () => {
     <div className="flex flex-col gap-10">
       {/* 내 계좌정보 */}
       <Section
-        title="내 계좌정보"
+        title="예수금 총액"
         right={<Button.Link href="/v/my/account"></Button.Link>}
       >
-        <h4>₩ {amountMoney.krw}</h4>
-        <p className="text-primary-500 underline">
-          {accountInfo.accountNumber}
-        </p>
+        <h4>₩ {Number(amountMoney.dncaTotAmt).toLocaleString()}</h4>
+        <small className="text-primary-500 underline">
+          계좌번호 {accountInfo.accountNumber}
+        </small>
       </Section>
 
       {/* 자산현황 */}
@@ -50,7 +49,7 @@ const MyStockPage = async () => {
               labels: ["주식", "현금"],
               datasets: [
                 {
-                  data: [stockPriceQuantitySum, amountMoney.krw],
+                  data: [stockPriceQuantitySum, Number(amountMoney.dncaTotAmt)],
                   backgroundColor: ["#FF6384", "#36A2EB"],
                 },
               ],
@@ -74,7 +73,7 @@ const MyStockPage = async () => {
           <Section.Card
             className="flex-1"
             amountUnit="KRW"
-            amount={amountMoney.krw}
+            amount={Number(amountMoney.dncaTotAmt)}
             title="현금"
           />
         </div>
@@ -90,7 +89,7 @@ const MyStockPage = async () => {
               datasets: [
                 {
                   data: amountStockInfoList.map(
-                    (stock) => stock.price || 0 * stock.quantity
+                    (stock) => (stock.price || 0) * stock.quantity
                   ),
                   backgroundColor: Object.values(colors.purple)
                     .reverse()

@@ -7,6 +7,7 @@ import StockService from "@/pages/service/stock/StockService";
 import colors from "tailwindcss/colors";
 import Init from "./Init";
 import RecoilContainer from "@/components/container/RecoilContainer";
+import "chartjs-plugin-datalabels";
 
 const MainPage = async () => {
   const { accountNumber } = await useAccountInfo();
@@ -108,13 +109,14 @@ const MainPage = async () => {
         <ChartComp
           option={{
             type: "doughnut",
+
             data: {
               labels: stockInfoList.slice(0, 5).map((stock) => stock.name),
               datasets: [
                 {
                   data: stockInfoList
                     .slice(0, 5)
-                    .map((stock) => stock.price || 0 * stock.quantity),
+                    .map((stock) => (stock.price || 0) * stock.quantity),
                   backgroundColor: Object.values(colors.purple)
                     .reverse()
                     .slice(4),
@@ -122,9 +124,15 @@ const MainPage = async () => {
               ],
             },
             options: {
+              interaction: {
+                intersect: false,
+                mode: "point",
+                axis: "r",
+              },
               plugins: {
                 legend: {
-                  position: "bottom",
+                  display: true,
+                  position: "right",
                 },
               },
             },
@@ -139,7 +147,7 @@ const MainPage = async () => {
                 {
                   data: stockInfoList
                     .slice(0, 5)
-                    .map((stock) => stock.price || 0 * stock.quantity),
+                    .map((stock) => (stock.price || 0) * stock.quantity),
                   backgroundColor: Object.values(colors.purple)
                     .reverse()
                     .slice(4),
@@ -148,6 +156,9 @@ const MainPage = async () => {
             },
             options: {
               indexAxis: "y",
+              interaction: {
+                axis: "y",
+              },
               plugins: {
                 legend: {
                   display: false,

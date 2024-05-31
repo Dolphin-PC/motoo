@@ -8,39 +8,38 @@ export class AmountMoney extends BaseModel {
   @Length(8, 8)
   accountNumber: string;
 
-  /** 익일정산금액(D+1예수금) */
+  /** 예수금총액 */
   dncaTotAmt: string;
-  /** 가수도정산금액(D+2예수금) */
+  /** 익일정산금액(D+1예수금) */
   nxdyExccAmt: string;
-  /** CMA평가금액 */
+  /** 가수도정산금액(D+2예수금) */
   prvsRcdlExccAmt: string;
-  /** 전일매수금액 */
+  /** CMA평가금액 */
   cmaEvluAmt: string;
-  /** 금일매수금액 */
+  /** 전일매수금액 */
   bfdyBuyAmt: string;
-  /** 전일매도금액 */
+  /** 금일매수금액 */
   thdtBuyAmt: string;
-  /** 금일매도금액 */
+  /** 전일매도금액 */
   bfdySllAmt: string;
-  /** 유가평가금액 */
+  /** 금일매도금액 */
   thdtSllAmt: string;
-  /** 총평가금액 */
+  /** 유가평가금액 */
   sctsEvluAmt: string;
-  /** 순자산금액 */
+  /** 총평가금액 */
   totEvluAmt: string;
-  /** 매입금액합계금액 */
+  /** 순자산금액 */
   nassAmt: string;
-  /** 평가금액합계금액 */
+  /** 매입금액합계금액 */
   pchsAmtSmtlAmt: string;
-  /** 평가손익합계금액 */
+  /** 평가금액합계금액 */
   evluAmtSmtlAmt: string;
-  /** 전일총자산평가금액 */
+  /** 평가손익합계금액 */
   evluPflsSmtlAmt: string;
-  /** 자산증감액 */
+  /** 전일총자산평가금액 */
   bfdyTotAsstEvluAmt: string;
   /** 자산증감액 */
   assticdcAmt: string;
-
   /** 익일자동상환금액 */
   nxdyAutoRdptAmt: string;
   /** D+2자동상환금액 */

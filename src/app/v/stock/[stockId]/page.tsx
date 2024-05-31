@@ -5,8 +5,6 @@ import { StockInfo } from "@/pages/model/StockInfo";
 import React from "react";
 import ClientContainer from "./ClientContainer";
 import { AmountStock } from "@/pages/model/AmountStock";
-import Button from "@/components/buttons/Button";
-import { isEmpty } from "@/lib/util/util";
 
 type LayoutProps = {
   params: { stockId: string };
