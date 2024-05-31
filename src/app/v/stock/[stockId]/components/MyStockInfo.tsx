@@ -10,25 +10,28 @@ const MyStockInfo = () => {
   const inquireData = useRecoilValue(inquireDataState);
   const amountStock = useRecoilValue(amountStockState);
 
-  if (inquireData == null || amountStock == null) return <NotData />;
+  // if (inquireData == null || amountStock == null) return <NotData />;
 
   /** @desc 평균 체결금액 */
   const avgAmount = useMemo(
-    () => Number(amountStock.avgAmount),
-    [amountStock.avgAmount]
+    () => Number(amountStock && amountStock.avgAmount),
+    [amountStock]
   );
   /** @desc 보유 수량 */
   const stockQuantity = useMemo(
-    () => Number(amountStock.quantity),
-    [amountStock.quantity]
+    () => Number(amountStock && amountStock.quantity),
+    [amountStock]
   );
   /** @desc 평가 금액 */
-  const totalPrice = stockQuantity * Number(inquireData.output1.stck_prpr || 0);
+  const totalPrice =
+    stockQuantity * Number(inquireData && inquireData.output1.stck_prpr) || 0;
 
   /** @desc 투자 원금 */
   const orgPrice = useMemo(
-    () => Number(amountStock?.quantity) * Number(amountStock.avgAmount),
-    [amountStock.quantity, amountStock.avgAmount]
+    () =>
+      Number(amountStock?.quantity) *
+      Number(amountStock && amountStock.avgAmount),
+    [amountStock, amountStock]
   );
 
   const 수익률 = (): ReactNode => {
@@ -55,7 +58,10 @@ const MyStockInfo = () => {
   };
 
   return (
-    <Section title="내 주식">
+    <Section
+      title="내 주식"
+      notData={inquireData == null || amountStock == null}
+    >
       <small>평균 체결금액</small>
       <h4>{avgAmount.toLocaleString()} 원</h4>
       <div className="mt-3 flex flex-col gap-3">

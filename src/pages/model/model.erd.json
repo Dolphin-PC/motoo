@@ -4,9 +4,9 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -956.2354,
-    "scrollLeft": 0,
-    "zoomLevel": 1,
+    "scrollTop": -726.7959,
+    "scrollLeft": -193.0672,
+    "zoomLevel": 0.9,
     "show": 511,
     "database": 1,
     "databaseName": "motoo",
@@ -1954,7 +1954,7 @@
         "comment": "계좌번호",
         "dataType": "VARCHAR",
         "default": "",
-        "options": 14,
+        "options": 10,
         "ui": {
           "keys": 1,
           "widthName": 98,
@@ -1963,7 +1963,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715564793588,
+          "updateAt": 1717136090493,
           "createAt": 1715063869769
         }
       },
@@ -2054,16 +2054,16 @@
         "comment": "계좌번호",
         "dataType": "VARCHAR",
         "default": "",
-        "options": 8,
+        "options": 10,
         "ui": {
-          "keys": 2,
+          "keys": 3,
           "widthName": 98,
           "widthComment": 60,
           "widthDataType": 60,
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715351047045,
+          "updateAt": 1717136244211,
           "createAt": 1715224508620
         }
       },
@@ -2083,7 +2083,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715351047045,
+          "updateAt": 1717134652699,
           "createAt": 1715224543357
         }
       },
@@ -2094,7 +2094,7 @@
         "comment": "계좌번호",
         "dataType": "VARCHAR",
         "default": "",
-        "options": 12,
+        "options": 8,
         "ui": {
           "keys": 2,
           "widthName": 98,
@@ -2103,7 +2103,7 @@
           "widthDefault": 60
         },
         "meta": {
-          "updateAt": 1715351047045,
+          "updateAt": 1717134655120,
           "createAt": 1715224616176
         }
       },
@@ -3495,7 +3495,7 @@
       },
       "IQA6UjU3EJtDs217TB9zo": {
         "id": "IQA6UjU3EJtDs217TB9zo",
-        "identification": false,
+        "identification": true,
         "relationshipType": 8,
         "startRelationshipType": 2,
         "start": {
@@ -3517,7 +3517,7 @@
           "direction": 4
         },
         "meta": {
-          "updateAt": 1715224508620,
+          "updateAt": 1717136244224,
           "createAt": 1715224508620
         }
       },
@@ -4707,7 +4707,7 @@
         "name": 1715063886449,
         "dataType": 1715351047043,
         "options(notNull)": 1715063891753,
-        "options(unique)": 1715063898092,
+        "options(unique)": 1717136090492,
         "comment": 1715063901927,
         "options(primaryKey)": 1715564793587
       }
@@ -4769,7 +4769,8 @@
         "name": 1715224508602,
         "dataType": 1715351047043,
         "default": 1715224508602,
-        "comment": 1715224508602
+        "comment": 1715224508602,
+        "options(primaryKey)": 1717136244210
       }
     ],
     "IQA6UjU3EJtDs217TB9zo": [
@@ -4788,7 +4789,7 @@
         "dataType": 1715351047043,
         "default": 1715224543331,
         "comment": 1715224543331,
-        "options(unique)": 1715227971755
+        "options(unique)": 1717134652699
       }
     ],
     "UOW9PRK4Ac1XVj_0O8m8l": [
@@ -4807,7 +4808,7 @@
         "dataType": 1715351047043,
         "default": 1715224616149,
         "comment": 1715224616149,
-        "options(unique)": 1715227976972
+        "options(unique)": 1717134655120
       }
     ],
     "UcrzLh981eMJlDuShHOck": [

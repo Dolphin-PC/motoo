@@ -28,8 +28,10 @@ const StockIdPage = async (props: LayoutProps) => {
     {},
     await AmountStock.findUnique({
       where: {
-        account_number: accountInfo.accountNumber,
-        stock_id: stockId,
+        stock_id_account_number: {
+          account_number: accountInfo.accountNumber,
+          stock_id: stockId,
+        },
       },
     })
   );

@@ -85,7 +85,7 @@ export class AmountMoney extends BaseModel {
   }
 
   /** 주식잔고 동기화 */
-  static async syncInfo({
+  static async update({
     accountNumber,
     data,
   }: {

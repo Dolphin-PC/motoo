@@ -7,7 +7,7 @@ import { fetchHelperWithData } from "@/lib/api/helper";
 import { getSessionStorageItem, setSessionStorageItem } from "@/lib/util/util";
 
 const ID = "main";
-const SYNC_ID = "SYNC_AMOUNT_INFO";
+export const SYNC_ID = "SYNC_AMOUNT_INFO";
 
 export default function Init() {
   const setLoadingInfo = useSetRecoilState(loadingInfoState(ID));
@@ -20,6 +20,8 @@ export default function Init() {
     }).then((res) => {
       setSessionStorageItem(SYNC_ID, true);
       setLoading(false);
+
+      window.location.reload();
 
       console.log(res.message);
     });

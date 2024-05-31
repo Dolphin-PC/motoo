@@ -2,6 +2,14 @@ import { Length, MinLength } from "class-validator";
 import { BaseModel } from "./Base";
 import { prisma } from "@/pages/service/prismaClient";
 import { Prisma } from "@prisma/client";
+import { StockInfo } from "./StockInfo";
+import { AccountInfo } from "./AccountInfo";
+
+export type TAmountStockUpsertInput = {
+  stockId: AmountStock["stockId"];
+  quantity: AmountStock["quantity"];
+  avgAmount: AmountStock["avgAmount"];
+};
 
 // 보유주식
 export class AmountStock extends BaseModel {
@@ -13,7 +21,6 @@ export class AmountStock extends BaseModel {
   quantity: number;
 
   avgAmount: number;
-  // historyId: number;
 
   constructor(data: any) {
     super(data);
@@ -42,6 +49,34 @@ export class AmountStock extends BaseModel {
       .then((stock) => new AmountStock(stock));
 
     return result;
+  }
+
+  static async upsert({
+    accountNumber,
+    data,
+  }: {
+    accountNumber: AccountInfo["accountNumber"];
+    data: TAmountStockUpsertInput;
+  }): Promise<void> {
+    await prisma.amountStock.upsert({
+      where: {
+        stock_id_account_number: {
+          account_number: accountNumber,
+          stock_id: data.stockId,
+        },
+      },
+      update: {
+        stock_id: data.stockId,
+        quantity: data.quantity,
+        avg_amount: data.avgAmount,
+      },
+      create: {
+        account_number: accountNumber,
+        stock_id: data.stockId,
+        quantity: data.quantity,
+        avg_amount: data.avgAmount,
+      },
+    });
   }
 
   // statics //

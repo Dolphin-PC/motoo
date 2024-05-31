@@ -15,8 +15,10 @@ const LinkButton = ({ href, warning, ...props }: TProps): React.ReactNode => {
       <Link href={href}>
         <div className="flex items-center justify-between">
           {props.children}
-          {warning && <Warning />}
-          <RightChevron />
+          <div className="flex flex-row gap-3">
+            {warning && <Warning />}
+            <RightChevron />
+          </div>
         </div>
       </Link>
     </Button>

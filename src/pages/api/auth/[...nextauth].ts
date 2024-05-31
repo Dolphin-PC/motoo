@@ -1,6 +1,8 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { nextAuthJwt, nextAuthPages } from "@/lib/setting/nextAuth";
+import { getSessionStorageItem, setSessionStorageItem } from "@/lib/util/util";
+import { SYNC_ID } from "@/app/v/main/Init";
 
 export const authOptions: NextAuthOptions = {
   pages: nextAuthPages,
@@ -57,6 +59,11 @@ export const authOptions: NextAuthOptions = {
     maxAge: 60 * 60, // 1 hour
   },
   jwt: nextAuthJwt,
+};
+
+export const signOutCallback = async () => {
+  // 잔고조회 동기화 flag 초기화
+  setSessionStorageItem(SYNC_ID, null);
 };
 
 export default NextAuth(authOptions);
