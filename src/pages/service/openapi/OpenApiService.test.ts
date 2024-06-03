@@ -169,8 +169,8 @@ describe("OpenApiService.test.ts", () => {
           CANO: accountNumber,
           isAllOrder: "Y",
           ORD_DVSN: "00",
-          ORD_QTY: "1",
-          ORD_UNPR: "78000",
+          ORD_QTY: 1,
+          ORD_UNPR: 76000,
           ORGN_ODNO: "23941",
         }
       );

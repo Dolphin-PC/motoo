@@ -692,9 +692,9 @@ export const OpenApiService = {
       /**주문구분(00지정가, 01시장가) */
       ORD_DVSN: TOrderDivision;
       /**주문수량 */
-      ORD_QTY: string;
+      ORD_QTY: number;
       /**정정단가 */
-      ORD_UNPR: string;
+      ORD_UNPR: number;
     }
   ) {
     const url = `${process.env.NEXT_PUBLIC_VTS_URL}/uapi/domestic-stock/v1/trading/order-rvsecncl`;
@@ -717,13 +717,15 @@ export const OpenApiService = {
       ORD_QTY = "0";
       QTY_ALL_ORD_YN = "Y";
     } else {
-      ORD_QTY = prm.ORD_QTY;
+      if (prm.ORD_QTY < 0) throw new Error("주문수량이 1 이상이어야 합니다.");
+      ORD_QTY = String(prm.ORD_QTY);
       QTY_ALL_ORD_YN = "N";
     }
 
     // 주문구분(정정 & 지정가 -> 주문단가 필수)
     if (prm.cancelType === "REVISE" && prm.ORD_DVSN === "00") {
-      ORD_UNPR = prm.ORD_UNPR;
+      if (prm.ORD_UNPR < 0) throw new Error("주문단가가 0 이상이어야 합니다.");
+      ORD_UNPR = String(prm.ORD_UNPR);
     } else {
       ORD_UNPR = "0";
     }
