@@ -28,13 +28,13 @@ const BottomSheet = (props: TProps) => {
         open={isOpen}
         onClose={toggleSheet}
       >
-        <div className="flex flex-col">
-          <div className="flex-0 sticky top-5 pl-5">
+        <div className="flex flex-col h-screen p-5 gap-5">
+          <div className="sticky top-5">
             <Button.Action onClick={toggleSheet}>
               <LeftChevron />
             </Button.Action>
           </div>
-          <div className="flex-1">{props.children}</div>
+          {props.children}
         </div>
       </Drawer>
     </div>

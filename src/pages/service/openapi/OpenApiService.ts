@@ -309,7 +309,7 @@ export type TInquireStockBalanceRes = {
   msg_cd: string;
   msg1: string;
 };
-type TInquirePsblOrderReq = {
+export type TInquirePsblOrderReq = {
   /**계좌번호 */
   accountNumber: AccountInfo["accountNumber"];
   /**종목번호 */
@@ -320,7 +320,7 @@ type TInquirePsblOrderReq = {
   orderType: "00" | "01";
 };
 
-type TInquirePsblOrderRes = {
+export type TInquirePsblOrderRes = {
   msg1: string;
   msg_cd: string;
   rt_cd: string;

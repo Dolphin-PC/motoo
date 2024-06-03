@@ -21,13 +21,13 @@ const LoadingPortal = ({ id }: { id: string }) => {
     );
   };
   return (
-    <div>
+    <>
       {loadingInfo.loading &&
         ReactDOM.createPortal(
           <Wrapper />,
           document.getElementById(id) as HTMLElement
         )}
-    </div>
+    </>
   );
 };
 

@@ -4,8 +4,9 @@ import { bottomSheetOpenState } from "@/components/bottomSheet/atom";
 import Button from "@/components/buttons/Button";
 import { isEmpty } from "@/lib/util/util";
 import { useRecoilState, useRecoilValue } from "recoil";
-import Sheet from "./Sheet";
+import Sheet, { TBuySell } from "./Sheet";
 import { amountStockState } from "../../atom";
+import { useCallback } from "react";
 
 const StockFooter = () => {
   const amountStock = useRecoilValue(amountStockState);
@@ -16,6 +17,11 @@ const StockFooter = () => {
     useRecoilState(bottomSheetOpenState(v))
   );
 
+  // TODO 매수/매도 완료 시, 실시간체결통보 웹소켓 연동
+
+  const handleBuy = useCallback((data: TBuySell) => {}, []);
+  const handleSell = useCallback((data: TBuySell) => {}, []);
+
   return (
     <footer className="flex flex-row gap-3 p-3 sticky bottom-0 z-20">
       <div className="w-full">
@@ -24,7 +30,7 @@ const StockFooter = () => {
         </Button>
         {isOpenBuySheet && (
           <BottomSheet openStateKey="buySheet">
-            <Sheet type="buy" />
+            <Sheet type="buy" handleBuySellFn={handleBuy} />
           </BottomSheet>
         )}
       </div>
@@ -37,7 +43,7 @@ const StockFooter = () => {
       )}
       {isOpenSellSheet && (
         <BottomSheet openStateKey="sellSheet">
-          <Sheet type="sell" />
+          <Sheet type="sell" handleBuySellFn={handleSell} />
         </BottomSheet>
       )}
     </footer>

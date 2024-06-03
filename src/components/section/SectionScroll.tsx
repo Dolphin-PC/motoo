@@ -5,7 +5,9 @@ const SectionScroll = (props: TSectionProps): React.ReactNode => {
   return (
     <Section
       {...props}
-      className={`flex flex-row gap-5 overflow-auto whitespace-nowrap hide-scrollbar ${props.className}`}
+      childrenProps={{
+        className: `flex flex-row gap-5 overflow-auto whitespace-nowrap hide-scrollbar`,
+      }}
     />
   );
 };

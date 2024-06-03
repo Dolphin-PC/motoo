@@ -8,6 +8,7 @@ export type TSectionProps = {
   title?: string;
   titleProps?: ButtonHTMLAttributes<HTMLDivElement>;
   children: ReactNode;
+  childrenProps?: ButtonHTMLAttributes<HTMLDivElement>;
   className?: HTMLDivElement["className"];
   right?: React.ReactNode;
   notData?: boolean;
@@ -15,7 +16,7 @@ export type TSectionProps = {
 
 const Section = (props: TSectionProps): React.ReactNode => {
   return (
-    <div className="flex flex-col h-full neumorphism">
+    <div className={`flex flex-col neumorphism ${props.className}`}>
       <div
         className="flex flex-row justify-between items-center"
         {...props.titleProps}
@@ -25,7 +26,7 @@ const Section = (props: TSectionProps): React.ReactNode => {
         )}
         {props.right && props.right}
       </div>
-      <div className={`${props.className || ""}`}>
+      <div {...props.childrenProps}>
         {props.notData === true ? <NotData /> : props.children}
       </div>
     </div>

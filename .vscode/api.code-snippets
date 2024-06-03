@@ -23,7 +23,7 @@
       "",
       "export default async function handler(",
       "  req: NextApiRequest,",
-      "  res: NextApiResponse<CResponse<StockInfo[]>>",
+      "  res: NextApiResponse<CResponse<any>>",
       ") {",
       "  if (req.method == \"GET\") {",
       "    try {",
