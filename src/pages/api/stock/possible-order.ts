@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, ResOk, ResInvalid } from "..";
-import {
-  OpenApiService,
+import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
+import inquirePsblOrder, {
   TInquirePsblOrderReq,
   TInquirePsblOrderRes,
-} from "@/pages/service/openapi/OpenApiService";
-import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
+} from "@/pages/service/openapi/biz/inquirePsblOrder";
 
 /**
  * @swagger
@@ -27,7 +26,7 @@ export default async function handler(
 
       const accountInfo = await useApiAccountInfo(req, res);
 
-      const possibleRes = await OpenApiService.inquirePsblOrder(
+      const possibleRes = await inquirePsblOrder(
         {
           VTS_APPKEY: accountInfo.appKey,
           VTS_APPSECRET: accountInfo.appSecret,

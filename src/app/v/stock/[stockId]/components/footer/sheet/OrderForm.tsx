@@ -3,10 +3,6 @@ import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { orderPriceState, orderQuantityState } from "./atom";
 import {
-  TInquirePsblOrderReq,
-  TInquirePsblOrderRes,
-} from "@/pages/service/openapi/OpenApiService";
-import {
   currentPriceState,
   stockIdState,
   stockPriceState,
@@ -16,6 +12,10 @@ import Button from "@/components/buttons/Button";
 import Card from "@/components/card/Card";
 import DownChevron from "@/assets/icons/chevron-down.svg";
 import Section from "@/components/section/Section";
+import {
+  TInquirePsblOrderReq,
+  TInquirePsblOrderRes,
+} from "@/pages/service/openapi/biz/inquirePsblOrder";
 
 export type TBuySell = {
   price: number;

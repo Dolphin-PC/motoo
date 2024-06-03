@@ -340,7 +340,7 @@ const config: Config = {
     },
   },
   plugins: [
-    function ({ addUtilities }) {
+    function ({ addUtilities }: { addUtilities: Function }) {
       const newUtilities = {
         ".hide-scrollbar": {
           scrollbarWidth: "none" /* Firefox */,

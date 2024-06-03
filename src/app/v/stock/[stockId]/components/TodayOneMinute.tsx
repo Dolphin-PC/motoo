@@ -1,12 +1,12 @@
 "use client";
 import ChartComp from "@/components/chart/Chart";
 import { sixDateToHourMinute } from "@/lib/util/util";
-import { TInquireTimeItemChartPriceRes } from "@/pages/service/openapi/OpenApiService";
 import { useRecoilValue } from "recoil";
 import colors from "tailwindcss/colors";
 import { inquireDataState, stockIdState } from "../atom";
 import Section from "@/components/section/Section";
 import NotData from "@/components/icon/NotData";
+import { TInquireTimeItemChartPriceRes } from "@/pages/service/openapi/biz/inquireTimeItemChartPrice";
 
 const TodayOneMinute = () => {
   const inquireData = useRecoilValue<TInquireTimeItemChartPriceRes | null>(

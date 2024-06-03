@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, ResOk, ResInvalid } from "..";
 import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
-import {
-  OpenApiService,
+import orderCash, {
   TOrderCashReq,
   TOrderCashRes,
-} from "@/pages/service/openapi/OpenApiService";
+} from "@/pages/service/openapi/biz/orderCash";
 
 /**
  * @swagger
@@ -28,7 +27,7 @@ export default async function handler(
       await useApiAccountInfo(req, res);
 
     try {
-      const data = await OpenApiService.orderCash(
+      const data = await orderCash(
         { VTS_APPKEY: appKey, VTS_APPSECRET: appSecret, VTS_TOKEN: apiToken },
         orderType,
         prm

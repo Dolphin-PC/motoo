@@ -1,4 +1,10 @@
 import { OpenApiService } from "./OpenApiService";
+import cancelOrder from "./biz/cancelOrder";
+import getStockPrice from "./biz/getStockPrice";
+import inquirePsblOrder from "./biz/inquirePsblOrder";
+import inquireStockBalance from "./biz/inquireStockBalance";
+import inquireTimeItemChartPrice from "./biz/inquireTimeItemChartPrice";
+import orderCash from "./biz/orderCash";
 
 describe("OpenApiService.test.ts", () => {
   it("getStockPrice", async () => {
@@ -11,7 +17,7 @@ describe("OpenApiService.test.ts", () => {
     const stockId = "005930";
 
     // when
-    const res = await OpenApiService.getStockPrice({
+    const res = await getStockPrice({
       VTS_TOKEN,
       VTS_APPKEY,
       VTS_APPSECRET,
@@ -27,7 +33,7 @@ describe("OpenApiService.test.ts", () => {
 
     // then
     try {
-      const res = await OpenApiService.inquireTimeItemChartPrice({
+      const res = await inquireTimeItemChartPrice({
         VTS_APPKEY: process.env.TEST_APP_KEY!,
         VTS_APPSECRET: process.env.TEST_APP_SECRET!,
         VTS_TOKEN: process.env.TEST_VTS_TOKEN!,
@@ -64,7 +70,7 @@ describe("OpenApiService.test.ts", () => {
       // given
 
       // when
-      const res = await OpenApiService.inquireStockBalance({
+      const res = await inquireStockBalance({
         accountNumber: "50104221",
         appkey: process.env.TEST_APP_KEY!,
         appsecret: process.env.TEST_APP_SECRET!,
@@ -88,7 +94,7 @@ describe("OpenApiService.test.ts", () => {
     const orderPrice = "75000";
 
     // when
-    const res = await OpenApiService.inquirePsblOrder(
+    const res = await inquirePsblOrder(
       { VTS_TOKEN, VTS_APPKEY: appkey, VTS_APPSECRET: appSecret },
       {
         accountNumber,
@@ -110,7 +116,7 @@ describe("OpenApiService.test.ts", () => {
 
     // when
     try {
-      const res = await OpenApiService.orderCash(
+      const res = await orderCash(
         {
           VTS_APPKEY: appkey,
           VTS_APPSECRET: appSecret,
@@ -158,7 +164,7 @@ describe("OpenApiService.test.ts", () => {
       //   }
       // );
 
-      const 매도주문응답 = await OpenApiService.cancelOrder(
+      const 매도주문응답 = await cancelOrder(
         {
           VTS_APPKEY: appkey,
           VTS_APPSECRET: appSecret,

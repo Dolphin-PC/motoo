@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, ResInvalid, ResOk } from "@/pages/api/index";
-import { OpenApiService } from "@/pages/service/openapi/OpenApiService";
 import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
 import { AmountMoney } from "@/pages/model/AmountMoney";
 import {
   AmountStock,
   TAmountStockUpsertInput,
 } from "@/pages/model/AmountStock";
+import inquireStockBalance from "@/pages/service/openapi/biz/inquireStockBalance";
 
 /**
  * @swagger
@@ -25,7 +25,7 @@ export default async function handler(
   if (req.method == "POST") {
     try {
       const accountInfo = await useApiAccountInfo(req, res);
-      const resData = await OpenApiService.inquireStockBalance({
+      const resData = await inquireStockBalance({
         accountNumber: accountInfo.accountNumber,
         appkey: accountInfo.appKey,
         appsecret: accountInfo.appSecret,
@@ -53,7 +53,7 @@ export default async function handler(
 
       // 추가데이터가 있을 경우, updateList에 push
       while (fk100 != "" && nk100 != "") {
-        const resData = await OpenApiService.inquireStockBalance({
+        const resData = await inquireStockBalance({
           accountNumber: accountInfo.accountNumber,
           appkey: accountInfo.appKey,
           appsecret: accountInfo.appSecret,

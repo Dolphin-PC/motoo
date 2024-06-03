@@ -9,6 +9,7 @@ import { CResponse, EnumResonseMessage, ResInvalid, ResOk } from "..";
 import { AxiosError } from "axios";
 import { getMessageFromValidaionError } from "@/lib/util/util";
 import { OpenApiService } from "@/pages/service/openapi/OpenApiService";
+import inquireStockBalance from "@/pages/service/openapi/biz/inquireStockBalance";
 
 export default async function POST(
   req: NextApiRequest,
@@ -25,7 +26,7 @@ export default async function POST(
       appSecret,
     });
 
-    await OpenApiService.inquireStockBalance({
+    await inquireStockBalance({
       accountNumber,
       appkey: appKey,
       appsecret: appSecret,

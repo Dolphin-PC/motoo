@@ -20,9 +20,7 @@ import { Notice } from "./Notice";
 import { StockOrderHistory } from "./StockOrderHistory";
 import { AmountMoney } from "./AmountMoney";
 import { AmountStock } from "./AmountStock";
-import { LikeStock } from "./LikeStock";
 import { GroupLikeStock } from "./GroupLikeStock";
-import { convertObjectPropertiesCamelCaseToSnakeCase } from "@/lib/util/util";
 
 export enum AccountInfoValidatorGroups {
   verify = "VERIFY_ACCOUNT",

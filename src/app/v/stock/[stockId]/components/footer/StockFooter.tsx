@@ -8,11 +8,6 @@ import Sheet from "./Sheet";
 import { amountStockState } from "../../atom";
 import { useCallback } from "react";
 import { TBuySell } from "./sheet/OrderForm";
-import { fetchHelperWithData } from "@/lib/api/helper";
-import {
-  TOrderCashReq,
-  TOrderCashRes,
-} from "@/pages/service/openapi/OpenApiService";
 
 const StockFooter = () => {
   const amountStock = useRecoilValue(amountStockState);

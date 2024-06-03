@@ -1,5 +1,5 @@
 import { AmountStock } from "@/pages/model/AmountStock";
-import { TInquireTimeItemChartPriceRes } from "@/pages/service/openapi/OpenApiService";
+import { TInquireTimeItemChartPriceRes } from "@/pages/service/openapi/biz/inquireTimeItemChartPrice";
 import { atom, selector } from "recoil";
 
 /** 분봉 데이터 */

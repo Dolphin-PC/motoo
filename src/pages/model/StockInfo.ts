@@ -2,9 +2,9 @@ import { PRICE_EXPIRED_TIME } from "@/lib/common";
 import prisma from "../service/prismaClient";
 import { AccountInfo } from "./AccountInfo";
 import { BaseModel } from "./Base";
-import { OpenApiService } from "../service/openapi/OpenApiService";
 import { getKoreanTime } from "@/lib/util/util";
 import { Prisma } from "@prisma/client";
+import getStockPrice from "../service/openapi/biz/getStockPrice";
 
 // # 주식정보
 export class StockInfo extends BaseModel {
@@ -34,7 +34,7 @@ export class StockInfo extends BaseModel {
     VTS_APPSECRET: AccountInfo["appSecret"];
     VTS_TOKEN: string;
   }): Promise<StockInfo> {
-    const newStockInfo = await OpenApiService.getStockPrice({
+    const newStockInfo = await getStockPrice({
       VTS_TOKEN,
       VTS_APPKEY,
       VTS_APPSECRET,

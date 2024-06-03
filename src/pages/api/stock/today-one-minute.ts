@@ -1,11 +1,10 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, ResInvalid, ResOk } from "@/pages/api/index";
 import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
-import {
-  OpenApiService,
-  TInquireTimeItemChartPriceRes,
-} from "@/pages/service/openapi/OpenApiService";
 import { getKoreanTime, splitDate } from "@/lib/util/util";
+import inquireTimeItemChartPrice, {
+  TInquireTimeItemChartPriceRes,
+} from "@/pages/service/openapi/biz/inquireTimeItemChartPrice";
 
 /**
  * @swagger
@@ -30,7 +29,7 @@ export default async function handler(
       let timeStr = hour + minute + "00";
       if (timeStr >= "153000") timeStr = "153000";
 
-      const resData = await OpenApiService.inquireTimeItemChartPrice({
+      const resData = await inquireTimeItemChartPrice({
         stockId,
         VTS_APPKEY: appKey,
         VTS_APPSECRET: appSecret,
