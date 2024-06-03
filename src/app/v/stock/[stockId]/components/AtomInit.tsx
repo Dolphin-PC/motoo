@@ -29,10 +29,10 @@ export default function AtomInit(props: TProps) {
     setAmountStock(props.amountStock);
 
     fetchInquireData();
-    // const fetchInterval = setInterval(fetchInquireData, 1000 * 60);
-    // return () => {
-    //   clearInterval(fetchInterval);
-    // };
+    const fetchInterval = setInterval(fetchInquireData, 1000 * 60);
+    return () => {
+      clearInterval(fetchInterval);
+    };
   }, []);
 
   /** @desc 분봉데이터 fetch함수 */

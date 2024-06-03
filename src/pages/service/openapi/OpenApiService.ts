@@ -16,6 +16,17 @@ type TApiCommonReq = {
   VTS_APPSECRET: AccountInfo["appSecret"];
 };
 
+type TApiCommonRes = {
+  /** 성공실패여부(0성공, 0이외 실패) */
+  rt_cd: string;
+  /** 응답코드 */
+  msg_cd: string;
+  /** 응답메세지 */
+  msg: string;
+};
+
+type TOrderDivision = "00" | "01";
+
 /** @description 한국투자증권 V_주식현재가 시세 조회 응답
  * @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-quotations2#L_07802512-4f49-4486-91b4-1050b6f5dc9d
  */
@@ -354,6 +365,58 @@ export type TInquirePsblOrderRes = {
   };
 };
 
+/** 주식주문(현금) */
+export type TOrderCashReq = {
+  /**계좌번호 */
+  CANO: string;
+  ACNT_PRDT_CD?: string;
+  /**종목번호 */
+  PDNO: string;
+  /**주문구분(00:지정가, 01:시장가) */
+  ORD_DVSN: "00" | "01";
+  /**주문수량 */
+  ORD_QTY: string;
+  /**주문단가 */
+  ORD_UNPR: string;
+};
+export type TOrderCashRes = TApiCommonRes & {
+  /** 응답상세 */
+  output: {
+    /**한국거래소전송주문조직번호(주문시 한국투자증권 시스템에서 지정된 영업점코드) */
+    KRX_FWDG_ORD_ORGNO: string;
+    /**주문번호 */
+    ODNO: string;
+    /**주문시각(시분초HHMMSS) */
+    ORD_TMD: string;
+  };
+};
+
+/** 주식주문(정정취소) */
+export type TCancelOrderReq = {
+  /**계좌번호 */
+  CANO: string;
+  ACNT_PRDT_CD?: string;
+  /** 한국거래소전송주문조직번호(공란) */
+  KRX_FWDG_ORD_ORGNO: "";
+  /** 원주문번호 */
+  ORGN_ODNO: string;
+  /** 주문구분 */
+  ORD_DVSN: TOrderDivision;
+  /** 정정취소구분코드(정정:01, 취소:02) */
+  RVSE_CNCL_DVSN_CD: "01" | "02";
+  /**
+   * 잔량전부 "0" & QTY_ALL_ORD_YN "Y"설정
+   */
+  ORD_QTY: string;
+  /**
+   * 주문단가 (취소:"0", 정정가)
+   */
+  ORD_UNPR: string;
+  /** 잔량전부주문여부 */
+  QTY_ALL_ORD_YN: "Y" | "N";
+};
+export type TCancelOrderRes = {};
+
 export const OpenApiService = {
   /** @desc 주식 실시간 가격 정보 조회
    *
@@ -574,5 +637,123 @@ export const OpenApiService = {
     } catch (error) {
       console.error(error);
     }
+  },
+
+  /** @desc 한국투자증권(주식주문(현금) API)
+   *  @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-order#L_aade4c72-5fb7-418a-9ff2-254b4d5f0ceb
+   */
+  orderCash: async function (
+    headerPrm: TApiCommonReq,
+    orderType: "BUY" | "SELL",
+    prm: TOrderCashReq
+  ): Promise<TOrderCashRes> {
+    const url = `${process.env.NEXT_PUBLIC_VTS_URL}/uapi/domestic-stock/v1/trading/order-cash`;
+    const headerObj = {
+      "content-type": "application/json",
+      authorization: `Bearer ${headerPrm.VTS_TOKEN}`,
+      appkey: headerPrm.VTS_APPKEY,
+      appsecret: headerPrm.VTS_APPSECRET,
+      tr_id: orderType === "BUY" ? "VTTC0802U" : "VTTC0801U",
+    };
+
+    const bodyObj = {
+      CANO: prm.CANO.slice(0, 9),
+      ACNT_PRDT_CD: prm.CANO.slice(-2),
+      PDNO: prm.PDNO,
+      ORD_DVSN: prm.ORD_DVSN,
+      ORD_QTY: prm.ORD_QTY,
+      ORD_UNPR: prm.ORD_UNPR,
+    };
+
+    const resData = await axiosPost<TOrderCashReq, TOrderCashRes>(
+      url,
+      bodyObj,
+      {
+        headers: headerObj,
+      }
+    );
+
+    return resData;
+  },
+
+  /** @desc 주문 정정/취소
+   */
+  cancelOrder: async function (
+    headerPrm: TApiCommonReq,
+    prm: {
+      /**구분코드 */
+      cancelType: "CANCEL" | "REVISE";
+      /**잔량전부주문여부 */
+      isAllOrder: "Y" | "N";
+      /**계좌번호 */
+      CANO: AccountInfo["accountNumber"];
+      /**원주문번호 */
+      ORGN_ODNO: string;
+      /**주문구분(00지정가, 01시장가) */
+      ORD_DVSN: TOrderDivision;
+      /**주문수량 */
+      ORD_QTY: string;
+      /**정정단가 */
+      ORD_UNPR: string;
+    }
+  ) {
+    const url = `${process.env.NEXT_PUBLIC_VTS_URL}/uapi/domestic-stock/v1/trading/order-rvsecncl`;
+
+    let RVSE_CNCL_DVSN_CD: TCancelOrderReq["RVSE_CNCL_DVSN_CD"];
+    let QTY_ALL_ORD_YN: TCancelOrderReq["QTY_ALL_ORD_YN"];
+    let ORD_UNPR: TCancelOrderReq["ORD_UNPR"];
+    let ORD_QTY: TCancelOrderReq["ORD_QTY"];
+
+    // 정정취소구분코드(정정:01, 취소:02)
+    if (prm.cancelType === "REVISE") {
+      RVSE_CNCL_DVSN_CD = "01";
+    } else {
+      RVSE_CNCL_DVSN_CD = "02";
+      ORD_UNPR = "0";
+    }
+
+    // 잔량전부주문여부
+    if (prm.isAllOrder === "Y") {
+      ORD_QTY = "0";
+      QTY_ALL_ORD_YN = "Y";
+    } else {
+      ORD_QTY = prm.ORD_QTY;
+      QTY_ALL_ORD_YN = "N";
+    }
+
+    // 주문구분(정정 & 지정가 -> 주문단가 필수)
+    if (prm.cancelType === "REVISE" && prm.ORD_DVSN === "00") {
+      ORD_UNPR = prm.ORD_UNPR;
+    } else {
+      ORD_UNPR = "0";
+    }
+
+    const bodyObj: TCancelOrderReq = {
+      CANO: prm.CANO.slice(0, 9),
+      ACNT_PRDT_CD: prm.CANO.slice(-2),
+      ORGN_ODNO: prm.ORGN_ODNO,
+      ORD_DVSN: prm.ORD_DVSN,
+      RVSE_CNCL_DVSN_CD,
+      ORD_QTY,
+      ORD_UNPR,
+      QTY_ALL_ORD_YN,
+      KRX_FWDG_ORD_ORGNO: "",
+    };
+
+    const resData = await axiosPost<TCancelOrderReq, TCancelOrderRes>(
+      url,
+      bodyObj,
+      {
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${headerPrm.VTS_TOKEN}`,
+          appkey: headerPrm.VTS_APPKEY,
+          appsecret: headerPrm.VTS_APPSECRET,
+          tr_id: "VTTC0803U",
+        },
+      }
+    );
+
+    return resData;
   },
 };

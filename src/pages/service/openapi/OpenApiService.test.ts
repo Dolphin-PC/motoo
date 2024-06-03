@@ -100,4 +100,85 @@ describe("OpenApiService.test.ts", () => {
     // then
     console.info(res);
   });
+
+  it("주식 매수 테스트", async () => {
+    // given
+    const accountNumber = process.env.TEST_ACCOUNT_NUMBER!;
+    const appkey = process.env.TEST_APP_KEY!;
+    const appSecret = process.env.TEST_APP_SECRET!;
+    const VTS_TOKEN = process.env.TEST_VTS_TOKEN!;
+
+    // when
+    try {
+      const res = await OpenApiService.orderCash(
+        {
+          VTS_APPKEY: appkey,
+          VTS_APPSECRET: appSecret,
+          VTS_TOKEN: VTS_TOKEN,
+        },
+        "BUY",
+        {
+          CANO: accountNumber,
+          ORD_UNPR: "70000",
+          ORD_QTY: "1",
+          ORD_DVSN: "00",
+          PDNO: "005930",
+        }
+      );
+
+      // then
+      console.info(res);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
+  it("주식 정정취소 테스트", async () => {
+    // given
+    const accountNumber = process.env.TEST_ACCOUNT_NUMBER!;
+    const appkey = process.env.TEST_APP_KEY!;
+    const appSecret = process.env.TEST_APP_SECRET!;
+    const VTS_TOKEN = process.env.TEST_VTS_TOKEN!;
+
+    // when
+    try {
+      // const 매수주문응답 = await OpenApiService.orderCash(
+      //   {
+      //     VTS_APPKEY: appkey,
+      //     VTS_APPSECRET: appSecret,
+      //     VTS_TOKEN: VTS_TOKEN,
+      //   },
+      //   "BUY",
+      //   {
+      //     CANO: accountNumber,
+      //     ORD_UNPR: "78000",
+      //     ORD_QTY: "1",
+      //     ORD_DVSN: "00",
+      //     PDNO: "005930",
+      //   }
+      // );
+
+      const 매도주문응답 = await OpenApiService.cancelOrder(
+        {
+          VTS_APPKEY: appkey,
+          VTS_APPSECRET: appSecret,
+          VTS_TOKEN: VTS_TOKEN,
+        },
+        {
+          cancelType: "REVISE",
+          CANO: accountNumber,
+          isAllOrder: "Y",
+          ORD_DVSN: "00",
+          ORD_QTY: "1",
+          ORD_UNPR: "78000",
+          ORGN_ODNO: "23941",
+        }
+      );
+
+      // then
+      console.info(매도주문응답);
+    } catch (error) {
+      console.error(error);
+    }
+  });
 });
