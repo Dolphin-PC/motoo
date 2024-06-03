@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { orderPriceState, orderQuantityState } from "./atom";
 import {
@@ -32,48 +32,18 @@ const OrderForm = ({
   const currentPrice = useRecoilValue(currentPriceState);
   const stockId = useRecoilValue(stockIdState);
   const stockPrice = useRecoilValue(stockPriceState);
-  console.log("stockPrice", stockPrice);
 
   const [orderPrice, setOrderPrice] = useRecoilState(orderPriceState);
   const [orderQuantity, setOrderQuantity] = useRecoilState(orderQuantityState);
 
-  const [isLoadingPossible, setIsLoadingPossible] = useState(false);
-  const [possibleData, setPossibleData] =
-    useState<TInquirePsblOrderRes | null>();
-
   useEffect(() => {
     setOrderPrice(currentPrice);
-    handlePossible(currentPrice);
+
+    return () => {
+      setOrderPrice(0);
+      setOrderQuantity(0);
+    };
   }, []);
-
-  /** 매수가능조회 */
-  const handlePossible = async (price?: number) => {
-    if (!stockId) return;
-    if (!price) price = orderPrice;
-
-    setIsLoadingPossible(true);
-
-    const res = await fetchHelperWithData<
-      Omit<TInquirePsblOrderReq, "accountNumber">,
-      TInquirePsblOrderRes
-    >({
-      method: "POST",
-      url: "/api/stock/possible-order",
-      data: {
-        orderPrice: String(price),
-        orderType: "00",
-        stockId: stockId,
-      },
-      options: {
-        cache: "no-cache",
-      },
-    });
-
-    console.log(res);
-
-    setPossibleData(res.body);
-    setIsLoadingPossible(false);
-  };
 
   /** 상한가/하한가, 호가단위로 가격조절 */
   const handlePrice = ({ value, add }: { value?: number; add?: number }) => {
@@ -81,7 +51,6 @@ const OrderForm = ({
     if (add) {
       value += add;
     }
-    console.log("value", value);
 
     if (value <= stockPrice.minPrice) value = stockPrice.minPrice;
     if (value >= stockPrice.maxPrice) value = stockPrice.maxPrice;
@@ -109,6 +78,7 @@ const OrderForm = ({
   };
 
   const onSubmit = async () => {
+    // TODO 매수/매도 API 호출
     // handleBuySellFn(data);
     // console.log(data);
     console.log(orderPrice, orderQuantity);
@@ -171,13 +141,67 @@ const OrderForm = ({
       <Button primary onClick={onSubmit}>
         {type === "buy" ? "매수" : "매도"}주문
       </Button>
+
+      {type === "buy" && (
+        <BuyPossible stockId={stockId} orderPrice={orderPrice} />
+      )}
+    </div>
+  );
+};
+
+export const BuyPossible = ({
+  stockId,
+  orderPrice,
+}: {
+  stockId: string | null;
+  orderPrice: number;
+}): ReactNode => {
+  const [isLoadingPossible, setIsLoadingPossible] = useState(false);
+  const [possibleData, setPossibleData] =
+    useState<TInquirePsblOrderRes | null>();
+
+  useEffect(() => {
+    handlePossible(orderPrice);
+  }, []);
+
+  /** 매수가능조회 */
+  const handlePossible = async (price?: number) => {
+    if (!stockId) return;
+    if (!price) price = orderPrice;
+
+    setIsLoadingPossible(true);
+
+    const res = await fetchHelperWithData<
+      Omit<TInquirePsblOrderReq, "accountNumber">,
+      TInquirePsblOrderRes
+    >({
+      method: "POST",
+      url: "/api/stock/possible-order",
+      data: {
+        orderPrice: String(price),
+        orderType: "00",
+        stockId: stockId,
+      },
+      options: {
+        cache: "no-cache",
+      },
+    });
+
+    console.log(res);
+
+    setPossibleData(res.body);
+    setIsLoadingPossible(false);
+  };
+
+  return (
+    <>
       <Button
         outline
         type="button"
         onClick={() => handlePossible()}
         disabled={isLoadingPossible}
       >
-        {type === "buy" ? "매수가능조회" : "매도가능조회"}
+        매수가능조회
       </Button>
 
       {possibleData && possibleData.output && (
@@ -209,7 +233,7 @@ const OrderForm = ({
           />
         </div>
       )}
-    </div>
+    </>
   );
 };
 
