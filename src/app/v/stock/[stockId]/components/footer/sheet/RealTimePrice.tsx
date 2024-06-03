@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useWebSocket, { SOCKET_STATUS } from "@/lib/hooks/useWebSocket";
 import { useSession } from "next-auth/react";
-import { useRecoilValue } from "recoil";
-import { currentPriceState, stockIdState } from "../../atom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  currentPriceState,
+  stockIdState,
+  stockPriceState,
+} from "../../../atom";
 import { AccountInfo } from "@/pages/model/AccountInfo";
 import { StockInfo } from "@/pages/model/StockInfo";
-import { Variable } from "../Variable";
+import { Variable } from "../../Variable";
 import { TSign } from "@/lib/types/global";
 
 const testRes =
@@ -85,6 +89,8 @@ export default function RealTimePrice() {
   const stockId = useRecoilValue(stockIdState);
   const currentPrice = useRecoilValue(currentPriceState);
 
+  const [stockPrice, setStockPrice] = useRecoilState(stockPriceState);
+
   const { message, sendMessage, socketStatus } = useWebSocket("H0STCNT0");
   const [resData, setResData] = useState<ReturnType<typeof resStringToJson>>();
 
@@ -116,7 +122,16 @@ export default function RealTimePrice() {
 
   useEffect(() => {
     if (message) {
-      setResData(resStringToJson(message));
+      const _resData = resStringToJson(message);
+      setResData(_resData);
+
+      if (stockPrice.init == false) {
+        setStockPrice({
+          init: true,
+          maxPrice: Number(_resData.STCK_HGPR),
+          minPrice: Number(_resData.STCK_LWPR),
+        });
+      }
     }
   }, [message]);
 

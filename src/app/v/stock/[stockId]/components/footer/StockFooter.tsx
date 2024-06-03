@@ -4,9 +4,10 @@ import { bottomSheetOpenState } from "@/components/bottomSheet/atom";
 import Button from "@/components/buttons/Button";
 import { isEmpty } from "@/lib/util/util";
 import { useRecoilState, useRecoilValue } from "recoil";
-import Sheet, { TBuySell } from "./Sheet";
+import Sheet from "./Sheet";
 import { amountStockState } from "../../atom";
 import { useCallback } from "react";
+import { TBuySell } from "./sheet/OrderForm";
 
 const StockFooter = () => {
   const amountStock = useRecoilValue(amountStockState);

@@ -4,8 +4,8 @@ import { AccountInfo } from "@/pages/model/AccountInfo";
 import { StockInfo } from "@/pages/model/StockInfo";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useRef } from "react";
-import { stockIdState } from "../../atom";
-import { useRecoilValue } from "recoil";
+import { stockIdState } from "../../../atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import ChartComp from "@/components/chart/Chart";
 import colors from "tailwindcss/colors";
 import {
@@ -18,6 +18,7 @@ import NotData from "@/components/icon/NotData";
 import { sixDateToHourMinute } from "@/lib/util/util";
 import "chartjs-plugin-datalabels";
 import useTimeout from "@/lib/hooks/useTimeout";
+import { orderPriceState } from "./atom";
 
 const testRes =
   "0|H0STASP0|001|005930^113019^0^77900^78000^78100^78200^78300^78400^78500^78600^78700^78800^77800^77700^77600^77500^77400^77300^77200^77100^77000^76900^265881^424306^210852^183696^185249^115895^175905^61693^73772^63546^14941^219089^328178^246894^220916^131997^140399^127233^211404^214927^1760795^1855978^0^0^0^0^344212^-77200^5^-100.00^10358640^0^10^0^0^0";
@@ -169,15 +170,14 @@ type TMessage = {
   };
 };
 
-type TProps = {
-  setPrice: (price: number) => void;
-};
+type TProps = {};
 
 /** @desc 실시간 호가차트 (웹소켓)
  *  @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-real2#L_9cda726b-6f0b-48b5-8369-6d66bea05a2a
  */
 const HogaChart = (props: TProps) => {
   const stockId = useRecoilValue(stockIdState);
+  const setOrderPrice = useSetRecoilState(orderPriceState);
   const { data: session } = useSession();
 
   const { message, sendMessage, socketStatus } = useWebSocket("H0STASP0");
@@ -241,7 +241,7 @@ const HogaChart = (props: TProps) => {
         const priceNumber = parseInt(priceLabel.replace(/,/g, ""));
 
         if (!isNaN(priceNumber)) {
-          props.setPrice(priceNumber);
+          setOrderPrice(priceNumber);
         }
       }
     }

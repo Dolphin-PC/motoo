@@ -27,3 +27,12 @@ export const amountStockState = atom<null | AmountStock>({
   key: "amountStockState",
   default: null,
 });
+
+export const stockPriceState = atom({
+  key: "stockPriceState",
+  default: {
+    init: false,
+    maxPrice: Infinity,
+    minPrice: 0,
+  },
+});
