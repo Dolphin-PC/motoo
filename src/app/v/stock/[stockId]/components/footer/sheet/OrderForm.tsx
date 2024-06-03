@@ -79,9 +79,7 @@ const OrderForm = ({
 
   const onSubmit = async () => {
     // TODO 매수/매도 API 호출
-    // handleBuySellFn(data);
-    // console.log(data);
-    console.log(orderPrice, orderQuantity);
+    handleBuySellFn({ price: orderPrice, quantity: orderQuantity });
   };
 
   return (

@@ -8,6 +8,11 @@ import Sheet from "./Sheet";
 import { amountStockState } from "../../atom";
 import { useCallback } from "react";
 import { TBuySell } from "./sheet/OrderForm";
+import { fetchHelperWithData } from "@/lib/api/helper";
+import {
+  TOrderCashReq,
+  TOrderCashRes,
+} from "@/pages/service/openapi/OpenApiService";
 
 const StockFooter = () => {
   const amountStock = useRecoilValue(amountStockState);
@@ -20,7 +25,7 @@ const StockFooter = () => {
 
   // TODO 매수/매도 완료 시, 실시간체결통보 웹소켓 연동
 
-  const handleBuy = useCallback((data: TBuySell) => {}, []);
+  const handleBuy = useCallback(async (data: TBuySell) => {}, []);
   const handleSell = useCallback((data: TBuySell) => {}, []);
 
   return (
