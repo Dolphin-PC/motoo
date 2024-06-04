@@ -159,7 +159,7 @@ type TMessage = {
   header: {
     approval_key: AccountInfo["approvalKey"];
     custtype: "P"; // 개인
-    tr_type: "1"; // 등록
+    tr_type: "1" | "2"; // 등록/해제
     "content-type": "utf-8";
   };
   body: {
@@ -249,13 +249,14 @@ const HogaChart = (props: TProps) => {
 
   // /** 웹소켓 메시지 보내는 구간 */
   useEffect(() => {
+    let msg: null | TMessage = null;
     if (
       session &&
       session.user.currentAccountInfo &&
       stockId &&
       socketStatus == SOCKET_STATUS.OPEN
     ) {
-      const message: TMessage = {
+      msg = {
         header: {
           approval_key: session.user.currentAccountInfo.approvalKey,
           custtype: "P",
@@ -269,9 +270,16 @@ const HogaChart = (props: TProps) => {
           },
         },
       };
-      sendMessage(message);
+      sendMessage(msg);
       startTimer();
     }
+
+    return () => {
+      if (msg) {
+        msg.header.tr_type = "2";
+        sendMessage(msg);
+      }
+    };
   }, [session, stockId, socketStatus]);
 
   // /** 웹소켓 message -> chartData로 변환하는 구간 */

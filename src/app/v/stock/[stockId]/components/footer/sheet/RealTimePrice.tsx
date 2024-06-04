@@ -73,7 +73,7 @@ type TMessage = {
   header: {
     approval_key: AccountInfo["approvalKey"];
     custtype: "P"; // 개인
-    tr_type: "1"; // 등록
+    tr_type: "1" | "2"; // 등록/해제
     "content-type": "utf-8";
   };
   body: {
@@ -95,6 +95,7 @@ export default function RealTimePrice() {
   const [resData, setResData] = useState<ReturnType<typeof resStringToJson>>();
 
   useEffect(() => {
+    let msg: null | TMessage = null;
     if (
       socketStatus != SOCKET_STATUS.OPEN ||
       !session ||
@@ -103,7 +104,7 @@ export default function RealTimePrice() {
     )
       return;
 
-    const message: TMessage = {
+    msg = {
       header: {
         approval_key: session.user.currentAccountInfo.approvalKey,
         custtype: "P",
@@ -117,7 +118,14 @@ export default function RealTimePrice() {
         },
       },
     };
-    sendMessage(message);
+    sendMessage(msg);
+
+    return () => {
+      if (msg) {
+        msg.header.tr_type = "2";
+        sendMessage(msg);
+      }
+    };
   }, [session, stockId, socketStatus]);
 
   useEffect(() => {

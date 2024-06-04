@@ -25,7 +25,7 @@ export enum SOCKET_STATUS {
 }
 
 //! 새로운 웹소켓 연동하기전, 타입등록 필요!!, 소켓에서 수신되는 메시지를 해당 atomFamily[TYPE]에 담아줌
-const MESSAGE_TYPE = ["H0STASP0", "H0STCNT0"] as const;
+const MESSAGE_TYPE = ["H0STASP0", "H0STCNT0", "H0STCNI0"] as const;
 type SOCKET_MESSAGE_TYPE = (typeof MESSAGE_TYPE)[number];
 
 /** @desc 웹소켓을 사용하기 위한 커스텀 훅(RecoilRoot Wrap 필수) */
@@ -83,12 +83,12 @@ export default function useWebSocket(msgType: SOCKET_MESSAGE_TYPE) {
     }
     // 멀티 웹소켓 연결을 위함 //
     return () => {
-      if (window.socketInfo && window.socketInfo.webSocket.OPEN) {
-        window.socketInfo.webSocket.close(CLOSE_CODE);
-        setSocketStatus(SOCKET_STATUS.CLOSING);
-
-        console.info("WebSocket Close by unmount");
-      }
+      // XXX 웹소켓 연결 해제 대신, 활용하는 쪽에서 실시간연결 해제하는 것으로 대체
+      // if (window.socketInfo && window.socketInfo.webSocket.OPEN) {
+      //   window.socketInfo.webSocket.close(CLOSE_CODE);
+      //   setSocketStatus(SOCKET_STATUS.CLOSING);
+      //   console.info("WebSocket Close by unmount");
+      // }
     };
   }, []);
 
@@ -114,7 +114,12 @@ export default function useWebSocket(msgType: SOCKET_MESSAGE_TYPE) {
             console.info("연결 성공 ::", res.header.tr_id, res.body.msg1);
           }
         }
-        console.log("HEADER ::", res);
+        // 연결해제 성공
+        if (res.body && res.body.msg_cd == "OPSP0001") {
+          if (res.header.tr_id && res.body.msg1) {
+            console.info("연결해제 성공 ::", res.header.tr_id, res.body.msg1);
+          }
+        } else console.log("HEADER ::", res);
       } else {
         // console.info("MESSAGE ::", event.data);
         const msgTrId: string = event.data.slice(2, 10);
