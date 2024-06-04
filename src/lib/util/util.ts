@@ -1,6 +1,7 @@
 import { AccountInfo } from "@/pages/model/AccountInfo";
 import { ValidationError } from "class-validator";
 import { Session } from "next-auth";
+import crypto from "crypto";
 
 export const getServerUrl = () => {
   // FIXME : dynamic import 를 사용하면 에러가 발생한다.
@@ -203,4 +204,22 @@ export const getSessionStorageItem = (key: string): any => {
 export const setSessionStorageItem = (key: string, value: any): void => {
   const item = JSON.stringify(value);
   sessionStorage.setItem(key, item);
+};
+
+/** @desc AES256 복호화
+ * @see https://github.com/koreainvestment/open-trading-api/blob/62b58f44bf126b1790439ee0aaff1ab44e1cd759/websocket/java/OpsWsSample/src/main/java/com/ops/AES256.java#L9
+ * @param cipherText
+ * @param key
+ * @param iv
+ * @returns
+ */
+export const decryptAES256 = (
+  cipherText: string,
+  key: string,
+  iv: string
+): string => {
+  const decipher = crypto.createDecipheriv("aes-256-cbc", key, iv);
+  let decrypted = decipher.update(cipherText, "base64", "utf-8");
+  decrypted += decipher.final("utf-8");
+  return decrypted;
 };
