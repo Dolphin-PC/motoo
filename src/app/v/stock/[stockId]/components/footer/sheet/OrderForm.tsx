@@ -21,10 +21,7 @@ import {
   TOrderCashRes,
 } from "@/pages/service/openapi/biz/orderCash";
 import { DaoOrderCashReq } from "@/pages/api/stock/order";
-import useWebSocket, { SOCKET_STATUS } from "@/lib/hooks/useWebSocket";
-import { useClientAccountInfo } from "@/lib/hooks/useClientAccountInfo";
-import { decryptAES256, splitWebSocketMessage } from "@/lib/util/util";
-import { socketHeaderState } from "@/lib/hooks/atom";
+import useRealTimeChagyul from "@/lib/hooks/socket/useRealTimeChagyul";
 
 export type TBuySell = {
   orderType: "BUY" | "SELL" | null;
@@ -32,21 +29,6 @@ export type TBuySell = {
   quantity: number;
   orderDivision: TOrderCashReq["ORD_DVSN"] | null;
   stockId: TOrderCashReq["PDNO"] | null;
-};
-
-type TMessage = {
-  header: {
-    approval_key: string;
-    custtype: "P";
-    tr_type: "1" | "2";
-    "content-type": "utf-8";
-  };
-  body: {
-    input: {
-      tr_id: "H0STCNI9";
-      tr_key: string;
-    };
-  };
 };
 
 const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
@@ -60,11 +42,7 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
   const [orderPrice, setOrderPrice] = useRecoilState(orderPriceState);
   const [orderQuantity, setOrderQuantity] = useRecoilState(orderQuantityState);
 
-  // 실시간체결통보에 필요한 상태
-  const { message, sendMessage, socketStatus, header } =
-    useWebSocket("H0STCNI9");
-  const accountInfo = useClientAccountInfo();
-  const toSendMessage = useRef<null | TMessage>(null);
+  const { connectSocket } = useRealTimeChagyul();
 
   useEffect(() => {
     if (type === "BUY") {
@@ -91,6 +69,17 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
     };
   }, []);
 
+  const priceUnit = useMemo(() => {
+    if (!currentPrice) return 1;
+    if (currentPrice < 2_000) return 1;
+    if (currentPrice < 5_000) return 5;
+    if (currentPrice < 20_000) return 10;
+    if (currentPrice < 50_000) return 50;
+    if (currentPrice < 200_000) return 100;
+    if (currentPrice < 500_000) return 500;
+    return 1_000;
+  }, [currentPrice]);
+
   /** 상한가/하한가, 호가단위로 가격조절 */
   const handlePrice = ({ value, add }: { value?: number; add?: number }) => {
     if (!value) value = orderPrice;
@@ -102,17 +91,6 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
     if (value >= stockPrice.maxPrice) value = stockPrice.maxPrice;
     setOrderPrice(value);
   };
-
-  const priceUnit = useMemo(() => {
-    if (!currentPrice) return 1;
-    if (currentPrice < 2_000) return 1;
-    if (currentPrice < 5_000) return 5;
-    if (currentPrice < 20_000) return 10;
-    if (currentPrice < 50_000) return 50;
-    if (currentPrice < 200_000) return 100;
-    if (currentPrice < 500_000) return 500;
-    return 1_000;
-  }, [currentPrice]);
 
   const handleQuantity = ({ value, add }: { value?: number; add?: number }) => {
     if (!value) value = orderQuantity;
@@ -148,60 +126,13 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
       alert(res.body.msg1);
       return;
     }
-
-    set실시간체결통보();
-    // alert(res.body.msg1);
+    connectSocket();
+    alert(res.body.msg1);
     console.info(res);
   };
 
-  const set실시간체결통보 = () => {
-    if (socketStatus !== SOCKET_STATUS.OPEN) {
-      setTimeout(() => set실시간체결통보(), 1000);
-      return;
-    }
-    if (!accountInfo.approvalKey) throw new Error("approvalKey is null");
-
-    toSendMessage.current = {
-      header: {
-        "content-type": "utf-8",
-        approval_key: accountInfo.approvalKey,
-        custtype: "P",
-        tr_type: "1",
-      },
-      body: {
-        input: {
-          tr_id: "H0STCNI9",
-          tr_key: "@0851367",
-        },
-      },
-    };
-
-    console.info("실시간체결통보 요청");
-    sendMessage(toSendMessage.current);
-  };
-
-  useEffect(() => {
-    if (!message) return;
-    // const { data } = splitWebSocketMessage(message);
-    console.log(message);
-    console.log("OrderForm > headerRef ::", header);
-
-    // if (headerMessageRef.current) {
-    //   const { iv, key } = headerMessageRef.current.body.output;
-    //   const decrypt = decryptAES256(data, key, iv);
-    //   console.info(decrypt);
-    // }
-  }, [message]);
-
   return (
     <div className="mt-5 flex flex-col gap-3">
-      <button
-        onClick={() => {
-          console.log(header);
-        }}
-      >
-        ref console
-      </button>
       <Section
         title="주문가격"
         childrenProps={{ className: "flex flex-row items-center" }}
@@ -303,7 +234,7 @@ export const BuyPossible = ({
       },
     });
 
-    console.log(res);
+    // console.log(res);
 
     setPossibleData(res.body);
     setIsLoadingPossible(false);
