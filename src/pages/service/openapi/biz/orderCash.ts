@@ -15,7 +15,13 @@ export type TOrderCashReq = {
   /**주문단가 */
   ORD_UNPR: string;
 };
-export type TOrderCashRes = TApiCommonRes & {
+export type TOrderCashRes = {
+  /** 성공실패여부(0성공, 0이외 실패) */
+  rt_cd: string;
+  /** 응답코드 */
+  msg_cd: string;
+  /** 응답메세지 */
+  msg1: string;
   /** 응답상세 */
   output: {
     /**한국거래소전송주문조직번호(주문시 한국투자증권 시스템에서 지정된 영업점코드) */

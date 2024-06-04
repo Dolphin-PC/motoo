@@ -286,6 +286,7 @@ const HogaChart = (props: TProps) => {
   useEffect(() => {
     if (message) {
       stopTimer();
+      // console.log("호가차트 headerMessageRef ::", headerMessageRef);
       const { code, tr_id, tr_key, data, hogaList } = resStringToJson(message);
 
       chartDataRef.current = {

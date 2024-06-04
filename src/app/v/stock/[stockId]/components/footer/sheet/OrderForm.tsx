@@ -1,7 +1,7 @@
 "use client";
-import React, { ReactNode, useEffect, useMemo, useState } from "react";
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { orderPriceState, orderQuantityState } from "./atom";
+import { orderPriceState, orderQuantityState, orderState } from "./atom";
 import {
   currentPriceState,
   stockIdState,
@@ -16,28 +16,74 @@ import {
   TInquirePsblOrderReq,
   TInquirePsblOrderRes,
 } from "@/pages/service/openapi/biz/inquirePsblOrder";
+import {
+  TOrderCashReq,
+  TOrderCashRes,
+} from "@/pages/service/openapi/biz/orderCash";
+import { DaoOrderCashReq } from "@/pages/api/stock/order";
+import useWebSocket, { SOCKET_STATUS } from "@/lib/hooks/useWebSocket";
+import { useClientAccountInfo } from "@/lib/hooks/useClientAccountInfo";
+import { decryptAES256, splitWebSocketMessage } from "@/lib/util/util";
+import { socketHeaderState } from "@/lib/hooks/atom";
 
 export type TBuySell = {
+  orderType: "BUY" | "SELL" | null;
   price: number;
   quantity: number;
+  orderDivision: TOrderCashReq["ORD_DVSN"] | null;
+  stockId: TOrderCashReq["PDNO"] | null;
 };
 
-const OrderForm = ({
-  type,
-  handleBuySellFn,
-}: {
-  type: "buy" | "sell";
-  handleBuySellFn: Function;
-}) => {
+type TMessage = {
+  header: {
+    approval_key: string;
+    custtype: "P";
+    tr_type: "1" | "2";
+    "content-type": "utf-8";
+  };
+  body: {
+    input: {
+      tr_id: "H0STCNI9";
+      tr_key: string;
+    };
+  };
+};
+
+const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
+  // 상위 화면에서 받아온 값
   const currentPrice = useRecoilValue(currentPriceState);
   const stockId = useRecoilValue(stockIdState);
   const stockPrice = useRecoilValue(stockPriceState);
 
+  // 주문관련 상태
+  const [order, setOrder] = useRecoilState<TBuySell>(orderState);
   const [orderPrice, setOrderPrice] = useRecoilState(orderPriceState);
   const [orderQuantity, setOrderQuantity] = useRecoilState(orderQuantityState);
 
+  // 실시간체결통보에 필요한 상태
+  const { message, sendMessage, socketStatus, header } =
+    useWebSocket("H0STCNI9");
+  const accountInfo = useClientAccountInfo();
+  const toSendMessage = useRef<null | TMessage>(null);
+
   useEffect(() => {
-    setOrderPrice(currentPrice);
+    if (type === "BUY") {
+      setOrder({
+        orderType: "BUY",
+        price: currentPrice,
+        quantity: 0,
+        orderDivision: "00",
+        stockId: stockId,
+      });
+    } else {
+      setOrder({
+        orderType: "SELL",
+        price: currentPrice,
+        quantity: 0,
+        orderDivision: "00",
+        stockId: stockId,
+      });
+    }
 
     return () => {
       setOrderPrice(0);
@@ -78,12 +124,84 @@ const OrderForm = ({
   };
 
   const onSubmit = async () => {
-    // TODO 매수/매도 API 호출
-    handleBuySellFn({ price: orderPrice, quantity: orderQuantity });
+    if (!order.stockId) return alert("주식을 선택해주세요");
+    if (!order.orderType) return alert("주문타입을 선택해주세요");
+    if (!order.orderDivision) return alert("주문구분을 선택해주세요");
+    if (order.quantity <= 0) return alert("주문수량을 입력해주세요");
+    if (order.price <= 0) return alert("주문가격을 입력해주세요");
+
+    const res = await fetchHelperWithData<DaoOrderCashReq, TOrderCashRes>({
+      method: "POST",
+      url: "/api/stock/order",
+      data: {
+        orderType: order.orderType,
+        ORD_QTY: String(order.quantity),
+        ORD_UNPR: String(order.price),
+        ORD_DVSN: order.orderDivision,
+        PDNO: order.stockId,
+      },
+    });
+
+    if (!res.body) throw new Error("주문실패");
+    if (res.body.rt_cd != "0") {
+      console.error(res);
+      alert(res.body.msg1);
+      return;
+    }
+
+    set실시간체결통보();
+    // alert(res.body.msg1);
+    console.info(res);
   };
+
+  const set실시간체결통보 = () => {
+    if (socketStatus !== SOCKET_STATUS.OPEN) {
+      setTimeout(() => set실시간체결통보(), 1000);
+      return;
+    }
+    if (!accountInfo.approvalKey) throw new Error("approvalKey is null");
+
+    toSendMessage.current = {
+      header: {
+        "content-type": "utf-8",
+        approval_key: accountInfo.approvalKey,
+        custtype: "P",
+        tr_type: "1",
+      },
+      body: {
+        input: {
+          tr_id: "H0STCNI9",
+          tr_key: "@0851367",
+        },
+      },
+    };
+
+    console.info("실시간체결통보 요청");
+    sendMessage(toSendMessage.current);
+  };
+
+  useEffect(() => {
+    if (!message) return;
+    // const { data } = splitWebSocketMessage(message);
+    console.log(message);
+    console.log("OrderForm > headerRef ::", header);
+
+    // if (headerMessageRef.current) {
+    //   const { iv, key } = headerMessageRef.current.body.output;
+    //   const decrypt = decryptAES256(data, key, iv);
+    //   console.info(decrypt);
+    // }
+  }, [message]);
 
   return (
     <div className="mt-5 flex flex-col gap-3">
+      <button
+        onClick={() => {
+          console.log(header);
+        }}
+      >
+        ref console
+      </button>
       <Section
         title="주문가격"
         childrenProps={{ className: "flex flex-row items-center" }}
@@ -137,10 +255,10 @@ const OrderForm = ({
       </Section>
 
       <Button primary onClick={onSubmit}>
-        {type === "buy" ? "매수" : "매도"}주문
+        {type === "BUY" ? "매수" : "매도"}주문
       </Button>
 
-      {type === "buy" && (
+      {type === "BUY" && (
         <BuyPossible stockId={stockId} orderPrice={orderPrice} />
       )}
     </div>

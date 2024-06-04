@@ -8,13 +8,7 @@ import RealTimePrice from "./sheet/RealTimePrice";
 import Section from "@/components/section/Section";
 import OrderForm from "./sheet/OrderForm";
 
-const Sheet = ({
-  type,
-  handleBuySellFn,
-}: {
-  type: "buy" | "sell";
-  handleBuySellFn: Function;
-}): ReactNode => {
+const Sheet = ({ type }: { type: "BUY" | "SELL" }): ReactNode => {
   const inquireData = useRecoilValue(inquireDataState);
 
   return (
@@ -29,7 +23,7 @@ const Sheet = ({
       <Section title={inquireData?.output1.hts_kor_isnm} className="flex-1">
         <RealTimePrice />
 
-        <OrderForm type={type} handleBuySellFn={handleBuySellFn} />
+        <OrderForm type={type} />
       </Section>
     </>
   );

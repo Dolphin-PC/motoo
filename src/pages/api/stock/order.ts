@@ -6,6 +6,10 @@ import orderCash, {
   TOrderCashRes,
 } from "@/pages/service/openapi/biz/orderCash";
 
+export type DaoOrderCashReq = Omit<TOrderCashReq, "CANO"> & {
+  orderType: "BUY" | "SELL";
+};
+
 /**
  * @swagger
  *
@@ -21,8 +25,7 @@ export default async function handler(
   res: NextApiResponse<CResponse<TOrderCashRes>>
 ) {
   if (req.method == "POST") {
-    const { orderType, ...prm }: TOrderCashReq & { orderType: "BUY" | "SELL" } =
-      req.body;
+    const { orderType, ...prm }: DaoOrderCashReq = req.body;
     const { accountNumber, appKey, appSecret, apiToken } =
       await useApiAccountInfo(req, res);
 
@@ -30,10 +33,13 @@ export default async function handler(
       const data = await orderCash(
         { VTS_APPKEY: appKey, VTS_APPSECRET: appSecret, VTS_TOKEN: apiToken },
         orderType,
-        prm
+        {
+          CANO: accountNumber,
+          ...prm,
+        }
       );
 
-      res.status(200).json(ResOk<TOrderCashRes>(data, data.msg));
+      res.status(200).json(ResOk<TOrderCashRes>(data, data.msg1));
     } catch (error) {
       res.status(401).json(ResInvalid(error, "실패 메시지"));
     }

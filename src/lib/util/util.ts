@@ -223,3 +223,23 @@ export const decryptAES256 = (
   decrypted += decipher.final("utf-8");
   return decrypted;
 };
+
+type TWebSocketMessageRes = {
+  /**암호화유무(0암호화X / 1암호화) */
+  isEncrypt: "0" | "1" | string;
+  tr_id: string;
+  dataCount: string;
+  data: string;
+};
+export const splitWebSocketMessage = (
+  message: string
+): TWebSocketMessageRes => {
+  const msg = message.split("|");
+
+  return {
+    isEncrypt: msg[0],
+    tr_id: msg[1],
+    dataCount: msg[2],
+    data: msg[3],
+  };
+};

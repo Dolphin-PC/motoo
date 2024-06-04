@@ -4,8 +4,11 @@ import { TBuySell } from "./OrderForm";
 export const orderState = atom<TBuySell>({
   key: "orderState",
   default: {
+    orderType: null,
     price: 0,
     quantity: 0,
+    orderDivision: null,
+    stockId: null,
   },
 });
 
