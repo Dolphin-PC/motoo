@@ -119,7 +119,7 @@ export const convertObjectToQuery = (obj: Record<string, any>) => {
 // };
 
 /** @desc 한국시간기준으로 시간을 구합니다. */
-export const getKoreanTime = (date?: Date) => {
+export const getKoreanTime = (date?: Date): Date => {
   const now = new Date(date || new Date());
   const utc = now.getTime();
   const koreaTimeDiff = 9 * 60 * 60 * 1000;

@@ -121,12 +121,7 @@ const dataToJson = (data: string): TRealTimeChagyulDataRes => {
   return resData;
 };
 
-type TProps = {
-  /** 고객 HTS ID */
-  tr_key: string;
-};
-
-const useRealTimeChagyul = (props: TProps) => {
+const useRealTimeChagyul = () => {
   // 실시간체결통보에 필요한 상태
   const { message, sendMessage, socketStatus, header } = useWebSocket(msgType);
   const accountInfo = useClientAccountInfo();
@@ -152,7 +147,7 @@ const useRealTimeChagyul = (props: TProps) => {
       body: {
         input: {
           tr_id: "H0STCNI9",
-          tr_key: props.tr_key,
+          tr_key: accountInfo.htsId,
         },
       },
     };
@@ -168,6 +163,13 @@ const useRealTimeChagyul = (props: TProps) => {
     const decrypt = decryptAES256(data, key, iv);
     setRealTimeChagyulData(dataToJson(decrypt));
   }, [message]);
+
+  /** 체결통보 결과에 따라, 주문번호에 따른 주문내역 [체결]상태 업데이트 */
+  useEffect(() => {
+    if (!realTimeChagyulData) return;
+
+    // realTimeChagyulData.
+  }, [realTimeChagyulData]);
 
   return {
     connectSocket,

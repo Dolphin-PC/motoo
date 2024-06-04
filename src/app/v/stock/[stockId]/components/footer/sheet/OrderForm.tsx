@@ -42,8 +42,11 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
   const [orderPrice, setOrderPrice] = useRecoilState(orderPriceState);
   const [orderQuantity, setOrderQuantity] = useRecoilState(orderQuantityState);
 
-  const { connectSocket, realTimeChagyulData } = useRealTimeChagyul({});
+  const psblData = useRef<TInquirePsblOrderRes | null>(null);
 
+  const { connectSocket, realTimeChagyulData } = useRealTimeChagyul();
+
+  /** 주문요청에 필요한 데이터 SET */
   useEffect(() => {
     if (type === "BUY") {
       setOrder({
@@ -101,7 +104,7 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
     setOrderQuantity(value);
   };
 
-  /** 주문 액션 */
+  /** 주문 처리 */
   const onSubmit = async () => {
     if (!order.stockId) return alert("주식을 선택해주세요");
     if (!order.orderType) return alert("주문타입을 선택해주세요");
@@ -128,9 +131,11 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
       return;
     }
     connectSocket();
-    alert(res.body.msg1);
-    console.info(res);
   };
+
+  useEffect(() => {
+    console.info("realTimeChagyulData", realTimeChagyulData);
+  }, [realTimeChagyulData]);
 
   return (
     <div className="mt-5 flex flex-col gap-3">
@@ -156,34 +161,74 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
         </Button>
       </Section>
 
-      <Section
-        title="주문수량"
-        childrenProps={{ className: "flex flex-row items-center" }}
-      >
-        <h4 className="flex-1">
-          <input
-            type="number"
-            value={orderQuantity.toLocaleString()}
-            onChange={(e) =>
-              handleQuantity({ value: Number(e.target.value) || 0 })
-            }
-          />
-        </h4>
-        <Button
-          type="button"
-          outline
-          className="rotate-180"
-          onClick={() => handleQuantity({ add: 1 })}
-        >
-          <DownChevron />
-        </Button>
-        <Button
-          type="button"
-          outline
-          onClick={() => handleQuantity({ add: -1 })}
-        >
-          <DownChevron />
-        </Button>
+      <Section title="주문수량">
+        <div className="flex flex-row items-center">
+          <h4 className="flex-1">{orderQuantity.toLocaleString()}주</h4>
+          <Button
+            type="button"
+            outline
+            className="rotate-180"
+            onClick={() => handleQuantity({ add: 1 })}
+          >
+            <DownChevron />
+          </Button>
+          <Button
+            type="button"
+            outline
+            onClick={() => handleQuantity({ add: -1 })}
+          >
+            <DownChevron />
+          </Button>
+        </div>
+
+        {psblData.current && (
+          <div className="flex flex-row ">
+            <Button
+              onClick={() =>
+                handleQuantity({
+                  value: Math.floor(
+                    Number(psblData.current!.output.nrcvb_buy_qty) / 10
+                  ),
+                })
+              }
+            >
+              10%
+            </Button>
+            <Button
+              onClick={() =>
+                handleQuantity({
+                  value: Math.floor(
+                    Number(psblData.current!.output.nrcvb_buy_qty) / 4
+                  ),
+                })
+              }
+            >
+              25%
+            </Button>
+            <Button
+              onClick={() =>
+                handleQuantity({
+                  value: Math.floor(
+                    Number(psblData.current!.output.nrcvb_buy_qty) / 2
+                  ),
+                })
+              }
+            >
+              50%
+            </Button>
+            <Button
+              onClick={() =>
+                handleQuantity({
+                  value: Math.floor(
+                    Number(psblData.current!.output.nrcvb_buy_qty)
+                  ),
+                })
+              }
+            >
+              최대
+            </Button>
+          </div>
+        )}
       </Section>
 
       <Button primary onClick={onSubmit}>
@@ -191,7 +236,11 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
       </Button>
 
       {type === "BUY" && (
-        <BuyPossible stockId={stockId} orderPrice={orderPrice} />
+        <BuyPossible
+          stockId={stockId}
+          orderPrice={orderPrice}
+          psblData={psblData}
+        />
       )}
     </div>
   );
@@ -200,9 +249,11 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
 export const BuyPossible = ({
   stockId,
   orderPrice,
+  psblData,
 }: {
   stockId: string | null;
   orderPrice: number;
+  psblData: React.MutableRefObject<TInquirePsblOrderRes | null>;
 }): ReactNode => {
   const [isLoadingPossible, setIsLoadingPossible] = useState(false);
   const [possibleData, setPossibleData] =
@@ -230,14 +281,13 @@ export const BuyPossible = ({
         orderType: "00",
         stockId: stockId,
       },
-      options: {
-        cache: "no-cache",
-      },
     });
 
-    // console.log(res);
+    if (res.body) {
+      setPossibleData(res.body);
+      psblData.current = res.body;
+    }
 
-    setPossibleData(res.body);
     setIsLoadingPossible(false);
   };
 

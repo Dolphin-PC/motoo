@@ -18,6 +18,8 @@ const MyStockPage = async () => {
   const amountStockInfoList = await StockService.getAmountStockInfoList({
     accountNumber: accountInfo.accountNumber,
   });
+
+  //TODO 교체
   const stockOrderHistoryList = await StockService.getStockOrderHistoryList({
     accountNumber: accountInfo.accountNumber,
   });

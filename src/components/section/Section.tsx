@@ -16,7 +16,11 @@ export type TSectionProps = {
 
 const Section = (props: TSectionProps): React.ReactNode => {
   return (
-    <div className={`flex flex-col neumorphism ${props.className}`}>
+    <div
+      className={`flex flex-col neumorphism ${
+        props.className && props.className
+      }`}
+    >
       <div
         className="flex flex-row justify-between items-center"
         {...props.titleProps}

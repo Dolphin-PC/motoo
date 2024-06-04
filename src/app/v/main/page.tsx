@@ -32,29 +32,30 @@ const MainPage = async () => {
   // });
   // 관심 종목
 
-  // 주식주문 내역
-  const stockHistory = await StockOrderHistory.findMany({
-    where: {
-      account_number: accountNumber,
-    },
-  });
-  for (const history of stockHistory) {
-    // 판매수익, [판매] && [완료] && [체결가격이 존재]
-    if (
-      history.orderType == 0 &&
-      history.orderStatus == 2 &&
-      history.conclusionPrice
-    ) {
-      let sum = history.conclusionPrice - history.orderPrice;
-      stockSellRevenueSum += sum * history.orderQuantity;
-    }
+  // TODO: 주식주문 내역
 
-    // 대기중인 주문
-    if (history.orderStatus == 0) {
-      stockWaitCount++;
-    }
-  }
-  stockOrderCount = stockHistory.length;
+  // const stockHistory = await StockOrderHistory.findMany({
+  //   where: {
+  //     account_number: accountNumber,
+  //   },
+  // });
+  // for (const history of stockHistory) {
+  //   // 판매수익, [판매] && [완료] && [체결가격이 존재]
+  //   if (
+  //     history.orderType == 0 &&
+  //     history.orderStatus == 2 &&
+  //     history.conclusionPrice
+  //   ) {
+  //     let sum = history.conclusionPrice - history.orderPrice;
+  //     stockSellRevenueSum += sum * history.orderQuantity;
+  //   }
+
+  //   // 대기중인 주문
+  //   if (history.orderStatus == 0) {
+  //     stockWaitCount++;
+  //   }
+  // }
+  // stockOrderCount = stockHistory.length;
   // 주식주문 내역
 
   return (
@@ -83,13 +84,13 @@ const MainPage = async () => {
             amount={stockSellRevenueSum}
             href="/v/main"
           />
-          <Section.Card
+          {/* <Section.Card
             className="bg-secondary-250 w-8/12"
             title="주문내역"
             amountUnit="건"
             amount={stockOrderCount}
             href="/v/main"
-          />
+          /> */}
           <Section.Card
             className="bg-info-250 w-8/12"
             title="대기중인 주문"
