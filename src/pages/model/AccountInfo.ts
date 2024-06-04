@@ -61,6 +61,8 @@ export class AccountInfo extends BaseModel {
 
   approvalKey: string | null;
 
+  htsId: string;
+
   noticeList?: Notice[];
   stockOrderHistoryList?: StockOrderHistory[];
   amountMoneyList?: AmountMoney[];
@@ -114,6 +116,7 @@ export class AccountInfo extends BaseModel {
       api_token: this.apiToken,
       api_token_expired_at: this.apiTokenExpiredAt,
       approval_key: this.approvalKey,
+      hts_id: this.htsId,
     };
   }
   // methods //
@@ -188,6 +191,7 @@ export class AccountInfo extends BaseModel {
     appSecret,
     apiToken,
     apiTokenExpiredAt,
+    htsId,
   }: {
     userId: AccountInfo["userId"];
     accountNumber: AccountInfo["accountNumber"];
@@ -195,6 +199,7 @@ export class AccountInfo extends BaseModel {
     appSecret: AccountInfo["appSecret"];
     apiToken: AccountInfo["apiToken"];
     apiTokenExpiredAt: AccountInfo["apiTokenExpiredAt"];
+    htsId: AccountInfo["htsId"];
   }): Promise<AccountInfo> {
     // 1. 이미 등록된 계좌인지 확인
     await AccountInfo.findFirst({
@@ -221,8 +226,10 @@ export class AccountInfo extends BaseModel {
       defaultAccountYn,
       apiToken: apiToken,
       apiTokenExpiredAt: apiTokenExpiredAt,
+      htsId: htsId,
     });
 
+    // 필수값 검증
     await validateOrReject(accountInfo, {
       groups: [AccountInfoValidatorGroups.new],
     }).catch((errors: ValidationError[]) => {
@@ -234,6 +241,7 @@ export class AccountInfo extends BaseModel {
         data: accountInfo.toPrisma(),
       })
       .then(async (accountInfo) => {
+        // 연관테이블 AmountMoney생성
         await AmountMoney.newSave({
           accountNumber: accountInfo.account_number,
         });

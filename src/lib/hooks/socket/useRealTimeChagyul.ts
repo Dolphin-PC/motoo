@@ -121,7 +121,12 @@ const dataToJson = (data: string): TRealTimeChagyulDataRes => {
   return resData;
 };
 
-const useRealTimeChagyul = () => {
+type TProps = {
+  /** 고객 HTS ID */
+  tr_key: string;
+};
+
+const useRealTimeChagyul = (props: TProps) => {
   // 실시간체결통보에 필요한 상태
   const { message, sendMessage, socketStatus, header } = useWebSocket(msgType);
   const accountInfo = useClientAccountInfo();
@@ -147,7 +152,7 @@ const useRealTimeChagyul = () => {
       body: {
         input: {
           tr_id: "H0STCNI9",
-          tr_key: "@0851367",
+          tr_key: props.tr_key,
         },
       },
     };

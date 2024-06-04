@@ -19,6 +19,7 @@ const POST = async (
       appSecret,
       apiToken,
       apiTokenExpiredAt,
+      htsId,
     }: TNewAccount = req.body;
 
     const resAccount = await AccountInfo.create({
@@ -28,6 +29,7 @@ const POST = async (
       appSecret,
       apiToken,
       apiTokenExpiredAt,
+      htsId,
     });
     res.status(200).json(ResOk(resAccount, "계좌가 등록되었습니다."));
   } catch (error) {

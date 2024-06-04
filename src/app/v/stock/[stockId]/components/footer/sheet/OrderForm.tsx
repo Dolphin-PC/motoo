@@ -42,7 +42,7 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
   const [orderPrice, setOrderPrice] = useRecoilState(orderPriceState);
   const [orderQuantity, setOrderQuantity] = useRecoilState(orderQuantityState);
 
-  const { connectSocket } = useRealTimeChagyul();
+  const { connectSocket, realTimeChagyulData } = useRealTimeChagyul({});
 
   useEffect(() => {
     if (type === "BUY") {
@@ -101,6 +101,7 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
     setOrderQuantity(value);
   };
 
+  /** 주문 액션 */
   const onSubmit = async () => {
     if (!order.stockId) return alert("주식을 선택해주세요");
     if (!order.orderType) return alert("주문타입을 선택해주세요");

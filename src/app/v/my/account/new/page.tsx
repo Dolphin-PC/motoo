@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import Tooltip from "@/components/tooltip/Tooltip";
 
 export type TVerifyAccount = {
   accountNumber: AccountInfo["accountNumber"];
@@ -27,6 +28,7 @@ export type TVerifyAccount = {
 export type TNewAccount = TVerifyAccount & {
   apiToken: AccountInfo["apiToken"];
   apiTokenExpiredAt: AccountInfo["apiTokenExpiredAt"];
+  htsId: AccountInfo["htsId"];
 };
 
 const VMyAccountNew = () => {
@@ -41,6 +43,7 @@ const VMyAccountNew = () => {
       accountNumber: "",
       appKey: "",
       appSecret: "",
+      htsId: "",
     },
   });
   const [newAccountInfo, setNewAccountInfo] = useState<TNewAccount>();
@@ -67,6 +70,7 @@ const VMyAccountNew = () => {
       appSecret: data.appSecret,
       apiToken: res.body?.access_token || null,
       apiTokenExpiredAt: res.body?.access_token_token_expired || null,
+      htsId: data.htsId,
     });
 
     alert("정상적으로 검증이 완료되었습니다.");
@@ -105,7 +109,7 @@ const VMyAccountNew = () => {
           name="appKey"
           //   displayName=""
           placeholder="한국투자증권에서 발급받은 APP_KEY를 입력해주세요."
-          type="text"
+          type="password"
           readOnly={isAccountValid}
         />
         <Input.Control<AccountInfo>
@@ -116,6 +120,16 @@ const VMyAccountNew = () => {
           type="password"
           readOnly={isAccountValid}
         />
+        <Tooltip title="실시간체결통보를 위해 정확한 HTS_ID를 입력해주세요.">
+          <Input.Control<AccountInfo>
+            control={control}
+            name="htsId"
+            //   displayName="계좌번호"
+            placeholder="한국투자증권에서 발급받은 HTS_ID를 입력해주세요."
+            type="password"
+            readOnly={isAccountValid}
+          />
+        </Tooltip>
 
         <div className="flex flex-col">
           <div className="flex gap-2">

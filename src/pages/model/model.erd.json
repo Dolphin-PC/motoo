@@ -4,8 +4,8 @@
   "settings": {
     "width": 2000,
     "height": 2000,
-    "scrollTop": -726.7959,
-    "scrollLeft": -193.0672,
+    "scrollTop": -647.7959,
+    "scrollLeft": 0,
     "zoomLevel": 0.9,
     "show": 511,
     "database": 1,
@@ -118,7 +118,8 @@
           "oZwGOJs0zSBmlE1-6Xnyz",
           "yd42uWHkUZ9OwcgrzjxGM",
           "k5nii-mj3Y-OWAst-JqZm",
-          "oRnCcov6rCQHuO9qSLN09"
+          "oRnCcov6rCQHuO9qSLN09",
+          "qCl7lO6D1fW3pQ0O8DhtD"
         ],
         "seqColumnIds": [
           "p4Awv0AnwXtdmxSdCH4v5",
@@ -140,7 +141,8 @@
           "dlPirUPgVhOSfn_sHeIML",
           "zCQmMutkwhDf6CDvFZFq-",
           "ld1mJC8YKOJZlztofylb1",
-          "oRnCcov6rCQHuO9qSLN09"
+          "oRnCcov6rCQHuO9qSLN09",
+          "qCl7lO6D1fW3pQ0O8DhtD"
         ],
         "ui": {
           "x": 16.3333,
@@ -151,7 +153,7 @@
           "color": "#FF0000"
         },
         "meta": {
-          "updateAt": 1716781746326,
+          "updateAt": 1717480257131,
           "createAt": 1714468131883
         }
       },
@@ -3406,6 +3408,26 @@
           "updateAt": 1717124509775,
           "createAt": 1717124362709
         }
+      },
+      "qCl7lO6D1fW3pQ0O8DhtD": {
+        "id": "qCl7lO6D1fW3pQ0O8DhtD",
+        "tableId": "k0eCzfrS-PaWA38V2Spci",
+        "name": "hts_id",
+        "comment": "한국투자증권_HTS_ID(웹소켓 연동에 필요)",
+        "dataType": "VARCHAR",
+        "default": "",
+        "options": 8,
+        "ui": {
+          "keys": 0,
+          "widthName": 60,
+          "widthComment": 213,
+          "widthDataType": 60,
+          "widthDefault": 60
+        },
+        "meta": {
+          "updateAt": 1717480282717,
+          "createAt": 1717480257130
+        }
       }
     },
     "relationshipEntities": {
@@ -3456,7 +3478,7 @@
           "columnIds": [
             "V24WHkBWV1z1kUR4mSECF"
           ],
-          "x": 443.0833,
+          "x": 493.3333,
           "y": 795.0954,
           "direction": 4
         },
@@ -3475,7 +3497,7 @@
           "columnIds": [
             "1eoOYnZ-mZyXBld4wsW29"
           ],
-          "x": 158.5833,
+          "x": 175.3333,
           "y": 795.0954,
           "direction": 4
         },
@@ -3503,8 +3525,8 @@
           "columnIds": [
             "1eoOYnZ-mZyXBld4wsW29"
           ],
-          "x": 300.8333,
-          "y": 1067.0954000000002,
+          "x": 334.3333,
+          "y": 1091.0954000000002,
           "direction": 8
         },
         "end": {
@@ -3531,8 +3553,8 @@
           "columnIds": [
             "1eoOYnZ-mZyXBld4wsW29"
           ],
-          "x": 585.3333,
-          "y": 1021.7620666666666,
+          "x": 652.3333,
+          "y": 1041.7620666666667,
           "direction": 2
         },
         "end": {
@@ -3559,8 +3581,8 @@
           "columnIds": [
             "1eoOYnZ-mZyXBld4wsW29"
           ],
-          "x": 585.3333,
-          "y": 931.0953999999999,
+          "x": 652.3333,
+          "y": 943.0953999999999,
           "direction": 2
         },
         "end": {
@@ -3671,8 +3693,8 @@
           "columnIds": [
             "1eoOYnZ-mZyXBld4wsW29"
           ],
-          "x": 585.3333,
-          "y": 840.4287333333333,
+          "x": 652.3333,
+          "y": 844.4287333333333,
           "direction": 2
         },
         "end": {
@@ -5663,6 +5685,17 @@
         "options(autoIncrement)": 1717124464093,
         "default": 1717124464093,
         "comment": 1717124509774
+      }
+    ],
+    "qCl7lO6D1fW3pQ0O8DhtD": [
+      "tableColumnEntities",
+      1717480257129,
+      -1,
+      {
+        "name": 1717480260673,
+        "dataType": 1717480263334,
+        "options(notNull)": 1717480266879,
+        "comment": 1717480282716
       }
     ]
   }
