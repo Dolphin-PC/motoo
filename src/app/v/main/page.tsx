@@ -75,14 +75,14 @@ const MainPage = async () => {
             title="보유주식"
             amountUnit="KRW"
             amount={stockPriceSum}
-            href="/v/main"
+            href="/v/my-stock"
           />
           <Section.Card
             className="bg-primary-250 w-8/12"
             title="판매수익"
             amountUnit="KRW"
             amount={stockSellRevenueSum}
-            href="/v/main"
+            href="/v/my-stock"
           />
           {/* <Section.Card
             className="bg-secondary-250 w-8/12"
@@ -104,7 +104,7 @@ const MainPage = async () => {
       {/* 내 포트폴리오 */}
       <Section
         title="내 포트폴리오 TOP 5"
-        right={<Button.Link href="/v/portfolio"></Button.Link>}
+        right={<Button.Link href="/v/my-stock"></Button.Link>}
         notData={stockInfoList.length == 0}
       >
         <ChartComp

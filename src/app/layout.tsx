@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -11,6 +11,7 @@ import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Motoo",
@@ -29,15 +30,7 @@ export default function RootLayout({
         {/* <QueryClientProvider client={new QueryClient()}> */}
         <NextAuthProvider>
           <div className="flex h-full">
-            <aside
-              className="hidden top-1/2 fixed transform -translate-y-1/2
-              lg:flex flex-col items-center justify-center w-4/12 
-              text-primary-500
-            "
-            >
-              <LogoSvg className="w-20 h-20 transfrom rotate-45" />
-              <h1>모투</h1>
-            </aside>
+            <Aside />
             <main
               id="main"
               className="m-auto w-full sm:w-9/12 md:w-6/12 lg:w-5/12 lg:translate-x-20 h-screen overflow-hidden"
@@ -51,3 +44,19 @@ export default function RootLayout({
     </html>
   );
 }
+
+const Aside = (): ReactNode => {
+  return (
+    <Link href="/">
+      <aside
+        className="top-1/2 fixed transform -translate-y-1/2
+            lg:flex flex-col items-center justify-center w-4/12 
+            text-primary-500
+          "
+      >
+        <LogoSvg className="w-20 h-20 transfrom rotate-45" />
+        <h1>모투</h1>
+      </aside>
+    </Link>
+  );
+};

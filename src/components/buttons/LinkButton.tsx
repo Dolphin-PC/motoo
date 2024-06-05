@@ -11,8 +11,8 @@ type TProps = TButtonProps & {
 
 const LinkButton = ({ href, warning, ...props }: TProps): React.ReactNode => {
   return (
-    <Button {...props}>
-      <Link href={href}>
+    <Link href={href}>
+      <Button {...props}>
         <div className="flex items-center justify-between">
           {props.children}
           <div className="flex flex-row gap-3">
@@ -20,8 +20,8 @@ const LinkButton = ({ href, warning, ...props }: TProps): React.ReactNode => {
             <RightChevron />
           </div>
         </div>
-      </Link>
-    </Button>
+      </Button>
+    </Link>
   );
 };
 

@@ -5,6 +5,7 @@ import Logo from "../icon/Logo";
 import Link from "next/link";
 import { SessionContextValue, useSession } from "next-auth/react";
 import Image from "next/image";
+import HomeIcon from "@/assets/icons/home.svg";
 
 const Header = ({ right }: { right?: React.ReactNode }) => {
   const session = useSession();
@@ -31,8 +32,17 @@ const RightButtons = ({
   switch (session.status) {
     case "authenticated": {
       return (
-        <div className="flex gap-2">
+        <div className="flex gap-3">
           {/* <Button onClick={() => signOut()}>Log Out</Button> */}
+          <Link href="/v/main">
+            <Image
+              src={"/icons/home.svg"}
+              alt="home"
+              width={24}
+              height={24}
+              className="rounded-full"
+            />
+          </Link>
           <Image
             src={"/icons/bell.svg"}
             alt="profile"

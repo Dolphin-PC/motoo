@@ -1,6 +1,6 @@
 // import Image from "next/image";
 import Image from "next/image";
-import React, { ReactElement } from "react";
+import React, { ReactElement, ReactNode } from "react";
 import TextCard from "./TextCard";
 import StockCard from "./StockCard";
 
@@ -12,11 +12,11 @@ const Card = ({
 }: {
   img_src?: string;
   title: string;
-  desc?: string;
+  desc?: ReactNode;
   buttons?: ReactElement[];
 }) => {
   return (
-    <div className="flex flex-col justify-between border-primary-100 border-2 ">
+    <div className="flex flex-col justify-between border-primary-100 border-2">
       <div>
         {img_src && (
           <div>
@@ -31,9 +31,9 @@ const Card = ({
           </div>
         )}
 
-        <div className="mt-3 ml-3">
+        <div className="p-3">
           <h4>{title}</h4>
-          <p>{desc}</p>
+          {desc && desc}
         </div>
       </div>
 

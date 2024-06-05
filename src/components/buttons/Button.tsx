@@ -1,8 +1,6 @@
 import clsx from "clsx";
 import React, { ButtonHTMLAttributes } from "react";
-import LogoutButton from "./LogoutButton";
 import LinkButton from "./LinkButton";
-import ActionButton from "./ActionButton";
 import dynamic from "next/dynamic";
 
 export type TButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
@@ -22,11 +20,10 @@ const Button = ({
   return (
     <div
       className={clsx(
-        "rounded-md text-center",
-        { "bg-primary-500 text-white": primary },
+        "rounded-md text-center border-primary-500",
+        { "bg-primary-500 text-white border-solid border-2": primary },
         {
-          "bg-white text-primary-500 border-solid border-primary-500 border-2":
-            outline,
+          "bg-white text-primary-500 border-solid border-2": outline,
         },
         { "opacity-50": props.disabled },
         className

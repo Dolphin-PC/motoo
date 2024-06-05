@@ -81,10 +81,7 @@ const MyPage = () => {
             내 모의계좌 관리
           </LinkButton>
           {/* <LinkButton href="/v/my/profile">계좌 전환하기</LinkButton> */}
-          <Button
-            className="text-danger-500 border-danger-500 border-2"
-            onClick={onDeleteUser}
-          >
+          <Button outline onClick={onDeleteUser}>
             계정 삭제하기
           </Button>
         </div>

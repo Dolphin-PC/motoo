@@ -5,9 +5,11 @@ import { ReactElement } from "react";
 
 const layout = async ({ children }: { children: ReactElement }) => {
   return (
-    <div className="h-full">
-      <Header />
-      <div className="bg-white p-10">{children}</div>
+    <div className="h-full overflow-auto hide-scrollbar">
+      <div className="sticky top-0">
+        <Header />
+      </div>
+      <div className="bg-white">{children}</div>
       <Footer />
     </div>
   );
