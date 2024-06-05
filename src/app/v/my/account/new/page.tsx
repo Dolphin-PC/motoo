@@ -95,7 +95,10 @@ const VMyAccountNew = () => {
 
   return (
     <InnerLayout title="모의계좌 등록하기">
-      <form onSubmit={handleSubmit(onValidate)} className="flex flex-col gap-5">
+      <form
+        onSubmit={handleSubmit(onValidate)}
+        className="p-5 flex flex-col gap-5"
+      >
         <Input.Control<AccountInfo>
           control={control}
           name="accountNumber"
@@ -120,16 +123,19 @@ const VMyAccountNew = () => {
           type="password"
           readOnly={isAccountValid}
         />
-        <Tooltip title="실시간체결통보를 위해 정확한 HTS_ID를 입력해주세요.">
+        <div>
           <Input.Control<AccountInfo>
             control={control}
             name="htsId"
             //   displayName="계좌번호"
-            placeholder="한국투자증권에서 발급받은 HTS_ID를 입력해주세요."
+            placeholder="@000000"
             type="password"
             readOnly={isAccountValid}
           />
-        </Tooltip>
+          <Tooltip title="">
+            <small>실시간체결통보를 위해 정확한 HTS_ID를 입력해주세요.</small>
+          </Tooltip>
+        </div>
 
         <div className="flex flex-col">
           <div className="flex gap-2">

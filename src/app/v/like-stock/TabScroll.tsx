@@ -65,26 +65,28 @@ const TabScroll = ({
           })}
         </Section.Scroll>
       </div>
-      {groupLikeStockList.map((group, idx) => {
-        return (
-          <div key={idx} tabIndex={idx} ref={registryRef}>
-            <Section.Accordion
-              index={idx}
-              title={group.groupName}
-              noContent={
-                <Button.Link href="/v/stock" primary>
-                  주식 추가하기
-                </Button.Link>
-              }
-            >
-              {group.likeStockInfoList.length &&
-                group.likeStockInfoList.map((likeStock, idx) => {
-                  return <StockCard key={idx} stock={likeStock} />;
-                })}
-            </Section.Accordion>
-          </div>
-        );
-      })}
+      <Section notData={groupLikeStockList.length == 0}>
+        {groupLikeStockList.map((group, idx) => {
+          return (
+            <div key={idx} tabIndex={idx} ref={registryRef}>
+              <Section.Accordion
+                index={idx}
+                title={group.groupName}
+                noContent={
+                  <Button.Link href="/v/stock" primary>
+                    주식 추가하기
+                  </Button.Link>
+                }
+              >
+                {group.likeStockInfoList.length &&
+                  group.likeStockInfoList.map((likeStock, idx) => {
+                    return <StockCard key={idx} stock={likeStock} />;
+                  })}
+              </Section.Accordion>
+            </div>
+          );
+        })}
+      </Section>
     </div>
   );
 };
