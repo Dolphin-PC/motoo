@@ -25,6 +25,15 @@ const nextConfig = {
 
     return config;
   },
+
+  async rewrites() {
+    return [
+      {
+        source: "/uapi/:path*",
+        destination: `${process.env.NEXT_PUBLIC_VTS_URL}/uapi/:path*`, // Proxy to Backend
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;
