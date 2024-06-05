@@ -1,8 +1,7 @@
-import { Length, MinLength } from "class-validator";
+import { Length } from "class-validator";
 import { BaseModel } from "./Base";
 import { prisma } from "@/pages/service/prismaClient";
 import { Prisma } from "@prisma/client";
-import { StockInfo } from "./StockInfo";
 import { AccountInfo } from "./AccountInfo";
 
 export type TAmountStockUpsertInput = {

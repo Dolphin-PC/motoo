@@ -8,7 +8,7 @@ import SectionLink from "./SectionLink";
 export type TSectionProps = {
   title?: string;
   titleProps?: ButtonHTMLAttributes<HTMLDivElement>;
-  children: ReactNode;
+  children?: ReactNode;
   childrenProps?: ButtonHTMLAttributes<HTMLDivElement>;
   className?: HTMLDivElement["className"];
   right?: React.ReactNode;

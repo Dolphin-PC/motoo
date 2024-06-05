@@ -1,4 +1,4 @@
-import { Length, MinLength } from "class-validator";
+import { Length } from "class-validator";
 import { BaseModel } from "./Base";
 import { Prisma } from "@prisma/client";
 import prisma from "../service/prismaClient";

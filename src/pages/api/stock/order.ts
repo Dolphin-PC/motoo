@@ -5,12 +5,6 @@ import orderCash, {
   TOrderCashReq,
   TOrderCashRes,
 } from "@/pages/service/openapi/biz/orderCash";
-import {
-  OrderStatus,
-  OrderType,
-  StockOrderHistory,
-} from "@/pages/model/StockOrderHistory";
-import { getKoreanTime } from "@/lib/util/util";
 
 export type DaoOrderCashReq = Omit<TOrderCashReq, "CANO"> & {
   orderType: "BUY" | "SELL";

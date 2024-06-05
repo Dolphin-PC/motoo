@@ -1,6 +1,7 @@
 import React from "react";
 import Section from "./Section";
-import Button from "../buttons/Button";
+import Link from "next/link";
+import RightChevron from "../icon/RightChevron";
 
 type TProps = {
   title: string;
@@ -8,9 +9,9 @@ type TProps = {
 };
 const SectionLink = (props: TProps) => {
   return (
-    <Section title={props.title} right={<Button.Link href={props.href} />}>
-      <></>
-    </Section>
+    <Link href={props.href}>
+      <Section title={props.title} right={<RightChevron />} />
+    </Link>
   );
 };
 

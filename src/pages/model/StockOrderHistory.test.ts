@@ -1,6 +1,5 @@
 import { Prisma } from "@prisma/client";
 import { OrderStatus, OrderType, StockOrderHistory } from "./StockOrderHistory";
-import { getKoreanTime } from "@/lib/util/util";
 
 describe("StockOrderHistory", () => {
   it("findMany", async () => {

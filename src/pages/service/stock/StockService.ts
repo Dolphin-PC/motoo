@@ -3,7 +3,6 @@ import { AccountInfo } from "@/pages/model/AccountInfo";
 import { AmountStock } from "@/pages/model/AmountStock";
 import { LikeStock } from "@/pages/model/LikeStock";
 import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
-import { get } from "http";
 import { GroupLikeStock } from "@/pages/model/GroupLikeStock";
 
 export type TAmountStockInfo = AmountStock & Omit<StockInfo, "updateInfo">;

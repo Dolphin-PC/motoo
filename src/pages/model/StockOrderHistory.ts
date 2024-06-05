@@ -1,11 +1,7 @@
 import { BaseModel } from "./Base";
-import { Length, MinLength } from "class-validator";
+import { Length } from "class-validator";
 import { Prisma } from "@prisma/client";
 import prisma from "../service/prismaClient";
-import {
-  convertObjectPropertiesCamelCaseToSnakeCase,
-  getKoreanTime,
-} from "@/lib/util/util";
 
 export enum OrderStatus {
   PENDING,

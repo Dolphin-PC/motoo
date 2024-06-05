@@ -1,5 +1,5 @@
 import { prisma } from "@/pages/service/prismaClient";
-import { Length, MinLength } from "class-validator";
+import { Length } from "class-validator";
 import { BaseModel } from "./Base";
 import { Prisma } from "@prisma/client";
 import { TInquireStockBalanceRes } from "../service/openapi/biz/inquireStockBalance";

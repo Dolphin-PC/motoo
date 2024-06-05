@@ -1,6 +1,5 @@
 import { PagesOptions } from "next-auth";
 import { JWTOptions } from "next-auth/jwt";
-import jwt from "jsonwebtoken";
 
 export const nextAuthPages: Partial<PagesOptions> = {
   signIn: "/sign-in",

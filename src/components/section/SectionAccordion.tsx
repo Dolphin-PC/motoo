@@ -2,7 +2,6 @@
 import React, { MouseEvent, ReactNode } from "react";
 import Section, { TSectionProps } from "./Section";
 import DownChevron from "@/assets/icons/chevron-down.svg";
-import Button from "../buttons/Button";
 import clsx from "clsx";
 import { useRecoilState } from "recoil";
 import { tabOpenStateList } from "@/app/v/like-stock/atom";

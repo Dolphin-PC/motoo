@@ -38,8 +38,6 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     if (email && password) {
       const user = await User.login(email, password);
 
-      // TODO 주식잔고조회 API호출해서, 주식잔고 조회 후, 유저정보에 주식잔고정보 추가
-
       res.status(200).json(user);
     }
   } catch (err) {

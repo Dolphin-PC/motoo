@@ -1,4 +1,4 @@
-import { Length, MinLength } from "class-validator";
+import { Length } from "class-validator";
 import { BaseModel } from "./Base";
 
 // 사용자 알림

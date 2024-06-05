@@ -3,6 +3,7 @@
 import Button from "@/components/buttons/Button";
 import LinkButton from "@/components/buttons/LinkButton";
 import LogoutButton from "@/components/buttons/LogoutButton";
+import Section from "@/components/section/Section";
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { StatusCode } from "@/pages/api";
 import { AccountInfo } from "@/pages/model/AccountInfo";
@@ -10,7 +11,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 const MyPage = () => {
-  const { data: session, status, update } = useSession();
+  const { data: session, status } = useSession();
   const [isAccountNull, setIsAccountNull] = useState(false);
 
   const fetchAccountInfo = async () => {
@@ -76,10 +77,8 @@ const MyPage = () => {
           </span>
         </div>
         <div className="flex flex-col gap-2">
-          <LinkButton href="/v/my/profile">프로필 설정</LinkButton>
-          <LinkButton href="/v/my/account" warning={isAccountNull}>
-            내 모의계좌 관리
-          </LinkButton>
+          {/* <LinkButton href="/v/my/profile">프로필 설정</LinkButton> */}
+          <Section.Link title="내 모의계좌 관리" href="/v/my/account" />
           {/* <LinkButton href="/v/my/profile">계좌 전환하기</LinkButton> */}
           <Button outline onClick={onDeleteUser}>
             계정 삭제하기

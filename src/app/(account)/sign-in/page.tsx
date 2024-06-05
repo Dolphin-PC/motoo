@@ -1,30 +1,35 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "@/components/Input";
-import CheckBox from "@/components/CheckBox";
-import Link from "next/link";
+
 import Button from "@/components/buttons/Button";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { getUserTokenInfo } from "@/lib/util/util";
+import { Checkbox, FormControlLabel } from "@mui/material";
 
 export type TSignInProps = {
   email: string;
   password: string;
 };
 
+const IS_SAVE_ID = "IS_SAVE_ID";
+const SAVED_EMAIL = "SAVED_EMAIL";
+
 const SignInPage = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  const { handleSubmit, control, reset, formState } = useForm<TSignInProps>({
+  const { handleSubmit, control, setValue } = useForm<TSignInProps>({
     defaultValues: {
-      email: "test@gmail.com",
-      password: "qwerqwer",
+      email: "",
+      password: "",
     },
   });
+
+  const [checkedSaveId, setCheckedSaveId] = useState(false);
 
   const onSubmit: SubmitHandler<TSignInProps> = async (data) => {
     const res = await signIn("credentials", {
@@ -43,9 +48,24 @@ const SignInPage = () => {
     if (status === "authenticated") {
       const { appKey, appSecret } = getUserTokenInfo(session);
 
+      if (checkedSaveId) {
+        localStorage.setItem(SAVED_EMAIL, session?.user?.email || "");
+        localStorage.setItem(IS_SAVE_ID, "Y");
+      }
+
       router.replace(appKey && appSecret ? "/v/main" : "/v/my");
     }
   }, [status]);
+
+  useEffect(() => {
+    const isSaveId = localStorage.getItem(IS_SAVE_ID);
+    const savedEmail = localStorage.getItem(SAVED_EMAIL);
+
+    if (isSaveId === "Y") {
+      setCheckedSaveId(true);
+      setValue("email", savedEmail || "");
+    }
+  }, []);
 
   return (
     <>
@@ -73,10 +93,18 @@ const SignInPage = () => {
         />
 
         <div className="flex justify-between items-center">
-          <CheckBox name="remember" label="Remember Me" />
-          <Link href="/account/sign-up" className="text-primary-500">
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={checkedSaveId}
+                onChange={() => setCheckedSaveId((prev) => !prev)}
+              />
+            }
+            label="ID 저장"
+          />
+          {/* <Link href="/account/sign-up" className="text-primary-500">
             Forgot password?
-          </Link>
+          </Link> */}
         </div>
 
         <Button primary type="submit">
