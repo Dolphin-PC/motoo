@@ -46,19 +46,6 @@ export default async function handler(
         }
       );
 
-      //* 2. stock_order_history에 pending으로 저장
-      await StockOrderHistory.create({
-        oderNo: data.output.ODNO,
-        ooderNo: data.output.ODNO,
-        accountNumber,
-        stockId: prm.PDNO,
-        orderType: orderType === "BUY" ? OrderType.BUY : OrderType.SELL,
-        orderStatus: OrderStatus.PENDING,
-        orderTime: data.output.ORD_TMD,
-        orderPrice: Number(prm.ORD_UNPR),
-        orderQuantity: Number(prm.ORD_QTY),
-      });
-
       res.status(200).json(ResOk<TOrderCashRes>(data, data.msg1));
     } catch (error) {
       res.status(401).json(ResInvalid(error, "실패 메시지"));

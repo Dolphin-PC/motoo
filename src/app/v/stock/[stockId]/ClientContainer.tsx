@@ -43,10 +43,11 @@ const ClientContainer = (props: TProps) => {
             </Button>
           </Section.Scroll>
         </div> */}
-        {/* 차트 */}
+        {/* 분봉차트 */}
         <div tabIndex={0} ref={registryRef}>
           <TodayOneMinute />
         </div>
+        <Section.Link title="주문내역" href={`/v/stock/history/${stockId}`} />
         {/* 내 주식 */}
         {!isEmpty(amountStock) && (
           <div tabIndex={1} ref={registryRef}>

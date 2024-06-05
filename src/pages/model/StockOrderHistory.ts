@@ -25,6 +25,9 @@ type TUpdateConclusion = {
   conclusionQuantity: number;
 };
 
+/**
+ * @deprecated
+ */
 export class StockOrderHistory extends BaseModel {
   /** 주문번호 */
   oderNo: string;

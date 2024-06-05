@@ -243,3 +243,8 @@ export const splitWebSocketMessage = (
     data: msg[3],
   };
 };
+
+/** 20240101 -> 2024-01-01 */
+export const stringToDateString = (str: string) => {
+  return `${str.slice(0, 4)}-${str.slice(4, 6)}-${str.slice(6, 8)}`;
+};

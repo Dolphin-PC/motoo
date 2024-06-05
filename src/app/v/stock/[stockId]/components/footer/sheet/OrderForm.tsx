@@ -22,6 +22,8 @@ import {
 } from "@/pages/service/openapi/biz/orderCash";
 import { DaoOrderCashReq } from "@/pages/api/stock/order";
 import useRealTimeChagyul from "@/lib/hooks/socket/useRealTimeChagyul";
+import SnackBar from "@/components/snackbar/SnackBar";
+import { snackBarState } from "@/components/snackbar/atom";
 
 export type TBuySell = {
   orderType: "BUY" | "SELL" | null;
@@ -42,9 +44,10 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
   const [orderPrice, setOrderPrice] = useRecoilState(orderPriceState);
   const [orderQuantity, setOrderQuantity] = useRecoilState(orderQuantityState);
 
-  const psblData = useRef<TInquirePsblOrderRes | null>(null);
+  const [psblData, setPsblData] = useState<TInquirePsblOrderRes | null>(null);
 
   const { connectSocket, realTimeChagyulData } = useRealTimeChagyul();
+  const [snackBarInfo, setSnackBarInfo] = useRecoilState(snackBarState);
 
   /** 주문요청에 필요한 데이터 SET */
   useEffect(() => {
@@ -131,10 +134,20 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
       return;
     }
     connectSocket();
+    alert(res.body.msg1);
   };
 
   useEffect(() => {
-    console.info("realTimeChagyulData", realTimeChagyulData);
+    if (!realTimeChagyulData) return;
+    const { CNTG_ISNM, CNTG_YN } = realTimeChagyulData;
+
+    if (CNTG_YN == "2") {
+      setSnackBarInfo({
+        open: true,
+        message: `${CNTG_ISNM} 체결이 완료되었습니다.`,
+        link: "",
+      });
+    }
   }, [realTimeChagyulData]);
 
   return (
@@ -181,13 +194,13 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
           </Button>
         </div>
 
-        {psblData.current && (
+        {psblData && (
           <div className="flex flex-row ">
             <Button
               onClick={() =>
                 handleQuantity({
                   value: Math.floor(
-                    Number(psblData.current!.output.nrcvb_buy_qty) / 10
+                    Number(psblData!.output.nrcvb_buy_qty) / 10
                   ),
                 })
               }
@@ -197,9 +210,7 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
             <Button
               onClick={() =>
                 handleQuantity({
-                  value: Math.floor(
-                    Number(psblData.current!.output.nrcvb_buy_qty) / 4
-                  ),
+                  value: Math.floor(Number(psblData!.output.nrcvb_buy_qty) / 4),
                 })
               }
             >
@@ -208,9 +219,7 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
             <Button
               onClick={() =>
                 handleQuantity({
-                  value: Math.floor(
-                    Number(psblData.current!.output.nrcvb_buy_qty) / 2
-                  ),
+                  value: Math.floor(Number(psblData!.output.nrcvb_buy_qty) / 2),
                 })
               }
             >
@@ -219,9 +228,7 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
             <Button
               onClick={() =>
                 handleQuantity({
-                  value: Math.floor(
-                    Number(psblData.current!.output.nrcvb_buy_qty)
-                  ),
+                  value: Math.floor(Number(psblData!.output.nrcvb_buy_qty)),
                 })
               }
             >
@@ -239,9 +246,11 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
         <BuyPossible
           stockId={stockId}
           orderPrice={orderPrice}
-          psblData={psblData}
+          setPsblData={setPsblData}
         />
       )}
+
+      <SnackBar />
     </div>
   );
 };
@@ -249,11 +258,13 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
 export const BuyPossible = ({
   stockId,
   orderPrice,
-  psblData,
+  setPsblData,
 }: {
   stockId: string | null;
   orderPrice: number;
-  psblData: React.MutableRefObject<TInquirePsblOrderRes | null>;
+  setPsblData: React.Dispatch<
+    React.SetStateAction<TInquirePsblOrderRes | null>
+  >;
 }): ReactNode => {
   const [isLoadingPossible, setIsLoadingPossible] = useState(false);
   const [possibleData, setPossibleData] =
@@ -285,7 +296,7 @@ export const BuyPossible = ({
 
     if (res.body) {
       setPossibleData(res.body);
-      psblData.current = res.body;
+      setPsblData(res.body);
     }
 
     setIsLoadingPossible(false);

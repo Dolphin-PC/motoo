@@ -2,7 +2,7 @@
 
 import Section from "@/components/section/Section";
 import React, { useEffect, useState } from "react";
-import { searchTextState } from "./atom";
+import { searchTextState } from "../atom";
 import { useRecoilValue } from "recoil";
 import { StockInfo } from "@/pages/model/StockInfo";
 import { fetchHelperWithData } from "@/lib/api/helper";

@@ -8,3 +8,9 @@ TODO next-swagger 보완하기 /api/ 하위폴더
 TODO API의 next-auth middleware적용하기
 
 TODO: 토큰만료 응답시, 토큰 재발급 후 재요청
+
+-- 배포까지 할 일
+[] 주식 체결내역 API
+[] 주식 취소정정 API
+[] stock_info 테이블 데이터 미리 넣어두기
+[] 배포하기 (vercel)

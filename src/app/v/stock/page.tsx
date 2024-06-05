@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
 import { RecoilRoot } from "recoil";
-import SearchInput from "./SearchInput";
-import SearchResult from "./SearchResult";
+import SearchInput from "./components/SearchInput";
+import SearchResult from "./components/SearchResult";
 
 const StockPage = () => {
   return (

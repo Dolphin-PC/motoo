@@ -11,7 +11,7 @@ type TProps = {
 const Tooltip = (props: TProps) => {
   return (
     <TooltipComponent title={props.title}>
-      <div>
+      <div className="flex items-center">
         <InfoIcon fontSize="small" sx={{ color: purple[500] }} />
         {props.children}
       </div>

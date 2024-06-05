@@ -33,7 +33,7 @@ export type TRealTimeChagyulDataRes = {
   /**매도매수구분
    * (01 : 매도
    * 02 : 매수)*/
-  SELN_BYOV_CLS: string;
+  SELN_BYOV_CLS: "01" | "02" | string;
   /**정정구분 */
   RCTF_CLS: string;
   /**주문종류
@@ -57,18 +57,18 @@ export type TRealTimeChagyulDataRes = {
    * (0 : 승인
    *  1 : 거부)
    */
-  RFUS_YN: string;
+  RFUS_YN: "0" | "1" | string;
   /**체결여부
    * (1 : 주문,정정,취소,거부
    *  2 : 체결 (★ 체결만 보실경우 2번만 보시면 됩니다))
    */
-  CNTG_YN: string;
+  CNTG_YN: "1" | "2" | string;
   /**접수여부 
    * (1 : 주문접수
       2 : 확인
       3: 취소(FOK/IOC))
   */
-  ACPT_YN: string;
+  ACPT_YN: "1" | "2" | "3" | string;
   /**지점번호 */
   BRNC_NO: string;
   /**주문수량 */
@@ -131,10 +131,11 @@ const useRealTimeChagyul = () => {
     useState<TRealTimeChagyulDataRes | null>(null);
 
   const connectSocket = () => {
-    if (socketStatus !== SOCKET_STATUS.OPEN) {
+    if (socketStatus !== SOCKET_STATUS.OPEN || accountInfo == null) {
       setTimeout(() => connectSocket(), 1000);
       return;
     }
+
     if (!accountInfo.approvalKey) throw new Error("approvalKey is null");
 
     toSendMessage.current = {
@@ -163,13 +164,6 @@ const useRealTimeChagyul = () => {
     const decrypt = decryptAES256(data, key, iv);
     setRealTimeChagyulData(dataToJson(decrypt));
   }, [message]);
-
-  /** 체결통보 결과에 따라, 주문번호에 따른 주문내역 [체결]상태 업데이트 */
-  useEffect(() => {
-    if (!realTimeChagyulData) return;
-
-    // realTimeChagyulData.
-  }, [realTimeChagyulData]);
 
   return {
     connectSocket,

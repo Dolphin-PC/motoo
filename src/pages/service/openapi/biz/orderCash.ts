@@ -1,5 +1,5 @@
 import { axiosPost } from "@/lib/api/helper";
-import { TApiCommonReq, TApiCommonRes } from "../OpenApiService";
+import { TApiCommonReq } from "../OpenApiService";
 
 /** 주식주문(현금) */
 export type TOrderCashReq = {

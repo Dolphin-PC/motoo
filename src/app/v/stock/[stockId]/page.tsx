@@ -6,10 +6,10 @@ import React from "react";
 import ClientContainer from "./ClientContainer";
 import { AmountStock } from "@/pages/model/AmountStock";
 
-type LayoutProps = {
+type TProps = {
   params: { stockId: string };
 };
-const StockIdPage = async (props: LayoutProps) => {
+const StockIdPage = async (props: TProps) => {
   const { stockId } = props.params;
 
   const accountInfo = await useAccountInfo();

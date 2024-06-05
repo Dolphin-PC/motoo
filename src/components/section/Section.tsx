@@ -3,6 +3,7 @@ import SectionCard from "./SectionCard";
 import SectionScroll from "./SectionScroll";
 import dynamic from "next/dynamic";
 import NotData from "../icon/NotData";
+import SectionLink from "./SectionLink";
 
 export type TSectionProps = {
   title?: string;
@@ -21,15 +22,17 @@ const Section = (props: TSectionProps): React.ReactNode => {
         props.className && props.className
       }`}
     >
-      <div
-        className="flex flex-row justify-between items-center"
-        {...props.titleProps}
-      >
-        {props.title && (
-          <h5 className={"font-bold text-primary-550"}>| {props.title}</h5>
-        )}
-        {props.right && props.right}
-      </div>
+      {props.title || props.right ? (
+        <div
+          className="flex flex-row justify-between items-center"
+          {...props.titleProps}
+        >
+          {props.title && (
+            <h5 className={"font-bold text-primary-550"}>| {props.title}</h5>
+          )}
+          {props.right && props.right}
+        </div>
+      ) : null}
       <div {...props.childrenProps}>
         {props.notData === true ? <NotData /> : props.children}
       </div>
@@ -49,6 +52,7 @@ const SectionSkeleton = () => {
 Section.Skeleton = SectionSkeleton;
 Section.Card = SectionCard;
 Section.Scroll = SectionScroll;
+Section.Link = SectionLink;
 
 // CSR
 Section.Accordion = dynamic(() => import("./SectionAccordion"), {

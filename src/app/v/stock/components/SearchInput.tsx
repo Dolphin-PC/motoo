@@ -5,7 +5,7 @@ import SearchIcon from "@/assets/icons/search.svg";
 import Section from "@/components/section/Section";
 import { useRecoilState } from "recoil";
 import Button from "@/components/buttons/Button";
-import { searchTextState } from "./atom";
+import { searchTextState } from "../atom";
 
 const SearchInput = () => {
   const inputRef = useRef<HTMLInputElement>(null);

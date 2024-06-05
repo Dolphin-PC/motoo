@@ -14,13 +14,20 @@ export type TApiCommonReq = {
   VTS_APPSECRET: AccountInfo["appSecret"];
 };
 
+export const CommonHeader = (prm: TApiCommonReq) => {
+  return {
+    "content-type": "application/json; charset=utf-8",
+    authorization: `Bearer ${prm.VTS_TOKEN}`,
+    appkey: prm.VTS_APPKEY,
+    appsecret: prm.VTS_APPSECRET,
+  };
+};
+
 export type TApiCommonRes = {
   /** 성공실패여부(0성공, 0이외 실패) */
   rt_cd: string;
   /** 응답코드 */
   msg_cd: string;
-  /** 응답메세지 */
-  msg: string;
 };
 
 export type TApprovalReq = {
