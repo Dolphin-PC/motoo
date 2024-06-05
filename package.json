@@ -53,7 +53,6 @@
     "tailwindcss": "3.4.1",
     "typescript": "5.4.2"
   },
-  "packageManager": "yarn@4.2.2",
   "devDependencies": {
     "@storybook/addon-essentials": "^7.6.17",
     "@storybook/addon-interactions": "^7.6.17",
