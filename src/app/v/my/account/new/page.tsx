@@ -5,11 +5,8 @@ import Button from "@/components/buttons/Button";
 import InnerLayout from "@/components/layout/InnerLayout";
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { StatusCode } from "@/pages/api";
-import {
-  AccountInfo,
-  AccountInfoValidatorGroups,
-} from "@/pages/model/AccountInfo";
-import { TIssueTokenRes } from "@/pages/service/token/TokenDao";
+import { AccountInfo, AccountInfoValidatorGroups } from "@/model/AccountInfo";
+import { TIssueTokenRes } from "@/service/token/TokenDao";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { classValidatorResolver } from "@hookform/resolvers/class-validator";

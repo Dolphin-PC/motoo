@@ -10,7 +10,7 @@ import {
   ValidationError,
   Length,
 } from "class-validator";
-import { prisma } from "@/pages/service/prismaClient";
+import { prisma } from "@/service/prismaClient";
 import { BaseModel } from "./Base";
 import {
   OpenApiService,

@@ -1,7 +1,7 @@
 import POST from "@/pages/api/account/verify";
 import { testHandler } from "@/lib/test/helper";
 import { CResponse, EnumResonseMessage } from "..";
-import { TIssueTokenRes } from "@/pages/service/token/TokenDao";
+import { TIssueTokenRes } from "@/service/token/TokenDao";
 
 describe("POST /api/account/verify", () => {
   it("200 성공", async () => {

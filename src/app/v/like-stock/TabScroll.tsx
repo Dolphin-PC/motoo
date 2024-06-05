@@ -7,7 +7,7 @@ import Section from "@/components/section/Section";
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { useTabScroll } from "@/lib/hooks/useTabScroll";
 import { StatusCode } from "@/pages/api";
-import { TGroupLikeStockInfo } from "@/pages/service/stock/StockService";
+import { TGroupLikeStockInfo } from "@/service/stock/StockService";
 import { useSetRecoilState } from "recoil";
 import { tabOpenStateList } from "./atom";
 

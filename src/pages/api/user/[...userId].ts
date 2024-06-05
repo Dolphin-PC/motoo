@@ -1,7 +1,7 @@
 // ** 사용자관련 메소드 ** //
 // 1. DELETE : 사용자 삭제
 
-import prisma from "@/pages/service/prismaClient";
+import prisma from "@/service/prismaClient";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ResOk } from "..";
 

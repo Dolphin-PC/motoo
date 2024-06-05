@@ -1,6 +1,6 @@
 import { axiosGet } from "@/lib/api/helper";
 import { convertObjectToQuery } from "@/lib/util/util";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 
 export type TInquireStockBalanceRes = {
   /** 연속조회검색조건100	 */

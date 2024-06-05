@@ -5,7 +5,7 @@ import CurrentPrice from "./components/CurrentPrice";
 import { RecoilRoot } from "recoil";
 import { useTabScroll } from "@/lib/hooks/useTabScroll";
 import MyStockInfo from "./components/MyStockInfo";
-import { AmountStock } from "@/pages/model/AmountStock";
+import { AmountStock } from "@/model/AmountStock";
 import { isEmpty } from "@/lib/util/util";
 import StockInfoComponent from "./components/StockInfoComponent";
 import StockFooter from "./components/footer/StockFooter";

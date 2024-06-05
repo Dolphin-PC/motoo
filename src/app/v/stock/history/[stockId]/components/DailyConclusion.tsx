@@ -5,7 +5,7 @@ import inquireDailyConclusion, {
   THeaderRes,
 } from "./inquireDailyConclusion";
 import { useClientAccountInfo } from "@/lib/hooks/useClientAccountInfo";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 import Section from "@/components/section/Section";
 import DateInput, { TDate } from "./DateInput";
 import Button from "@/components/buttons/Button";

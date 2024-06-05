@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { ResInvalid, ResOk } from "..";
-import StockService from "@/pages/service/stock/StockService";
+import StockService from "@/service/stock/StockService";
 
 /**
  * @swagger

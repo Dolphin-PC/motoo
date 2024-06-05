@@ -2,12 +2,12 @@
 
 import { useClientAccountInfo } from "@/lib/hooks/useClientAccountInfo";
 import { convertObjectToQuery } from "@/lib/util/util";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 import {
   CommonHeader,
   TApiCommonReq,
   TApiCommonRes,
-} from "@/pages/service/openapi/OpenApiService";
+} from "@/service/openapi/OpenApiService";
 
 type TQueryParam = {
   /**종합계좌번호

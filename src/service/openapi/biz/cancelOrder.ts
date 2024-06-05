@@ -1,4 +1,4 @@
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 import { TApiCommonReq } from "../OpenApiService";
 import { axiosPost } from "@/lib/api/helper";
 

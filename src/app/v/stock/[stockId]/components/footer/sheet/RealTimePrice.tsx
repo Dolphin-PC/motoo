@@ -7,8 +7,8 @@ import {
   stockIdState,
   stockPriceState,
 } from "../../../atom";
-import { AccountInfo } from "@/pages/model/AccountInfo";
-import { StockInfo } from "@/pages/model/StockInfo";
+import { AccountInfo } from "@/model/AccountInfo";
+import { StockInfo } from "@/model/StockInfo";
 import { Variable } from "../../Variable";
 import { TSign } from "@/lib/types/global";
 

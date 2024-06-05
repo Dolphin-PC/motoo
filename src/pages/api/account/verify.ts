@@ -1,15 +1,12 @@
 import { TVerifyAccount } from "@/app/v/my/account/new/page";
-import {
-  TIssueTokenRes,
-  TIssueTokenResError,
-} from "@/pages/service/token/TokenDao";
+import { TIssueTokenRes, TIssueTokenResError } from "@/service/token/TokenDao";
 import { ValidationError } from "class-validator";
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, EnumResonseMessage, ResInvalid, ResOk } from "..";
 import { AxiosError } from "axios";
 import { getMessageFromValidaionError } from "@/lib/util/util";
-import { OpenApiService } from "@/pages/service/openapi/OpenApiService";
-import inquireStockBalance from "@/pages/service/openapi/biz/inquireStockBalance";
+import { OpenApiService } from "@/service/openapi/OpenApiService";
+import inquireStockBalance from "@/service/openapi/biz/inquireStockBalance";
 
 export default async function POST(
   req: NextApiRequest,

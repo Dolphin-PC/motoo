@@ -1,4 +1,4 @@
-import { User } from "@/pages/model/User";
+import { User } from "@/model/User";
 import NextAuth, { DefaultSession } from "next-auth";
 
 declare module "next-auth" {

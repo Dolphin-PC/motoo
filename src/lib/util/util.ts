@@ -1,4 +1,4 @@
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 import { ValidationError } from "class-validator";
 import { Session } from "next-auth";
 import crypto from "crypto";

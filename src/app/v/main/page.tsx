@@ -2,7 +2,7 @@ import Button from "@/components/buttons/Button";
 import ChartComp from "@/components/chart/Chart";
 import Section from "@/components/section/Section";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
-import StockService from "@/pages/service/stock/StockService";
+import StockService from "@/service/stock/StockService";
 import colors from "tailwindcss/colors";
 import Init from "./Init";
 import RecoilContainer from "@/components/container/RecoilContainer";

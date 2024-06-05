@@ -15,11 +15,8 @@ import Section from "@/components/section/Section";
 import {
   TInquirePsblOrderReq,
   TInquirePsblOrderRes,
-} from "@/pages/service/openapi/biz/inquirePsblOrder";
-import {
-  TOrderCashReq,
-  TOrderCashRes,
-} from "@/pages/service/openapi/biz/orderCash";
+} from "@/service/openapi/biz/inquirePsblOrder";
+import { TOrderCashReq, TOrderCashRes } from "@/service/openapi/biz/orderCash";
 import { DaoOrderCashReq } from "@/pages/api/stock/order";
 import useRealTimeChagyul from "@/lib/hooks/socket/useRealTimeChagyul";
 import SnackBar from "@/components/snackbar/SnackBar";

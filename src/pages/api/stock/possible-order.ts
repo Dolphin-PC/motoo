@@ -4,7 +4,7 @@ import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
 import inquirePsblOrder, {
   TInquirePsblOrderReq,
   TInquirePsblOrderRes,
-} from "@/pages/service/openapi/biz/inquirePsblOrder";
+} from "@/service/openapi/biz/inquirePsblOrder";
 
 /**
  * @swagger

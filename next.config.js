@@ -4,11 +4,15 @@ const path = require("path");
 
 const nextConfig = {
   reactStrictMode: false,
-  // svg file import config
-  webpack(config) {
+  webpack(config, { isServer }) {
+    // svg file import config
     config.module.rules.push({
       test: /\.svg$/,
       use: ["@svgr/webpack"],
+    });
+    config.module.rules.push({
+      test: /\.test\.ts$/,
+      loader: "ignore-loader",
     });
 
     config.resolve.alias = {
@@ -22,6 +26,9 @@ const nextConfig = {
       "@api": path.resolve(__dirname, "./src/api"),
       "@assets": path.resolve(__dirname, "./src/assets"),
     };
+
+    // 빌드시 오류 발생, 클라이언트 라이브러리 종속중 어딘가 fs를 사용하는 듯
+    config.resolve.fallback = { fs: false };
 
     return config;
   },

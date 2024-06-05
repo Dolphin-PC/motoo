@@ -11,7 +11,7 @@
 
 import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
 import { ResOk } from "@/pages/api";
-import { GroupLikeStock } from "@/pages/model/GroupLikeStock";
+import { GroupLikeStock } from "@/model/GroupLikeStock";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler(

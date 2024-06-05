@@ -1,9 +1,9 @@
-import prisma from "@/pages/service/prismaClient";
+import prisma from "@/service/prismaClient";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 import { CResponse, ResOk } from "..";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 
 export type TChangeDefaultAccount = {
   prevAccountNumber: string;

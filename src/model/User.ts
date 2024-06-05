@@ -1,9 +1,9 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { AccountInfo } from "./AccountInfo";
 import { Notice } from "./Notice";
 import { BaseModel } from "./Base";
 import { IsEmail, MinLength } from "class-validator";
-import { prisma } from "@/pages/service/prismaClient";
+import { prisma } from "@/service/prismaClient";
 
 // 사용자
 export class User extends BaseModel {

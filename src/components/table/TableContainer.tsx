@@ -1,6 +1,4 @@
-import CommonService, {
-  TTableName,
-} from "@/pages/service/common/CommonService";
+import CommonService, { TTableName } from "@/service/common/CommonService";
 import React from "react";
 import TableComp, { TTableCompProps } from "./Table";
 type TableContainerProps = Omit<TTableCompProps, "headerObj"> & {

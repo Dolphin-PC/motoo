@@ -1,5 +1,5 @@
 import React from "react";
-import StockService from "@/pages/service/stock/StockService";
+import StockService from "@/service/stock/StockService";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
 import RecoilContainer from "@/components/container/RecoilContainer";
 import TabScroll from "./TabScroll";

@@ -1,5 +1,5 @@
 import React from "react";
-import LogoSvg from "@assets/icons/main_icon.svg";
+import LogoSvg from "@/assets/icons/main_icon.svg";
 
 type TProps = {
   description?: string;

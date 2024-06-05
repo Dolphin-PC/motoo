@@ -1,9 +1,6 @@
 import { TVerifyAccount } from "@/app/v/my/account/new/page";
 import { axiosPost } from "@/lib/api/helper";
-import {
-  AccountInfo,
-  AccountInfoValidatorGroups,
-} from "@/pages/model/AccountInfo";
+import { AccountInfo, AccountInfoValidatorGroups } from "@/model/AccountInfo";
 import { ValidationError, validateOrReject } from "class-validator";
 import { TIssueTokenReq, TIssueTokenRes } from "../token/TokenDao";
 

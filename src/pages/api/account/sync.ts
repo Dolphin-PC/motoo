@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, ResInvalid, ResOk } from "@/pages/api/index";
 import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
-import { AmountMoney } from "@/pages/model/AmountMoney";
-import { AmountStock } from "@/pages/model/AmountStock";
-import inquireStockBalance from "@/pages/service/openapi/biz/inquireStockBalance";
+import { AmountMoney } from "@/model/AmountMoney";
+import { AmountStock } from "@/model/AmountStock";
+import inquireStockBalance from "@/service/openapi/biz/inquireStockBalance";
 
 /**
  * @swagger

@@ -23,5 +23,7 @@
   },
   "globals": {
     "NodeJS": true
-  }
+  },
+
+  "ignorePatterns": ["node_modules/", ".next/", "**/*.test.ts"]
 }

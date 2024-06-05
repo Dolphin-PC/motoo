@@ -4,7 +4,7 @@ import Section from "@/components/section/Section";
 import React, { useEffect, useState } from "react";
 import { searchTextState } from "../atom";
 import { useRecoilValue } from "recoil";
-import { StockInfo } from "@/pages/model/StockInfo";
+import { StockInfo } from "@/model/StockInfo";
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { StatusCode } from "@/pages/api";
 import StockCard from "@/components/card/StockCard";

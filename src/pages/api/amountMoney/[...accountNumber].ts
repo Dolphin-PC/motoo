@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, ResOk, ResInvalid } from "..";
-import { AmountMoney } from "@/pages/model/AmountMoney";
+import { AmountMoney } from "@/model/AmountMoney";
 
 /**
  * @swagger

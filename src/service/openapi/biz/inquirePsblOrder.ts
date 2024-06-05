@@ -1,7 +1,7 @@
 import { convertObjectToQuery } from "@/lib/util/util";
 import { axiosGet } from "@/lib/api/helper";
-import { AccountInfo } from "@/pages/model/AccountInfo";
-import { StockInfo } from "@/pages/model/StockInfo";
+import { AccountInfo } from "@/model/AccountInfo";
+import { StockInfo } from "@/model/StockInfo";
 import { TApiCommonReq } from "../OpenApiService";
 
 export type TInquirePsblOrderReq = {

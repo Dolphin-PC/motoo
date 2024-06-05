@@ -1,4 +1,4 @@
-import { prisma } from "@/pages/service/prismaClient";
+import { prisma } from "@/service/prismaClient";
 import { Length } from "class-validator";
 import { BaseModel } from "./Base";
 import { Prisma } from "@prisma/client";

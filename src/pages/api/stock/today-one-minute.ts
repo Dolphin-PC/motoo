@@ -4,7 +4,7 @@ import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
 import { getKoreanTime, splitDate } from "@/lib/util/util";
 import inquireTimeItemChartPrice, {
   TInquireTimeItemChartPriceRes,
-} from "@/pages/service/openapi/biz/inquireTimeItemChartPrice";
+} from "@/service/openapi/biz/inquireTimeItemChartPrice";
 
 /**
  * @swagger

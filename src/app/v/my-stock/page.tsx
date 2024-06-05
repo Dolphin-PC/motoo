@@ -3,9 +3,9 @@ import ChartComp from "@/components/chart/Chart";
 import Section from "@/components/section/Section";
 import React from "react";
 import RevenueCard from "./RevenueCard";
-import { AmountMoney } from "@/pages/model/AmountMoney";
+import { AmountMoney } from "@/model/AmountMoney";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
-import StockService from "@/pages/service/stock/StockService";
+import StockService from "@/service/stock/StockService";
 import TableContainer from "@/components/table/TableContainer";
 import colors from "tailwindcss/colors";
 

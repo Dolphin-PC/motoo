@@ -1,5 +1,5 @@
 import InnerLayout from "@/components/layout/InnerLayout";
-import { StockInfo } from "@/pages/model/StockInfo";
+import { StockInfo } from "@/model/StockInfo";
 import React from "react";
 import DailyConclusion from "./components/DailyConclusion";
 

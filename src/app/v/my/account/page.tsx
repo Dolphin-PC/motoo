@@ -4,7 +4,7 @@ import InnerLayout from "@/components/layout/InnerLayout";
 import AccountList from "./AccountList";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 import { fetchHelperWithData } from "@/lib/api/helper";
 
 const MyAccountPage = () => {

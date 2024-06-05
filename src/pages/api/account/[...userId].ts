@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { ResOk } from "..";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 
 export default async function GET(req: NextApiRequest, res: NextApiResponse) {
   const { userId } = req.query;

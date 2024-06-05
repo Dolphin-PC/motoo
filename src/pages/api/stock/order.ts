@@ -4,7 +4,7 @@ import { useApiAccountInfo } from "@/lib/hooks/useAccountInfo";
 import orderCash, {
   TOrderCashReq,
   TOrderCashRes,
-} from "@/pages/service/openapi/biz/orderCash";
+} from "@/service/openapi/biz/orderCash";
 
 export type DaoOrderCashReq = Omit<TOrderCashReq, "CANO"> & {
   orderType: "BUY" | "SELL";

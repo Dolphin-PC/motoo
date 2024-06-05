@@ -6,7 +6,7 @@ import { TSignUpReq } from "@/pages/api/auth/signup";
 import { CResponse } from "@/pages/api";
 import { useRouter } from "next/navigation";
 import { EErrorMessage, FormPattern } from "@/lib/util/frontEnum";
-import { User } from "@/pages/model/User";
+import { User } from "@/model/User";
 
 const SignUpPage = () => {
   const {

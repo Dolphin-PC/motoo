@@ -1,4 +1,4 @@
-import StockService from "@/pages/service/stock/StockService";
+import StockService from "@/service/stock/StockService";
 
 describe("stock.test.ts", () => {
   it("GET", async () => {

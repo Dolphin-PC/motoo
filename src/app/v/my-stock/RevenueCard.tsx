@@ -3,9 +3,9 @@ import Button from "@/components/buttons/Button";
 import React, { useMemo, useState } from "react";
 import LeftChevron from "@/assets/icons/chevron-left.svg";
 import RightChevron from "@/assets/icons/chevron-right.svg";
-import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
+import { StockOrderHistory } from "@/model/StockOrderHistory";
 import { getKoreanTime } from "@/lib/util/util";
-import { OrderType, OrderStatus } from "@/pages/model/StockOrderHistory";
+import { OrderType, OrderStatus } from "@/model/StockOrderHistory";
 
 const RevenueCard = ({
   stockOrderHistoryList,

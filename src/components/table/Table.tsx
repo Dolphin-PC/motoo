@@ -9,7 +9,7 @@ import {
   TableCell,
   TableBody,
 } from "@mui/material";
-import { TTableHeaderInfo } from "@/pages/service/common/CommonService";
+import { TTableHeaderInfo } from "@/service/common/CommonService";
 import Image from "next/image";
 import Link from "next/link";
 

@@ -1,7 +1,7 @@
 import "server-only";
 
 import { authOptions } from "@/pages/api/auth/[...nextauth]";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";

@@ -1,10 +1,10 @@
-import { AmountStock } from "@/pages/model/AmountStock";
+import { AmountStock } from "@/model/AmountStock";
 import React, { useCallback, useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { amountStockState, inquireDataState, stockIdState } from "../atom";
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { StatusCode } from "@/pages/api";
-import { TInquireTimeItemChartPriceRes } from "@/pages/service/openapi/biz/inquireTimeItemChartPrice";
+import { TInquireTimeItemChartPriceRes } from "@/service/openapi/biz/inquireTimeItemChartPrice";
 
 type TProps = {
   stockId: string;

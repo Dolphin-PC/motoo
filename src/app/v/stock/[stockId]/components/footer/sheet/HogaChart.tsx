@@ -1,7 +1,7 @@
 "use client";
 import useWebSocket, { SOCKET_STATUS } from "@/lib/hooks/useWebSocket";
-import { AccountInfo } from "@/pages/model/AccountInfo";
-import { StockInfo } from "@/pages/model/StockInfo";
+import { AccountInfo } from "@/model/AccountInfo";
+import { StockInfo } from "@/model/StockInfo";
 import { useSession } from "next-auth/react";
 import React, { useEffect, useRef } from "react";
 import { stockIdState } from "../../../atom";

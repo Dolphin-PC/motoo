@@ -1,7 +1,7 @@
-import { StockInfo } from "@/pages/model/StockInfo";
+import { StockInfo } from "@/model/StockInfo";
 import React from "react";
 import Button from "../buttons/Button";
-import { TLikeStockInfo } from "@/pages/service/stock/StockService";
+import { TLikeStockInfo } from "@/service/stock/StockService";
 
 type TStockCardProps = {
   stock: StockInfo | TLikeStockInfo;

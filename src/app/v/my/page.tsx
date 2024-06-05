@@ -6,7 +6,7 @@ import LogoutButton from "@/components/buttons/LogoutButton";
 import Section from "@/components/section/Section";
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { StatusCode } from "@/pages/api";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 

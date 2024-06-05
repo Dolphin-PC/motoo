@@ -1,10 +1,10 @@
 import InnerLayout from "@/components/layout/InnerLayout";
 import useAccountInfo from "@/lib/hooks/useAccountInfo";
-import { StockInfo } from "@/pages/model/StockInfo";
+import { StockInfo } from "@/model/StockInfo";
 
 import React from "react";
 import ClientContainer from "./ClientContainer";
-import { AmountStock } from "@/pages/model/AmountStock";
+import { AmountStock } from "@/model/AmountStock";
 
 type TProps = {
   params: { stockId: string };

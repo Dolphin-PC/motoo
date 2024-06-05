@@ -1,7 +1,7 @@
 // pages/api/signup.ts
 import { NextApiRequest, NextApiResponse } from "next";
 import { CResponse, ResInvalid, ResOk } from "..";
-import { User } from "@/pages/model/User";
+import { User } from "@/model/User";
 
 export type TSignUpReq = {
   email: string;

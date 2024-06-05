@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { StockInfo } from "@/pages/model/StockInfo";
+import { StockInfo } from "@/model/StockInfo";
 import { CResponse, ResOk } from "@/pages/api/index";
 
 export default async function handler(

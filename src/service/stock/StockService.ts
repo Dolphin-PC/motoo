@@ -1,9 +1,9 @@
-import { StockInfo } from "@/pages/model/StockInfo";
-import { AccountInfo } from "@/pages/model/AccountInfo";
-import { AmountStock } from "@/pages/model/AmountStock";
-import { LikeStock } from "@/pages/model/LikeStock";
-import { StockOrderHistory } from "@/pages/model/StockOrderHistory";
-import { GroupLikeStock } from "@/pages/model/GroupLikeStock";
+import { StockInfo } from "@/model/StockInfo";
+import { AccountInfo } from "@/model/AccountInfo";
+import { AmountStock } from "@/model/AmountStock";
+import { LikeStock } from "@/model/LikeStock";
+import { StockOrderHistory } from "@/model/StockOrderHistory";
+import { GroupLikeStock } from "@/model/GroupLikeStock";
 
 export type TAmountStockInfo = AmountStock & Omit<StockInfo, "updateInfo">;
 export type TLikeStockInfo = LikeStock & Omit<StockInfo, "updateInfo">;

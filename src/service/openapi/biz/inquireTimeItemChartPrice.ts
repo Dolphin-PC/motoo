@@ -1,7 +1,7 @@
 import { axiosGet } from "@/lib/api/helper";
 import { convertObjectToQuery } from "@/lib/util/util";
-import { AccountInfo } from "@/pages/model/AccountInfo";
-import { StockInfo } from "@/pages/model/StockInfo";
+import { AccountInfo } from "@/model/AccountInfo";
+import { StockInfo } from "@/model/StockInfo";
 
 /** @desc 주식당일분봉조회 응답
  * @see https://apiportal.koreainvestment.com/apiservice/apiservice-domestic-stock-quotations2#L_eddbb36a-1d55-461a-b242-3067ba1e5640

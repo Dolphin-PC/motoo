@@ -1,6 +1,6 @@
 import { Length } from "class-validator";
 import { BaseModel } from "./Base";
-import { prisma } from "@/pages/service/prismaClient";
+import { prisma } from "@/service/prismaClient";
 import { Prisma } from "@prisma/client";
 import { AccountInfo } from "./AccountInfo";
 

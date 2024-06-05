@@ -2,7 +2,7 @@
 
 import { fetchHelperWithData } from "@/lib/api/helper";
 import { TChangeDefaultAccount } from "@/pages/api/account/default";
-import { AccountInfo } from "@/pages/model/AccountInfo";
+import { AccountInfo } from "@/model/AccountInfo";
 import React, { useEffect } from "react";
 
 const AccountList = ({
