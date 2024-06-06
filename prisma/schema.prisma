@@ -1,0 +1,245 @@
+datasource db {
+    provider = "postgresql"
+    url=env("POSTGRES_PRISMA_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+    id            Int   @id @default(autoincrement()) 
+    password      String
+    email         String @unique
+    name          String?  
+    last_login_at DateTime? 
+    created_at    DateTime @default(now()) 
+    delete_yn     Boolean  @default(false)
+
+    // to
+    notice        Notice[]
+    account_info  AccountInfo[]
+
+}
+
+model Notice {
+    id              Int     @id @default(autoincrement())
+    user_id         Int
+    account_number  String
+
+    message         String   
+    type            String   
+    delete_yn       Boolean  @default(false) 
+    created_at      DateTime @default(now()) 
+
+    // from
+    user            User          @relation(fields: [user_id], references: [id])
+    account_info    AccountInfo   @relation(fields: [account_number], references: [account_number])
+}
+
+
+model AccountInfo {
+    account_number       String  @id
+    user_id              Int     
+    default_account_yn   Boolean @default(false)
+    account_expired_at   DateTime?
+
+    app_key              String  @db.VarChar
+    app_secret           String  @db.VarChar
+    api_token            String? @db.VarChar
+    api_token_expired_at DateTime?
+    approval_key         String? @db.VarChar
+    hts_id               String  @default("")
+
+    // to
+    notice               Notice[]
+    stock_order_history  StockOrderHistory[]
+    amount_money         AmountMoney[]
+    amount_stock         AmountStock[]
+    group_like_stock     GroupLikeStock[]
+
+    // from
+    user                 User     @relation(fields: [user_id], references: [id])
+}
+
+model AmountMoney {
+    account_number                  String @id 
+    
+    /// 예수금총액
+    dnca_tot_amt                    String @default("0")
+    /// 익일정산금액(D+1예수금)
+    nxdy_excc_amt                   String @default("0")
+    /// 가수도정산금액(D+2예수금)
+    prvs_rcdl_excc_amt              String @default("0")
+    /// CMA평가금액
+    cma_evlu_amt                    String @default("0")
+    /// 전일매수금액
+    bfdy_buy_amt                    String @default("0")
+    /// 금일매수금액
+    thdt_buy_amt                    String @default("0")
+    /// 전일매도금액
+    bfdy_sll_amt                    String @default("0")
+    /// 금일매도금액
+    thdt_sll_amt                    String @default("0")
+    /// 유가평가금액
+    scts_evlu_amt                   String @default("0")
+    /// 총평가금액
+    tot_evlu_amt                    String @default("0")
+    /// 순자산금액
+    nass_amt                        String @default("0")
+    /// 매입금액합계금액
+    pchs_amt_smtl_amt               String @default("0")
+    /// 평가금액합계금액
+    evlu_amt_smtl_amt               String @default("0")
+    /// 평가손익합계금액
+    evlu_pfls_smtl_amt              String @default("0")
+    /// 전일총자산평가금액
+    bfdy_tot_asst_evlu_amt          String @default("0")
+    /// 자산증감액
+    asst_icdc_amt                   String @default("0")
+
+    // 익일자동상환금액
+    nxdy_auto_rdpt_amt              String @default("0")
+    // D+2자동상환금액
+    d2_auto_rdpt_amt                String @default("0")
+    // 전일제비용금액
+    bfdy_tlex_amt                   String @default("0")
+    // 금일제비용금액
+    thdt_tlex_amt                   String @default("0")
+    // 총대출금액
+    tot_loan_amt                    String @default("0")
+    // 융자금자동상환여부
+    fncg_gld_auto_rdpt_yn           String @default("0")
+    // 총대주매각대금
+    tot_stln_slng_chgs              String @default("0")
+    // 자산증감수익율(데이터미제공)
+    asst_icdc_erng_rt               String @default("0")
+
+    // from
+    account_info        AccountInfo @relation(fields: [account_number], references: [account_number])
+}
+
+model AmountStock {
+    id                  Int         @id @default(autoincrement())
+    stock_id            String      
+    account_number      String      
+    quantity            Int
+    avg_amount          Int         @default(0)
+
+
+    // to
+
+    // from
+    stock_info          StockInfo           @relation(fields: [stock_id], references: [stock_id])
+    account_info        AccountInfo         @relation(fields: [account_number], references: [account_number])
+    
+    @@unique([stock_id, account_number])
+}
+
+model GroupLikeStock {
+    id                  Int         @id @default(autoincrement())
+    group_name          String
+    group_prioirty      Int
+    account_number      String
+
+    // to
+    like_stock          LikeStock[]
+
+    // from
+    account_info        AccountInfo @relation(fields: [account_number], references: [account_number])
+}
+
+model LikeStock {
+    id                  Int         @id @default(autoincrement())
+    stock_id            String      
+    group_id            Int      
+
+    // to
+
+    // from
+    group_like_stock    GroupLikeStock @relation(fields: [group_id], references: [id])
+    stock_info          StockInfo @relation(fields: [stock_id], references: [stock_id])
+
+}
+
+
+model StockOrderHistory {
+    oder_no             String  @id
+    ooder_no            String
+    stock_id            String  
+    account_number      String  
+
+    order_type          Int                     // OrderType
+    order_status        Int                     // OrderStatus
+    order_time          String?
+    order_price         Int
+    order_quantity      Int
+    conclusion_time     String?
+    conclusion_price    Int?
+    conclusion_quantity Int?
+
+    // to
+    // amount_stock        AmountStock?
+
+    // from
+    account_info        AccountInfo     @relation(fields: [account_number], references: [account_number])
+    stock_info          StockInfo       @relation(fields: [stock_id], references: [stock_id])
+    
+    @@unique([oder_no, stock_id, account_number])
+
+}
+
+model StockInfo {
+    stock_id            String @id
+    type                String 
+    name                String 
+    img_src             String?
+
+    price               Int?
+    price_update_at     DateTime?
+
+    // to
+    stock_order_history StockOrderHistory[]
+    amount_stock        AmountStock[]
+    like_stock          LikeStock[]
+    
+
+    // from
+    // amount_stock        AmountStock         @relation(fields: [stock_id], references: [stock_id], map: "stock_id_amount_stock")
+    // like_stock          LikeStock           @relation(fields: [stock_id], references: [stock_id], map: "stock_id_like_stock")
+    // stock_order_history StockOrderHistory   @relation(fields: [stock_id], references: [stock_id], map: "stock_id_stock_order_history")
+
+}
+
+
+
+model episode_info {
+  	season String
+	  id Int @id @default(autoincrement())
+	  title String?
+	  description String?
+	  air_date String? 
+	  air_time String? 
+	  img_src String 
+	  actor String[]
+}
+
+model meme_info {
+  	id Int @id @default(autoincrement())
+	  img_src String
+	  thumnail_src String
+	  alt String?
+	  tag String[]
+	  download_cnt Int
+	  like_cnt Int
+}
+
+model season_info {
+  season          String @id
+  title           String?
+  description     String?
+  outline         String?
+  img_src         String 
+  view_url        String?
+  actor           String[]
+}
