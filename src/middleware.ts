@@ -6,17 +6,17 @@ export default withAuth({
   // jwt: {
   //   decode: nextAuthJwt.decode,
   // },
-  callbacks: {
-    authorized: ({ req, token }) => {
-      // console.log("token", token); // this token is always null!!
+  // callbacks: {
+  //   authorized: ({ req, token }) => {
+  //     // console.log("token", token); // this token is always null!!
 
-      const sessionToken = req.cookies.get("next-auth.session-token");
+  //     const sessionToken = req.cookies.get("next-auth.session-token");
 
-      if (!sessionToken) return false;
+  //     if (!sessionToken) return false;
 
-      return true;
-    },
-  },
+  //     return true;
+  //   },
+  // },
 });
 
 export const config = {
