@@ -10,7 +10,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "https": "sh init-https.sh && node server.js"
   },
   "dependencies": {
     "@emotion/react": "^11.11.4",
