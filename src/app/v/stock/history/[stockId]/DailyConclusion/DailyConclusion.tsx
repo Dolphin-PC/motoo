@@ -22,9 +22,9 @@ const DailyConclusion = (props: TDailyConclusionProps) => {
     summaryConclusionData,
     trCont,
     moreFetchData,
-  } = useDailyConclusion(props.stockId);
+  } = useDailyConclusion(props.stockId, props.orderNo);
 
-  const { handleClickConclusion } = useOpenOrderDetail();
+  const { setOrderDetailData } = useOpenOrderDetail();
 
   return (
     <div className="flex flex-col gap-3">
@@ -66,7 +66,7 @@ const DailyConclusion = (props: TDailyConclusionProps) => {
         </Section>
         {conclusionDataList?.map((data, idx) => {
           return (
-            <div key={idx} onClick={() => handleClickConclusion(data)}>
+            <div key={idx} onClick={() => setOrderDetailData(data)}>
               <Section>
                 <small>
                   {sixDateToYearMonthDay(data.ord_dt)}{" "}

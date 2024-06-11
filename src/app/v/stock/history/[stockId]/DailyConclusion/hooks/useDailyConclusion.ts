@@ -8,8 +8,9 @@ import inquireDailyConclusion, {
   THeaderRes,
 } from "../inquireDailyConclusion";
 import { TDate } from "../DateInput/DateInput";
+import useOpenOrderDetail from "./useOpenOrderDetail";
 
-const useDailyConclusion = (stockId?: string) => {
+const useDailyConclusion = (stockId?: string, orderNo?: string) => {
   const accountInfo = useClientAccountInfo();
   const [conclusionDataList, setConclusionDataList] = useState<
     TBodyRes["output1"]
@@ -18,6 +19,8 @@ const useDailyConclusion = (stockId?: string) => {
     useState<TBodyRes["output2"]>();
   const prevFetchDataRef = useRef<TBodyRes>();
   const [trCont, setTrCont] = useState<THeaderRes["tr_cont"]>();
+
+  const { setOrderDetailByRedirect } = useOpenOrderDetail();
 
   const [dateRange, setDateRange] = useState<TDate>({
     startDate: new Date(),
@@ -31,6 +34,8 @@ const useDailyConclusion = (stockId?: string) => {
       inquireConclusion(accountInfo).then((data) => {
         setConclusionDataList(data.output1);
         setSummaryConclusionData(data.output2);
+
+        setOrderDetailByRedirect(data.output1, orderNo);
       });
     }
   }, [accountInfo, dateRange]);
