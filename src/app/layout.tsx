@@ -50,12 +50,12 @@ const Aside = (): ReactNode => {
     <Link href="/">
       <aside
         className="top-1/2 fixed transform -translate-y-1/2
-            lg:flex flex-col items-center justify-center w-4/12 
+            lg:flex items-center justify-center w-4/12 
             text-primary-500
           "
       >
         <LogoSvg className="w-20 h-20 transfrom rotate-45" />
-        <h1>모투</h1>
+        <h1>Motoo</h1>
       </aside>
     </Link>
   );
