@@ -151,8 +151,9 @@ export const splitDate = (date: Date) => {
 };
 
 /** @desc HHmmss -> HH:mm:ss */
-export const sixDateToHourMinute = (date: string) => {
-  return date.slice(0, 2) + ":" + date.slice(2, 4) + ":" + date.slice(4, 6);
+export const sixTimeToHourMinute = (time: string) => {
+  if (!time) return "";
+  return time.slice(0, 2) + ":" + time.slice(2, 4) + ":" + time.slice(4, 6);
 };
 
 export const isEmpty = (value: any) => {
@@ -245,6 +246,6 @@ export const splitWebSocketMessage = (
 };
 
 /** 20240101 -> 2024-01-01 */
-export const stringToDateString = (str: string) => {
+export const sixDateToYearMonthDay = (str: string) => {
   return `${str.slice(0, 4)}-${str.slice(4, 6)}-${str.slice(6, 8)}`;
 };

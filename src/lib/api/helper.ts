@@ -76,7 +76,7 @@ export const axiosGet = async <T>(
   config?: AxiosRequestConfig
 ): Promise<T> => {
   const res = await axiosInstance.get<T>(url, config);
-  console.log("axiosGet", res);
+  // console.log("axiosGet", res);
   return res.data;
 };
 

@@ -7,9 +7,6 @@ import React, { useEffect } from "react";
 // let SOCKET_HTTPS_MSG =
 //   "Failed to construct 'WebSocket': An insecure WebSocket connection may not be initiated from a page loaded over HTTPS. ";
 
-const baseUrl = window.location.origin;
-const settingUrl = "chrome://settings/content/siteDetails";
-const URL = settingUrl + "?site=" + baseUrl;
 const error = ({
   error,
   reset,
@@ -17,6 +14,10 @@ const error = ({
   error: Error & { digest?: string };
   reset: () => void;
 }) => {
+  const baseUrl = window.location.origin;
+  const settingUrl = "chrome://settings/content/siteDetails";
+  const URL = settingUrl + "?site=" + baseUrl;
+
   useEffect(() => {
     // Log the error to an error reporting service (ex. Sentry)
   }, [error]);

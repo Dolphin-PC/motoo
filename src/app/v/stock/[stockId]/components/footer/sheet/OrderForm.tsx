@@ -136,13 +136,13 @@ const OrderForm = ({ type }: { type: "BUY" | "SELL" }) => {
 
   useEffect(() => {
     if (!realTimeChagyulData) return;
-    const { CNTG_ISNM, CNTG_YN } = realTimeChagyulData;
+    const { CNTG_ISNM, CNTG_YN, ODER_NO } = realTimeChagyulData;
 
     if (CNTG_YN == "2") {
       setSnackBarInfo({
         open: true,
         message: `${CNTG_ISNM} 체결이 완료되었습니다.`,
-        link: "",
+        link: `/v/stock/hisroty/${stockId}?orderNo=${ODER_NO}`,
       });
     }
   }, [realTimeChagyulData]);

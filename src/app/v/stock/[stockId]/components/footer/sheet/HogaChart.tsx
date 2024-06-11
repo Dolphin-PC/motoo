@@ -15,7 +15,7 @@ import {
   ChartEvent,
 } from "chart.js";
 import NotData from "@/components/icon/NotData";
-import { sixDateToHourMinute } from "@/lib/util/util";
+import { sixTimeToHourMinute } from "@/lib/util/util";
 import "chartjs-plugin-datalabels";
 import useTimeout from "@/lib/hooks/useTimeout";
 import { orderPriceState } from "./atom";
@@ -316,7 +316,7 @@ const HogaChart = (props: TProps) => {
 
   return (
     <div className="mb-5">
-      <small>{sixDateToHourMinute(chartDataRef.current.time)}</small>
+      <small>{sixTimeToHourMinute(chartDataRef.current.time)}</small>
       <ChartComp.RealTime
         option={chartConfig.current}
         chartData={chartDataRef.current.data}

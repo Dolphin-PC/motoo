@@ -92,53 +92,54 @@ export type THeaderRes = {
   tr_cont: "F" | "M" | "D" | "E";
 };
 
+export type TConclusionData = {
+  /**주문일자(8) */
+  ord_dt: string;
+  /**주문번호(10) */
+  odno: string;
+  /**원주문번호(10) */
+  orgn_odno: string;
+  /**주문구분명(60) */
+  ord_dvsn_name: string;
+  /** 매도/매수 (01매도, 02매수)*/
+  sll_buy_dvsn_cd: "01" | "02";
+  /**종목번호(6) */
+  pdno: string;
+  /**종목명 */
+  prdt_name: string;
+  /**주문수량(10) */
+  ord_qty: string;
+  /**주문단가(10) */
+  ord_unpr: string;
+  /**주문시각(6) */
+  ord_tmd: string;
+  /** 총체결수량 */
+  tot_ccld_qty: string;
+  /** 체결평균가 */
+  avg_prvs: string;
+  /** 취소여부 */
+  cncl_yn: string;
+  /** 총체결금액 */
+  tot_ccld_amt: string;
+  /**주문구분코드
+   * 00 지정가
+   * 01 시장가
+   */
+  ord_dvsn_cd: string;
+  /**취소확인수량 */
+  cncl_cfrm_qty: string;
+  /**잔여수량 */
+  rmn_qty: string;
+  /**거부수량 */
+  rjct_qty: string;
+  /**통보시각(6) */
+  infm_tmd: string;
+};
 export type TBodyRes = TApiCommonRes & {
   msg1: string;
   ctx_area_fk100: string;
   ctx_area_nk100: string;
-  output1: {
-    /**주문일자(8) */
-    ord_dt: string;
-    /**주문번호(10) */
-    odno: string;
-    /**원주문번호(10) */
-    orgn_odno: string;
-    /**주문구분명(60) */
-    ord_dvsn_name: string;
-    /** 매도/매수 (01매도, 02매수)*/
-    sll_buy_dvsn_cd: "01" | "02";
-    /**종목번호(6) */
-    pdno: string;
-    /**종목명 */
-    prdt_name: string;
-    /**주문수량(10) */
-    ord_qty: string;
-    /**주문단가(10) */
-    ord_unpr: string;
-    /**주문시각(6) */
-    ord_tmd: string;
-    /** 총체결수량 */
-    tot_ccld_qty: string;
-    /** 체결평균가 */
-    avg_prvs: string;
-    /** 취소여부 */
-    cncl_yn: string;
-    /** 총체결금액 */
-    tot_ccld_amt: string;
-    /**주문구분코드
-     * 00 지정가
-     * 01 시장가
-     */
-    ord_dvsn_cd: string;
-    /**취소확인수량 */
-    cncl_cfrm_qty: string;
-    /**잔여수량 */
-    rmn_qty: string;
-    /**거부수량 */
-    rjct_qty: string;
-    /**통보시각(6) */
-    infm_tmd: string;
-  }[];
+  output1: TConclusionData[];
   output2: {
     /**총주문수량
      * 미체결주문수량 + 체결수량 (취소주문제외)

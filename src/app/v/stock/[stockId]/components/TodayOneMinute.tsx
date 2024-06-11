@@ -1,6 +1,6 @@
 "use client";
 import ChartComp from "@/components/chart/Chart";
-import { sixDateToHourMinute } from "@/lib/util/util";
+import { sixTimeToHourMinute } from "@/lib/util/util";
 import { useRecoilValue } from "recoil";
 import colors from "tailwindcss/colors";
 import { inquireDataState, stockIdState } from "../atom";
@@ -21,7 +21,7 @@ const TodayOneMinute = () => {
           type: "line",
           data: {
             labels: inquireData.output2
-              .map((v) => sixDateToHourMinute(v.stck_cntg_hour))
+              .map((v) => sixTimeToHourMinute(v.stck_cntg_hour))
               .reverse(),
             datasets: [
               {

@@ -2,8 +2,10 @@ import React, { ReactNode } from "react";
 import ReactDOM from "react-dom";
 import { useRecoilState } from "recoil";
 import { snackBarState } from "./atom";
-import { Snackbar } from "@mui/material";
+import { IconButton, Snackbar } from "@mui/material";
 import Button from "../buttons/Button";
+import CloseIcon from "@mui/icons-material/Close";
+import Link from "next/link";
 
 const SnackBar = () => {
   const [snackBarInfo, setSnackBarInfo] = useRecoilState(snackBarState);
@@ -12,15 +14,27 @@ const SnackBar = () => {
     const handleClose = () => {
       setSnackBarInfo((prev) => ({ ...prev, open: false }));
     };
-    const action = <Button primary>BUTTON</Button>;
 
     return (
       <Snackbar
         open={snackBarInfo.open}
-        autoHideDuration={6000}
-        onClose={handleClose}
+        autoHideDuration={10 * 1000}
         message={snackBarInfo.message}
-        action={action}
+        action={
+          <>
+            <Link href={snackBarInfo.link}>
+              <Button primary>Detail</Button>
+            </Link>
+            <IconButton
+              aria-label="close"
+              color="inherit"
+              sx={{ p: 0.5 }}
+              onClick={handleClose}
+            >
+              <CloseIcon />
+            </IconButton>
+          </>
+        }
       />
     );
   };
@@ -30,4 +44,4 @@ const SnackBar = () => {
   );
 };
 
-export default SnackBar;
+export default React.memo(SnackBar);
