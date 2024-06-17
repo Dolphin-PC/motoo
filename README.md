@@ -13,6 +13,9 @@
 - 1인 개발 (Front+Back end)
 - 구축기간 : 2024.03 ~2024.06 (3개월)
 - 운영기간 : 2024.06 ~
+- 접속 계정
+  - ID : test@gmail.com
+  - PW : qwerqwer
 
 ## 📌 사용기술
 
@@ -107,6 +110,7 @@
 1. .env파일 작성
 
    ```
+   NEXT_PUBLIC_BASE_URL=
    <!-- next-auth설정 -->
    NEXTAUTH_URL=
    NEXTAUTH_SECRET
