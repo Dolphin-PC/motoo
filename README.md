@@ -39,19 +39,19 @@
 
 ## 💥 트러블슈팅
 
-### [1. BottomMenubar, svg아이콘 동적 import 🔗](https://www.notion.so/dolphin-pc/d9bd6db3e1064daa8ec68cbc99bb8a30?v=de02d27a5f0649d2972108a188217717&p=ff5506255905426b8db46275cec5a4a4&pm=s)
+### [1. BottomMenubar, svg아이콘 동적 import 🔗](https://www.notion.so/dolphin-pc/BottomMenubar-svg-import-ff5506255905426b8db46275cec5a4a4)
 
 - Bottom메뉴바의 icon을 svg로 dynamic import 했으나 페이지 이동시마다 깜빡임 현상 발생
 
-### [2. 호가차트 :: 웹소켓 연동 🔗](https://www.notion.so/dolphin-pc/d9bd6db3e1064daa8ec68cbc99bb8a30?v=de02d27a5f0649d2972108a188217717&p=25325b8bde574b3793afdf9b04422061&pm=s)
+### [2. 호가차트 :: 웹소켓 연동 🔗](https://www.notion.so/dolphin-pc/25325b8bde574b3793afdf9b04422061)
 
 - 실시간 호가데이터를 위한 웹소켓 연동과정
 
-### [3. 멀티 웹소켓 연동과정 🔗](https://www.notion.so/dolphin-pc/d9bd6db3e1064daa8ec68cbc99bb8a30?v=de02d27a5f0649d2972108a188217717&p=1c89afd76717436399ec798740f87fd5&pm=s)
+### [3. 멀티 웹소켓 연동과정 🔗](https://www.notion.so/dolphin-pc/1c89afd76717436399ec798740f87fd5)
 
 - 호가데이터, 현재가, 체결통보의 실시간 정보를 하나의 웹소켓으로 연동하는 과정
 
-### [4. 로컬환경에서의 https적용 🔗](https://www.notion.so/dolphin-pc/d9bd6db3e1064daa8ec68cbc99bb8a30?v=de02d27a5f0649d2972108a188217717&p=cc14522fa1b241e9966f4ba48f821b88&pm=s)
+### [4. 로컬환경에서의 https적용 🔗](https://www.notion.so/dolphin-pc/Local-https-cc14522fa1b241e9966f4ba48f821b88)
 
 - https ↔️ ws 통신 오류를 디버깅하기 위해 local에 https를 적용하는 과정
 
