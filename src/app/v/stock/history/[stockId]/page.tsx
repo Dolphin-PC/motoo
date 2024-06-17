@@ -13,8 +13,6 @@ const StockHistoryPage = async (props: TProps) => {
   const { stockId } = props.params;
   const { orderNo } = props.searchParams;
 
-  console.log("orderNo", orderNo);
-
   const stockInfo = await StockInfo.findUnique({
     stockId,
   });
