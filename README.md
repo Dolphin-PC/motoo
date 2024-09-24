@@ -31,42 +31,29 @@
 
 > ([한국투자증권의 API](https://apiportal.koreainvestment.com/apiservice/oauth2#L_5c87ba63-740a-4166-93ac-803510bb9c02)와 연동하여 개발을 진행했습니다.)
 
-<details>
-<summary>1. 실시간 호가/현재가/체결통보</summary>
+### 1. 실시간 호가/현재가/체결통보
 
 #### WebSocket통신을 활용하여 `한국투자증권` 실시간 데이터를 통해 호가차트, 현재가, 체결통보를 구현했습니다.
 
 ![Alt Text](/assets/실시간%20차트.gif)
 
-</details>
-  
-    
-<details>
-<summary>2. 매수 기능</summary>
+### 2. 매수 기능
 
 #### 주식가격에 따른 호가단위를 적용하여 `지정가`매수방식을 구현했습니다.
 
 ![Alt Text](/assets/매수기능.gif)
 
-</details>
-
-<details>
-<summary>3. 주문 내역 조회</summary>
+### 3. 주문 내역 조회
 
 #### 주문, 체결 목록과 상세내역을 조회합니다.
 
 ![Alt Text](/assets/주문내역조회.gif)
 
-</details>
-
-<details>
-<summary>4. 보유 잔고 조회</summary>
+### 4. 보유 잔고 조회
 
 #### 메인화면 도달 시마다 잔고조회API를 통해 사용자의 보유잔고를 동기화합니다.
 
 ![Alt Text](/assets/보유잔고조회.gif)
-
-</details>
 
 ## 💥 트러블슈팅
 
@@ -90,73 +77,52 @@
 
 ### 👍 Keep
 
-<details>
-<summary>1. Custom Hooks를 통한 비즈니스로직과 UI로직 분리</summary>
+#### 1. Custom Hooks를 통한 비즈니스로직과 UI로직 분리
 
-- custom hook으로 비즈니스 로직을 분리하여, 소스코드의 가독성 향상
-- useWebSocket, useTabScroll과 같이 특정 기술/컴포넌트에 의존하는 hooks를 통해, 컴포넌트의 기능로직 재사용 증가
+- custom hook으로 비즈니스 로직을 분리하여, 소스코드의 가독성을 향상시킬 수 있었습니다.
+- useWebSocket, useTabScroll과 같이 특정 기술/컴포넌트에 의존하는 hooks를 통해, 컴포넌트의 기능로직 재사용성을 향상시켰습니다.
 
-</details>
-
-<details>
-<summary>2. 관심사에 따른 폴더구조</summary>
+#### 2. 관심사에 따른 폴더구조
 
 - 특정 컴포넌트와 관련된 atom, hooks는 동일 선상의 폴더에 위치하여, 관심사를 기준으로 파일을 모아두었습니다.<br/>
   ![image](https://github.com/Dolphin-PC/motoo/assets/43159931/151d06fb-8f04-4a3f-bd19-5d33c0fd286a)
 
-</details>
+#### 3. 비즈니스 로직 Controller-Service-Model ➡️ Domain Driven Design 패턴 적용
 
-<details>
-<summary>3. 비즈니스 로직 Controller-Service-Model ➡️ Domain Driven Design 패턴 적용</summary>
+- 💥 기존에는 Service Layer에 모든 비즈니스 로직이 포함되어 길어진 코드로 인해 `가독성`이 떨어지는 문제가 발생했습니다.
+- ➡️ Domain(DB Table)과 관련된 로직은 Model Layer안에 작성하여, 동일한 관심사로직을 모아둠으로써 관심사 집중이 가능했습니다.
+- ✅ 여러 도메인의 합성으로 절차지향적으로 작성해야 하는 경우에만 Service Layer에 비즈니스 코드 작성했습니다.
 
-- 💥 기존에는 Service Layer에 모든 비즈니스 로직이 포함되어 길어진 코드로 인해 `가독성`이 떨어지는 문제가 발생
-- ➡️ Domain(DB Table)과 관련된 로직은 Model Layer안에 작성하여, 동일한 관심사로직을 모아둠으로써 관심사 집중이 가능했음
-- ✅ 여러 도메인의 합성으로 절차지향적으로 작성해야 하는 경우에만 Service Layer에 비즈니스 코드 작성
-</details>
-
-<details>
-<summary>4. jest를 통한 Domain로직 단위 테스트 진행</summary>
+#### 4. jest를 통한 Domain로직 단위 테스트 진행
 
 - 도메인로직의 단위 테스트를 위해 jest 테스트 파일 작성<br/>
-![image](https://github.com/Dolphin-PC/motoo/assets/43159931/ea289e22-a273-43a2-a974-da758248904d)
-</details>
+  ![image](https://github.com/Dolphin-PC/motoo/assets/43159931/ea289e22-a273-43a2-a974-da758248904d)
 
-<details>
-<summary>5. next-auth를 활용한 인증 프로세스 위임</summary>
+#### 5. next-auth를 활용한 인증 프로세스 위임
 
-- JWT 토큰의 발급과 인증과정을 next-auth와 next-auth middleware를 통해 구현
-</details>
+- JWT 토큰의 발급과 인증과정을 next-auth와 next-auth middleware를 통해 구현했습니다.
 
-<details>
-<summary>6. 한국투자증권 요청/응답 API 타입 정의 및 정적 타이핑</summary>
+#### 6. 한국투자증권 요청/응답 API 타입 정의 및 정적 타이핑
 
-- 매우 귀찮은 작업이었지만, `자동완성기능`, `nullable체크` 등을 통해 오히려 개발의 생산성이 높아질 수 있었음
-</details>
+- 모든 API의 요청과 응답을 타입구조화하여 `자동완성기능`, `nullable체크`의 효과로 개발의 생산성이 높아질 수 있었습니다.
 
 ### ❗️Problem
 
-<details>
-<summary>1. 컴포넌트 폴더의 depth증가</summary>
+#### 1. 컴포넌트 폴더의 depth증가
 
-- UI가 복잡한 화면의 경우, 코드의 가독성 or 렌더링 최적화를 위해 leaf파일로 분리해주어야 하는데, 이때 폴더의 depth가 깊어지는 문제 발생
-- v/stock/[stockId]화면 ➡️ ClientComponent > Footer > Sheet
+- UI가 복잡한 화면의 경우, 코드의 가독성 or 렌더링 최적화를 위해 leaf파일로 분리해주어야 하는데, 이때 폴더의 depth가 깊어지는 문제 발생했습니다.
+- `v/stock/[stockId]화면 ➡️ ClientComponent > Footer > Sheet`
 - ![image](https://github.com/Dolphin-PC/motoo/assets/43159931/adeab19d-8e36-40dd-9aa2-21ffcc90803d)
-</details>
 
-<details>
-<summary>2. Prisma DB migrate</summary>
+#### 2. Prisma DB migrate
 
-- 개발 중간에 Database의 구조 변경이 필요한 경우, `prisma db push`로 변경사항을 적용하는데, 이떄 모든 데이터가 삭제되는 불편함 발생
-</details>
+- 개발 중간에 Database의 구조 변경이 필요한 경우, `prisma db push`로 변경사항을 적용하는데, 이떄 모든 데이터가 삭제되는 불편함이 발생했습니다.
 
 ### 💬 Try
 
-<details>
-<summary>1. StoryBook을 통한 컴포넌트 테스트 및 유지보수</summary>
+#### 1. StoryBook을 통한 컴포넌트 테스트 및 유지보수
 
-- 재사용되는 컴포넌트의 수정이 필요한 경우, 각 활용되는 경우를 모두 테스트해야 하는 상황이 발생하는데, 이를 Storybook으로 테스트했다면 직관적인 테스트가 가능했을 것으로 생각됨
-
-</details>
+- 재사용되는 컴포넌트의 수정이 필요한 경우, 각 활용되는 경우를 모두 테스트해야 하는 상황이 발생하는데, 이를 Storybook으로 테스트했다면 직관적인 테스트가 가능했을 것으로 생각했습니다.
 
 ## 프로젝트 시작
 
